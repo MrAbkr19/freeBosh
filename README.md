@@ -2,6 +2,9 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
 
+## Cahier de charge 
+présent dans le depot sous le nom de cahierDeChargeFreeBosh.pdf
+
 ## Development server
 
 To start a local development server, run:
