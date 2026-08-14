@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -10,10 +11,9 @@ import { AuthService } from '../../services/auth';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  private readonly fb = new FormBuilder();
-  private readonly router = new Router();
-
-  constructor(private readonly auth:AuthService) {}
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly showPassword = signal(false);
   readonly errorMessage = signal<string | null>(null);
@@ -39,13 +39,12 @@ export class LoginComponent {
 
     const { matricule, password } = this.loginForm.getRawValue();
 
-    // Simulated network delay so the loading state is visible in the demo
     setTimeout(() => {
-      const user = this.auth.login(matricule, password);
+      const user = this.authService.login(matricule, password);
       this.isLoading.set(false);
 
       if (user) {
-        const path = this.auth.redirectPathFor(user.role);
+        const path = this.authService.redirectPathFor(user.role);
         this.router.navigateByUrl(path);
       } else {
         this.errorMessage.set('Matricule ou mot de passe incorrect. Veuillez réessayer.');

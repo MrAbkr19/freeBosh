@@ -1,1 +1,84 @@
-<p>login works!</p>
+<header class="topbar">
+  <button class="icon-btn" aria-label="Menu" type="button">
+    <span class="material-symbols-outlined">school</span>
+  </button>
+  <h1 class="brand">FreeBosh</h1>
+  <button class="icon-btn" aria-label="Statut de connexion" type="button">
+    <span class="material-symbols-outlined">wifi_off</span>
+  </button>
+</header>
+
+<main class="login-main">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-heading">
+        <h2>Bienvenue</h2>
+        <p>Accédez à votre espace académique</p>
+      </div>
+
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        @if (errorMessage()) {
+          <div class="error-banner">
+            <span class="material-symbols-outlined">error</span>
+            <p>{{ errorMessage() }}</p>
+          </div>
+        }
+
+        <div class="field-group">
+          <label for="matricule">Matricule</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">badge</span>
+            <input
+              id="matricule"
+              type="text"
+              placeholder="ex: 2024-001"
+              autocomplete="username"
+              formControlName="matricule"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              formControlName="password"
+            />
+            <button
+              class="visibility-toggle"
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+            >
+              <span class="material-symbols-outlined">
+                {{ showPassword() ? 'visibility' : 'visibility_off' }}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="forgot-row">
+          <a href="#">Mot de passe oublié ?</a>
+        </div>
+
+        <button class="submit-btn" type="submit" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="material-symbols-outlined spin">progress_activity</span>
+          } @else {
+            <span>Connexion</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          }
+        </button>
+      </form>
+    </div>
+
+    <p class="support-text">
+      Besoin d'aide ? <a href="#">Contacter le support</a>
+    </p>
+  </div>
+</main>
