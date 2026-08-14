@@ -1,7 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { User, userRole } from '../models/user';
 import { MOCK_USERS } from '../data/mock-users';
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly _currentUser = signal<User | null>(null);
@@ -31,7 +30,7 @@ export class AuthService {
   }
 
   /** Determines the landing route based on the authenticated user's role. */
-  redirectPathFor(role: UserRole): string {
+  redirectPathFor(role: userRole): string {
     switch (role) {
       case 'student':
         return '/etudiant/accueil';
