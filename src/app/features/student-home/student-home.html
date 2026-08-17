@@ -1,0 +1,135 @@
+<header class="topbar">
+  <button class="icon-btn" aria-label="Menu" type="button">
+    <span class="material-symbols-outlined">school</span>
+  </button>
+  <h1 class="brand">FreeBosh</h1>
+  <div class="status-group">
+    <div class="status-pill" [class.status-pill--offline]="!connectivity.isOnline()">
+      <span class="status-dot" [class.status-dot--offline]="!connectivity.isOnline()"></span>
+      <span>{{ connectivity.isOnline() ? 'En ligne' : 'Hors ligne' }}</span>
+    </div>
+    <span class="material-symbols-outlined status-icon">
+      {{ connectivity.isOnline() ? 'wifi' : 'wifi_off' }}
+    </span>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <button class="sidebar-link sidebar-link--active" type="button">
+    <span class="material-symbols-outlined">home</span>
+    Accueil
+  </button>
+  <button class="sidebar-link" type="button">
+    <span class="material-symbols-outlined">account_tree</span>
+    Modules
+  </button>
+  <button class="sidebar-link" type="button">
+    <span class="material-symbols-outlined">description</span>
+    Bibliothèque
+  </button>
+  <button class="sidebar-link" type="button">
+    <span class="material-symbols-outlined">person</span>
+    Profil
+  </button>
+</aside>
+
+<main class="content">
+  <section class="welcome">
+    <h2>Ravi de vous revoir, {{ currentUser()?.fullName ?? 'Étudiant' }}.</h2>
+    <p>Poursuivez votre parcours académique.</p>
+  </section>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement du contenu…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else {
+    <section class="section">
+      <div class="section-header">
+        <h3>Derniers documents</h3>
+        <button class="link-btn" type="button">Voir tout</button>
+      </div>
+
+      @if (documents().length === 0) {
+        <p class="empty-message">Aucun document publié pour le moment.</p>
+      } @else {
+        <div class="document-grid">
+          @for (doc of documents(); track doc.id) {
+            <article class="document-card">
+              <div class="card-top">
+                <div class="badge-group">
+                  <span class="badge badge--module">{{ doc.moduleName }}</span>
+                  <span class="badge badge--type">{{ doc.typeLabel }}</span>
+                </div>
+                <span
+                  class="material-symbols-outlined offline-icon"
+                  [class.offline-icon--available]="isAvailableOffline(doc.id)"
+                  [title]="isAvailableOffline(doc.id) ? 'Disponible hors-ligne' : 'Non disponible hors-ligne'"
+                >
+                  {{ isAvailableOffline(doc.id) ? 'download_done' : 'cloud_off' }}
+                </span>
+              </div>
+
+              <h4>{{ doc.title }}</h4>
+              <p class="card-desc">{{ doc.description }}</p>
+
+              <div class="card-footer">
+                <div class="teacher">
+                  <span class="avatar">{{ doc.teacherInitials }}</span>
+                  <span>{{ doc.teacherName }}</span>
+                </div>
+                <span class="card-date">{{ doc.dateLabel }}</span>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h3>Annonces récentes</h3>
+        <button class="link-btn" type="button">Voir tout</button>
+      </div>
+
+      @if (announcements().length === 0) {
+        <p class="empty-message">Aucune annonce récente.</p>
+      } @else {
+        <div class="announcement-list">
+          @for (item of announcements(); track item.id) {
+            <article class="announcement-card">
+              <div class="card-top">
+                <span class="badge badge--module">{{ item.moduleName }}</span>
+                <span class="card-date">{{ item.dateLabel }}</span>
+              </div>
+              <p class="card-desc">{{ item.content }}</p>
+              <div class="teacher">
+                <span class="avatar avatar--sm">{{ item.teacherName.charAt(0) }}</span>
+                <span>{{ item.teacherName }}</span>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-btn nav-btn--active" type="button">
+    <span class="material-symbols-outlined">home</span>
+    <span>Accueil</span>
+  </button>
+  <button class="nav-btn" type="button">
+    <span class="material-symbols-outlined">account_tree</span>
+    <span>Modules</span>
+  </button>
+  <button class="nav-btn" type="button">
+    <span class="material-symbols-outlined">description</span>
+    <span>Bibliothèque</span>
+  </button>
+  <button class="nav-btn" type="button">
+    <span class="material-symbols-outlined">person</span>
+    <span>Profil</span>
+  </button>
+</nav>
