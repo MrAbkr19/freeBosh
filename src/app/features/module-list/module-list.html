@@ -1,0 +1,33 @@
+<section class="breadcrumb-header">
+  <nav class="breadcrumb">
+    <span>{{ currentUser()?.filiere ?? 'Filière' }}</span>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+    <span class="current">{{ currentUser()?.niveau ?? 'Niveau' }}</span>
+  </nav>
+  <h2>Mes modules</h2>
+  <p>Retrouvez tous les modules de votre filière et niveau.</p>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement des modules…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else if (modules().length === 0) {
+  <p class="empty-message">Aucun module trouvé pour votre filière et niveau.</p>
+} @else {
+  <div class="module-grid">
+    @for (m of modules(); track m.id) {
+      <article class="module-card" (click)="openModule(m.id)">
+        <div class="module-icon">
+          <span class="material-symbols-outlined">account_tree</span>
+        </div>
+        <div class="module-info">
+          <span class="module-code">{{ m.code }}</span>
+          <h3>{{ m.name }}</h3>
+          <span class="module-count">{{ m.documentCount }} document{{ m.documentCount > 1 ? 's' : '' }}</span>
+        </div>
+        <span class="material-symbols-outlined chevron-icon">chevron_right</span>
+      </article>
+    }
+  </div>
+}

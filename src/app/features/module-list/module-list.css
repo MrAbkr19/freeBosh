@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.breadcrumb-header {
+  margin-bottom: 32px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.breadcrumb .chevron {
+  font-size: 16px;
+}
+
+.breadcrumb .current {
+  color: var(--color-on-surface);
+  font-weight: 700;
+}
+
+.breadcrumb-header h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin: 8px 0 4px;
+}
+
+.breadcrumb-header p {
+  font-size: 16px;
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+.state-message {
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  padding: 32px 0;
+}
+
+.state-message--error {
+  color: var(--color-on-error-container);
+}
+
+.empty-message {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.module-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: 20px 24px;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.module-card:hover {
+  background: var(--color-background);
+}
+
+.module-card:active {
+  transform: scale(0.98);
+}
+
+.module-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.module-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.module-code {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.module-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin: 2px 0;
+}
+
+.module-count {
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+}
+
+.chevron-icon {
+  color: var(--color-outline-variant);
+}
+
+@media (min-width: 768px) {
+  .module-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
