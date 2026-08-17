@@ -45,7 +45,7 @@
       "id": "d1",
       "title": "Chapitre 1 - Introduction aux réseaux",
       "description": "Notions de base sur les couches OSI",
-      "fileUrl": "assets/mock-files/if310-chap1.pdf",
+      "fileUrl": "/assets/mock-files/if310-chap1.pdf",
       "fileSize": 2457600,
       "courseModuleId": "m1",
       "teacherId": "u2",
