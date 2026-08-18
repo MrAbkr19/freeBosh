@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { MockApiService } from '../../services/mock-api';
@@ -12,7 +12,7 @@ import { ModuleListItem } from '../../models/module-list-item';
   templateUrl: './module-list.html',
   styleUrl: './module-list.css',
 })
-export class ModuleListComponent implements OnInit {
+export class ModuleList {
   private readonly api = inject(MockApiService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -22,7 +22,7 @@ export class ModuleListComponent implements OnInit {
   readonly loadError = signal<string | null>(null);
   readonly modules = signal<ModuleListItem[]>([]);
 
-  ngOnInit(): void {
+  constructor() {
     this.loadModules();
   }
 

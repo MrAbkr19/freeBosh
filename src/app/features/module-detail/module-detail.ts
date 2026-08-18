@@ -1,5 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { forkJoin } from 'rxjs';
 import { MockApiService } from '../../services/mock-api';
 import { OfflineAvailabilityService } from '../../services/offline-availability';
@@ -14,7 +15,7 @@ import { typeLabelFor, typeIconFor, formatFileSize } from '../../utils/document-
   templateUrl: './module-detail.html',
   styleUrl: './module-detail.css',
 })
-export class ModuleDetailComponent implements OnInit {
+export class ModuleDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly api = inject(MockApiService);
@@ -25,16 +26,18 @@ export class ModuleDetailComponent implements OnInit {
   readonly courseModule = signal<CourseModule | null>(null);
   readonly documents = signal<ModuleDocumentCard[]>([]);
 
-  ngOnInit(): void {
-    const moduleId = this.route.snapshot.paramMap.get('id');
+  constructor() {
+    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      const moduleId = params.get('id');
 
-    if (!moduleId) {
-      this.loadError.set('Module introuvable.');
-      this.isLoading.set(false);
-      return;
-    }
+      if (!moduleId) {
+        this.loadError.set('Module introuvable.');
+        this.isLoading.set(false);
+        return;
+      }
 
-    this.loadModule(moduleId);
+      this.loadModule(moduleId);
+    });
   }
 
   private loadModule(moduleId: string): void {

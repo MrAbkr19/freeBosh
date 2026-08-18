@@ -1,10 +1,10 @@
 import { Component,inject } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet,RouterLink,RouterLinkActive } from "@angular/router";
 import { ConnectivityService } from '../../services/connectivity';
 
 @Component({
   selector: 'app-student-shell',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,RouterLink,RouterLinkActive],
   templateUrl: './student-shell.html',
   styleUrl: './student-shell.css',
 })
