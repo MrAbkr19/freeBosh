@@ -91,4 +91,16 @@ export class MockApiService {
       )
     );
   }
+
+  // ---- /users ----
+  getUsers(): Observable<User[]> {
+    if (!environment.useMockApi) {
+      return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    }
+
+    return this.loadDb().pipe(
+      delay(SIMULATED_DELAY_MS),
+      map((db) => db.users)
+    );
+  }
 }
