@@ -1,35 +1,26 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { User, userRole } from '../models/user';
-import { MOCK_USERS } from '../data/mock-users';
+import { MockApiService } from './mock-api';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly api = inject(MockApiService);
   private readonly _currentUser = signal<User | null>(null);
 
   readonly currentUser = this._currentUser.asReadonly();
   readonly isAuthenticated = computed(() => this._currentUser() !== null);
 
-  /**
-   * Mock login — validates against MOCK_USERS.
-   * Returns the matched User on success, or null on failure.
-   */
-  login(matricule: string, password: string): User | null {
-    const match = MOCK_USERS.find(
-      (u) => u.matricule === matricule.trim() && u.password === password
+  login(matricule: string, password: string): Observable<User> {
+    return this.api.login(matricule, password).pipe(
+      tap((user) => this._currentUser.set(user))
     );
-
-    if (match) {
-      this._currentUser.set(match);
-      return match;
-    }
-
-    return null;
   }
 
   logout(): void {
     this._currentUser.set(null);
   }
 
-  /** Determines the landing route based on the authenticated user's role. */
   redirectPathFor(role: userRole): string {
     switch (role) {
       case 'student':
