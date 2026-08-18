@@ -1,0 +1,49 @@
+<section class="breadcrumb-header">
+  <nav class="breadcrumb">
+    <a (click)="goToModules()">Filière</a>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+    <a (click)="goToModules()">Niveau</a>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+    <span class="current">{{ courseModule()?.name ?? 'Module' }}</span>
+  </nav>
+
+  @if (courseModule(); as m) {
+    <h2>{{ m.name }}</h2>
+    <p>{{ m.code }} • {{ m.faculty }} — {{ m.level }}</p>
+  }
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement des documents…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else if (documents().length === 0) {
+  <p class="empty-message">Aucun document publié pour ce module.</p>
+} @else {
+  <div class="document-grid">
+    @for (doc of documents(); track doc.id) {
+      <article class="document-card">
+        <div class="card-top">
+          <div class="type-icon">
+            <span class="material-symbols-outlined">{{ doc.typeIcon }}</span>
+          </div>
+          <span
+            class="material-symbols-outlined offline-icon"
+            [class.offline-icon--available]="isAvailableOffline(doc.fileUrl)"
+            [title]="isAvailableOffline(doc.fileUrl) ? 'Disponible hors-ligne' : 'Non disponible hors-ligne'"
+          >
+            {{ isAvailableOffline(doc.fileUrl) ? 'download_done' : 'cloud_off' }}
+          </span>
+        </div>
+
+        <span class="badge">{{ doc.typeLabel }}</span>
+        <h3>{{ doc.title }}</h3>
+        <p class="card-desc">{{ doc.description }}</p>
+
+        <div class="card-footer">
+          <span class="file-size">{{ doc.fileSizeLabel }}</span>
+        </div>
+      </article>
+    }
+  </div>
+}
