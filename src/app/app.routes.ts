@@ -6,6 +6,7 @@ import { ModuleList } from './features/module-list/module-list';
 import { ModuleDetail } from './features/module-detail/module-detail';
 import { TeacherShell } from './layout/teacher-shell/teacher-shell';
 import { TeacherHome } from './features/teacher-home/teacher-home';
+import { PublishDocument } from './features/publish-document/publish-document';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -19,9 +20,12 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'enseignant',
-    component: TeacherShell,
-    children: [{ path: 'accueil', component: TeacherHome }],
-  },
+  path: 'enseignant',
+  component: TeacherShell,
+  children: [
+    { path: 'accueil', component: TeacherHome },
+    { path: 'publier', component: PublishDocument },
+  ],
+},
 
 ];
