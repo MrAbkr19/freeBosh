@@ -1,0 +1,116 @@
+<div class="page-header">
+  <h1>Publier un document</h1>
+</div>
+
+<form class="publish-card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="field-group">
+  <label for="module-select">Sélectionner un module</label>
+  @if (loadingModules()) {
+    <p class="hint">Chargement de vos modules…</p>
+  } @else if (myModules().length === 0) {
+    <p class="hint hint--error">Aucun module ne vous est assigné.</p>
+  } @else {
+    <select id="module-select" formControlName="moduleId">
+      <option value="" disabled selected>Choisissez un module…</option>
+      @for (m of myModules(); track m.id) {
+        <option [value]="m.id">{{ m.code }} — {{ m.name }}</option>
+      }
+    </select>
+  }
+  @if (form.controls.moduleId.invalid && form.controls.moduleId.touched) {
+    <p class="field-error">Veuillez sélectionner un module.</p>
+  }
+</div>
+
+  <div class="field-group">
+  <label for="doc-title">Titre du document</label>
+  <input
+    id="doc-title"
+    type="text"
+    formControlName="title"
+    placeholder="ex : Notes du cours - Semaine 3"
+  />
+  @if (form.controls.title.invalid && form.controls.title.touched) {
+    <p class="field-error">Le titre est requis.</p>
+  }
+</div>
+
+  <div class="field-group">
+    <label for="doc-desc">Description (optionnel)</label>
+    <textarea
+      id="doc-desc"
+      rows="3"
+      formControlName="description"
+      placeholder="Contexte bref sur ce document…"
+    ></textarea>
+  </div>
+
+  <div class="field-group">
+    <label>Téléverser un fichier</label>
+
+    @if (!selectedFile()) {
+      <div
+        class="drop-zone"
+        [class.drop-zone--dragging]="isDragging()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+      >
+        <input
+          #fileInput
+          type="file"
+          class="hidden-input"
+          accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+          (change)="onFileSelected($event)"
+        />
+        <div class="drop-icon">
+          <span class="material-symbols-outlined">cloud_upload</span>
+        </div>
+        <h3>Glissez-déposez votre fichier ici</h3>
+        <p>ou cliquez pour parcourir votre appareil</p>
+        <button class="btn-browse" type="button">Parcourir les fichiers</button>
+      </div>
+
+      <div class="info-box">
+        <span class="material-symbols-outlined">info</span>
+        <div>
+          <p class="info-title">Formats supportés</p>
+          <p class="info-text">
+            Veuillez téléverser des fichiers au format PDF, DOCX ou PPTX pour une compatibilité optimale.
+            Taille maximale : 50 Mo.
+          </p>
+        </div>
+      </div>
+    } @else {
+      <div class="file-preview">
+        <div class="file-preview-info">
+          <span class="material-symbols-outlined">description</span>
+          <div>
+            <p class="file-name">{{ selectedFile()!.name }}</p>
+            <p class="file-size">{{ formatFileSize(selectedFile()!.size) }}</p>
+          </div>
+        </div>
+        <button class="btn-remove" type="button" (click)="removeFile()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <hr />
+
+  <div class="actions">
+    <button class="btn-cancel" type="button" (click)="cancel()">Annuler</button>
+    <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+      {{ isSubmitting() ? 'Publication…' : 'Publier le document' }}
+    </button>
+  </div>
+</form>

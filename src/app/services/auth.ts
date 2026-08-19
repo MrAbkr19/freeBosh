@@ -26,7 +26,7 @@ export class AuthService {
       case 'student':
         return '/etudiant/accueil';
       case 'teacher':
-        return '/enseignant/publication';
+        return '/enseignant/accueil';
       case 'admin':
         return '/admin/dashboard';
     }

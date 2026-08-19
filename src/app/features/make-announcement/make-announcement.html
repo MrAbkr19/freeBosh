@@ -1,0 +1,53 @@
+<div class="page-header">
+  <h1>Faire une annonce</h1>
+</div>
+
+<form class="announcement-card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="field-group">
+    <label for="module-select">Sélectionner un module</label>
+    @if (loadingModules()) {
+      <p class="hint">Chargement de vos modules…</p>
+    } @else if (myModules().length === 0) {
+      <p class="hint hint--error">Aucun module ne vous est assigné.</p>
+    } @else {
+      <select id="module-select" formControlName="moduleId">
+        <option value="" disabled selected>Choisissez un module…</option>
+        @for (m of myModules(); track m.id) {
+          <option [value]="m.id">{{ m.code }} — {{ m.name }}</option>
+        }
+      </select>
+    }
+    @if (form.controls.moduleId.invalid && form.controls.moduleId.touched) {
+      <p class="field-error">Veuillez sélectionner un module.</p>
+    }
+  </div>
+
+  <div class="field-group">
+    <label for="content">Message</label>
+    <textarea
+      id="content"
+      rows="5"
+      formControlName="content"
+      placeholder="ex : Le TP1 est repoussé à la semaine prochaine."
+    ></textarea>
+    @if (form.controls.content.invalid && form.controls.content.touched) {
+      <p class="field-error">Le message est requis.</p>
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <hr />
+
+  <div class="actions">
+    <button class="btn-cancel" type="button" (click)="cancel()">Annuler</button>
+    <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+      {{ isSubmitting() ? 'Envoi…' : "Envoyer l'annonce" }}
+    </button>
+  </div>
+</form>

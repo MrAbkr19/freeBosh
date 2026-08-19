@@ -20,6 +20,8 @@ const SIMULATED_DELAY_MS = 400;
 export class MockApiService {
   private readonly http = inject(HttpClient);
   private db$?: Observable<MockDb>;
+  private readonly publishedDocuments: CourseDocument[] = [];
+  private readonly newAnnouncements: Announcement[] = [];
 
   /** Loads db.json once and caches it for the lifetime of the app. */
   private loadDb(): Observable<MockDb> {
@@ -59,7 +61,7 @@ export class MockApiService {
   }
 
   // ---- /documents ----
-  getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
+    getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
     if (!environment.useMockApi) {
       const query = courseModuleId ? `?courseModuleId=${courseModuleId}` : '';
       return this.http.get<CourseDocument[]>(`${environment.apiUrl}/documents${query}`);
@@ -67,16 +69,17 @@ export class MockApiService {
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) =>
-        courseModuleId
-          ? db.documents.filter((d) => d.courseModuleId === courseModuleId)
-          : db.documents
-      )
+      map((db) => {
+        const combined = [...db.documents, ...this.publishedDocuments];
+        return courseModuleId
+          ? combined.filter((d) => d.courseModuleId === courseModuleId)
+          : combined;
+      })
     );
   }
 
   // ---- /announcements ----
-  getAnnouncements(courseModuleId?: string): Observable<Announcement[]> {
+    getAnnouncements(courseModuleId?: string): Observable<Announcement[]> {
     if (!environment.useMockApi) {
       const query = courseModuleId ? `?courseModuleId=${courseModuleId}` : '';
       return this.http.get<Announcement[]>(`${environment.apiUrl}/announcements${query}`);
@@ -84,11 +87,12 @@ export class MockApiService {
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) =>
-        courseModuleId
-          ? db.announcements.filter((a) => a.courseModuleId === courseModuleId)
-          : db.announcements
-      )
+      map((db) => {
+        const combined = [...db.announcements, ...this.newAnnouncements];
+        return courseModuleId
+          ? combined.filter((a) => a.courseModuleId === courseModuleId)
+          : combined;
+      })
     );
   }
 
@@ -102,5 +106,48 @@ export class MockApiService {
       delay(SIMULATED_DELAY_MS),
       map((db) => db.users)
     );
+  }
+
+    // ---- publish (mock only — no real backend to persist to) ----
+  publishDocument(input: {
+    title: string;
+    description: string;
+    courseModuleId: string;
+    teacherId: string;
+    fileName: string;
+    fileSize: number;
+  }): Observable<CourseDocument> {
+    const newDoc: CourseDocument = {
+      id: `local-${Date.now()}`,
+      title: input.title,
+      description: input.description,
+      fileUrl: input.fileName, // placeholder only — not a resolvable file path
+      fileSize: input.fileSize,
+      courseModuleId: input.courseModuleId,
+      teacherId: input.teacherId,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.publishedDocuments.push(newDoc);
+
+    return of(newDoc).pipe(delay(SIMULATED_DELAY_MS));
+  }
+    // ---- publish announcement (mock only) ----
+  publishAnnouncement(input: {
+    content: string;
+    courseModuleId: string;
+    teacherId: string;
+  }): Observable<Announcement> {
+    const newAnnouncement: Announcement = {
+      id: `local-${Date.now()}`,
+      teacherId: input.teacherId,
+      courseModuleId: input.courseModuleId,
+      content: input.content,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.newAnnouncements.push(newAnnouncement);
+
+    return of(newAnnouncement).pipe(delay(SIMULATED_DELAY_MS));
   }
 }

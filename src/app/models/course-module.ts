@@ -4,4 +4,6 @@ export interface CourseModule {
   name: string;
   faculty: string;
   level: string;
+  teacherIds: string[];
+
 }
