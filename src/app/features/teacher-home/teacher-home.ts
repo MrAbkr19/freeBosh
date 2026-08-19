@@ -110,7 +110,7 @@ export class TeacherHome {
   }
 
   faireAnnonce(): void {
-    // TODO: navigate to the "Faire une annonce" feature once it exists.
+    this.router.navigateByUrl('/enseignant/annoncer');
     console.log('Faire une annonce — pas encore implémenté');
   }
 }

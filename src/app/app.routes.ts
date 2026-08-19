@@ -7,6 +7,7 @@ import { ModuleDetail } from './features/module-detail/module-detail';
 import { TeacherShell } from './layout/teacher-shell/teacher-shell';
 import { TeacherHome } from './features/teacher-home/teacher-home';
 import { PublishDocument } from './features/publish-document/publish-document';
+import { MakeAnnouncement } from './features/make-announcement/make-announcement';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   children: [
     { path: 'accueil', component: TeacherHome },
     { path: 'publier', component: PublishDocument },
+    { path: 'annoncer', component: MakeAnnouncement },
   ],
 },
 
