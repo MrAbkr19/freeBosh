@@ -8,6 +8,7 @@
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
+      
     },
     {
       "id": "u2",
@@ -30,14 +31,18 @@
       "code": "IF310",
       "name": "Réseaux",
       "faculty": "Génie Informatique",
-      "level": "Niveau 3"
+      "level": "Niveau 3",
+      "teacherIds": ["u2"]
+
     },
     {
       "id": "m2",
       "code": "IF322",
       "name": "Bases de données avancées",
       "faculty": "Génie Informatique",
-      "level": "Niveau 3"
+      "level": "Niveau 3",
+          "teacherIds": ["u2"]
+
     }
   ],
   "documents": [

@@ -1,0 +1,57 @@
+<header class="topbar">
+  <button class="icon-btn" aria-label="Menu" type="button">
+    <span class="material-symbols-outlined">school</span>
+  </button>
+  <h1 class="brand">FreeBosh</h1>
+  <div class="status-group">
+    <div class="status-pill" [class.status-pill--offline]="!connectivity.isOnline()">
+      <span class="status-dot" [class.status-dot--offline]="!connectivity.isOnline()"></span>
+      <span>{{ connectivity.isOnline() ? 'En ligne' : 'Hors ligne' }}</span>
+    </div>
+    <span class="material-symbols-outlined status-icon">
+      {{ connectivity.isOnline() ? 'wifi' : 'wifi_off' }}
+    </span>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <a class="sidebar-link" routerLink="/enseignant/accueil" routerLinkActive="sidebar-link--active">
+    <span class="material-symbols-outlined">home</span>
+    Accueil
+  </a>
+  <button class="sidebar-link" type="button" disabled>
+    <span class="material-symbols-outlined">account_tree</span>
+    Modules
+  </button>
+  <button class="sidebar-link" type="button" disabled>
+    <span class="material-symbols-outlined">description</span>
+    Bibliothèque
+  </button>
+  <button class="sidebar-link" type="button" disabled>
+    <span class="material-symbols-outlined">person</span>
+    Profil
+  </button>
+</aside>
+
+<main class="content-area">
+  <router-outlet></router-outlet>
+</main>
+
+<nav class="bottom-nav">
+  <a class="nav-btn" routerLink="/enseignant/accueil" routerLinkActive="nav-btn--active">
+    <span class="material-symbols-outlined">home</span>
+    <span>Accueil</span>
+  </a>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">account_tree</span>
+    <span>Modules</span>
+  </button>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">description</span>
+    <span>Bibliothèque</span>
+  </button>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">person</span>
+    <span>Profil</span>
+  </button>
+</nav>

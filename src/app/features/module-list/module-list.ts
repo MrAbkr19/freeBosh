@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 import { MockApiService } from '../../services/mock-api';
 import { AuthService } from '../../services/auth';
 import { ModuleListItem } from '../../models/module-list-item';
+import { CourseModule } from '../../models/course-module';
+
 
 @Component({
   selector: 'app-module-list',
