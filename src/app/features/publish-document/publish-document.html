@@ -4,30 +4,36 @@
 
 <form class="publish-card" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="field-group">
-    <label for="module-select">Sélectionner un module</label>
-    @if (loadingModules()) {
-      <p class="hint">Chargement de vos modules…</p>
-    } @else if (myModules().length === 0) {
-      <p class="hint hint--error">Aucun module ne vous est assigné.</p>
-    } @else {
-      <select id="module-select" formControlName="moduleId">
-        <option value="" disabled selected>Choisissez un module…</option>
-        @for (m of myModules(); track m.id) {
-          <option [value]="m.id">{{ m.code }} — {{ m.name }}</option>
-        }
-      </select>
-    }
-  </div>
+  <label for="module-select">Sélectionner un module</label>
+  @if (loadingModules()) {
+    <p class="hint">Chargement de vos modules…</p>
+  } @else if (myModules().length === 0) {
+    <p class="hint hint--error">Aucun module ne vous est assigné.</p>
+  } @else {
+    <select id="module-select" formControlName="moduleId">
+      <option value="" disabled selected>Choisissez un module…</option>
+      @for (m of myModules(); track m.id) {
+        <option [value]="m.id">{{ m.code }} — {{ m.name }}</option>
+      }
+    </select>
+  }
+  @if (form.controls.moduleId.invalid && form.controls.moduleId.touched) {
+    <p class="field-error">Veuillez sélectionner un module.</p>
+  }
+</div>
 
   <div class="field-group">
-    <label for="doc-title">Titre du document</label>
-    <input
-      id="doc-title"
-      type="text"
-      formControlName="title"
-      placeholder="ex : Notes du cours - Semaine 3"
-    />
-  </div>
+  <label for="doc-title">Titre du document</label>
+  <input
+    id="doc-title"
+    type="text"
+    formControlName="title"
+    placeholder="ex : Notes du cours - Semaine 3"
+  />
+  @if (form.controls.title.invalid && form.controls.title.touched) {
+    <p class="field-error">Le titre est requis.</p>
+  }
+</div>
 
   <div class="field-group">
     <label for="doc-desc">Description (optionnel)</label>

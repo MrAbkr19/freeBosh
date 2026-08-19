@@ -268,3 +268,9 @@ hr {
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+.field-error {
+  font-size: 12px;
+  color: var(--color-on-error-container);
+  margin: 0;
+}
