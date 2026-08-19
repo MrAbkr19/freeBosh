@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth';
 import { TeacherModuleCard } from '../../models/teacher-module-card';
 import { TeacherActivityItem } from '../../models/teacher-activity-item';
 import { formatRelativeDate } from '../../utils/document-formatting';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-home',
@@ -16,6 +17,7 @@ import { formatRelativeDate } from '../../utils/document-formatting';
 export class TeacherHome {
   private readonly api = inject(MockApiService);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router)
 
   readonly currentUser = this.authService.currentUser;
   readonly isLoading = signal(true);
@@ -103,8 +105,8 @@ export class TeacherHome {
   }
 
   publierDocument(): void {
-    // TODO: navigate to the "Publier un document" feature once it exists.
-    console.log('Publier un document — pas encore implémenté');
+    this.router.navigateByUrl('/enseignant/publier');
+    // console.log('Publier un document — pas encore implémenté');
   }
 
   faireAnnonce(): void {

@@ -20,6 +20,7 @@ const SIMULATED_DELAY_MS = 400;
 export class MockApiService {
   private readonly http = inject(HttpClient);
   private db$?: Observable<MockDb>;
+  private readonly publishedDocuments: CourseDocument[] = [];
 
   /** Loads db.json once and caches it for the lifetime of the app. */
   private loadDb(): Observable<MockDb> {
@@ -59,7 +60,7 @@ export class MockApiService {
   }
 
   // ---- /documents ----
-  getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
+    getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
     if (!environment.useMockApi) {
       const query = courseModuleId ? `?courseModuleId=${courseModuleId}` : '';
       return this.http.get<CourseDocument[]>(`${environment.apiUrl}/documents${query}`);
@@ -67,11 +68,12 @@ export class MockApiService {
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) =>
-        courseModuleId
-          ? db.documents.filter((d) => d.courseModuleId === courseModuleId)
-          : db.documents
-      )
+      map((db) => {
+        const combined = [...db.documents, ...this.publishedDocuments];
+        return courseModuleId
+          ? combined.filter((d) => d.courseModuleId === courseModuleId)
+          : combined;
+      })
     );
   }
 
@@ -102,5 +104,30 @@ export class MockApiService {
       delay(SIMULATED_DELAY_MS),
       map((db) => db.users)
     );
+  }
+
+    // ---- publish (mock only — no real backend to persist to) ----
+  publishDocument(input: {
+    title: string;
+    description: string;
+    courseModuleId: string;
+    teacherId: string;
+    fileName: string;
+    fileSize: number;
+  }): Observable<CourseDocument> {
+    const newDoc: CourseDocument = {
+      id: `local-${Date.now()}`,
+      title: input.title,
+      description: input.description,
+      fileUrl: input.fileName, // placeholder only — not a resolvable file path
+      fileSize: input.fileSize,
+      courseModuleId: input.courseModuleId,
+      teacherId: input.teacherId,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.publishedDocuments.push(newDoc);
+
+    return of(newDoc).pipe(delay(SIMULATED_DELAY_MS));
   }
 }
