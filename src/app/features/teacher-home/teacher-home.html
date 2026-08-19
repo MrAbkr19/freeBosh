@@ -1,0 +1,85 @@
+<section class="welcome">
+  <div class="welcome-text">
+    <h1>Bonjour, {{ currentUser()?.fullName ?? 'Professeur' }}</h1>
+    <p>Gérez vos modules et partagez vos ressources académiques.</p>
+  </div>
+  <div class="welcome-actions">
+    <button class="btn-primary" type="button" (click)="publierDocument()">
+      <span class="material-symbols-outlined">upload_file</span>
+      Publier un document
+    </button>
+    <button class="btn-secondary" type="button" (click)="faireAnnonce()">
+      <span class="material-symbols-outlined">campaign</span>
+      Faire une annonce
+    </button>
+  </div>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement de votre tableau de bord…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <section class="section">
+    <h2 class="section-title">
+      <span class="material-symbols-outlined">book</span>
+      Mes modules enseignés
+    </h2>
+
+    @if (modules().length === 0) {
+      <p class="empty-message">Aucun module ne vous est encore assigné.</p>
+    } @else {
+      <div class="module-grid">
+        @for (m of modules(); track m.id) {
+          <article class="module-card">
+            <div class="card-top">
+              <span class="badge">{{ m.badgeLabel }}</span>
+              <span class="material-symbols-outlined more-icon">more_vert</span>
+            </div>
+            <h3>{{ m.name }}</h3>
+            <p class="module-code">{{ m.code }}</p>
+            <div class="card-footer">
+              <span class="stat">
+                <span class="material-symbols-outlined">description</span>
+                {{ m.documentCount }} Docs
+              </span>
+              <span class="stat">
+                <span class="material-symbols-outlined">group</span>
+                {{ m.studentCount }} Étudiants
+              </span>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">
+      <span class="material-symbols-outlined">history</span>
+      Activité récente
+    </h2>
+
+    @if (activity().length === 0) {
+      <p class="empty-message">Aucune activité récente.</p>
+    } @else {
+      <div class="activity-card">
+        <ul class="activity-list">
+          @for (item of activity(); track item.id) {
+            <li class="activity-item">
+              <div class="activity-icon">
+                <span class="material-symbols-outlined">{{ item.icon }}</span>
+              </div>
+              <div>
+                <p class="activity-desc">
+                  {{ item.description }} dans <span class="strong">{{ item.moduleName }}</span>
+                </p>
+                <p class="activity-date">{{ item.dateLabel }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </section>
+}
