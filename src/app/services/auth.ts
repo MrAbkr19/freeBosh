@@ -10,7 +10,13 @@ export class AuthService {
 
   readonly currentUser = this._currentUser.asReadonly();
   readonly isAuthenticated = computed(() => this._currentUser() !== null);
-
+  /** Session-only password change — not persisted past reload (no real backend yet). */
+  updateCurrentUserPassword(newPassword: string): void {
+    const user = this._currentUser();
+    if (user) {
+      this._currentUser.set({ ...user, password: newPassword });
+    }
+  }
   login(matricule: string, password: string): Observable<User> {
     return this.api.login(matricule, password).pipe(
       tap((user) => this._currentUser.set(user))

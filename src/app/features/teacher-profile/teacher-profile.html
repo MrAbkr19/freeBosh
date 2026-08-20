@@ -1,0 +1,97 @@
+<section class="profile-header">
+  <div class="avatar">{{ initials }}</div>
+  <div class="profile-info">
+    <h2>{{ currentUser()?.fullName ?? 'Professeur' }}</h2>
+    <div class="badges">
+      <span class="badge">Enseignant</span>
+      <span class="matricule">
+        <span class="material-symbols-outlined">badge</span>
+        {{ currentUser()?.matricule }}
+      </span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h3>Modules enseignés</h3>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement…</p>
+  } @else if (modules().length === 0) {
+    <p class="empty-message">Aucun module ne vous est assigné.</p>
+  } @else {
+    <div class="module-grid">
+      @for (m of modules(); track m.id) {
+        <article class="module-item">
+          <div class="module-icon">
+            <span class="material-symbols-outlined">{{ m.icon }}</span>
+          </div>
+          <div>
+            <h4>{{ m.name }}</h4>
+            <p>{{ m.badgeLabel }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>
+
+<section class="section actions">
+  <button class="action-row" type="button" (click)="openModal()">
+    <div class="action-left">
+      <span class="material-symbols-outlined">lock_reset</span>
+      <span>Changer le mot de passe</span>
+    </div>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+  </button>
+
+  <button class="logout-btn" type="button" (click)="logout()">
+    <span class="material-symbols-outlined">logout</span>
+    <span>Se déconnecter</span>
+  </button>
+</section>
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Changer le mot de passe</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordChange()">
+        <div class="field-group">
+          <label for="current-password">Mot de passe actuel</label>
+          <input id="current-password" type="password" formControlName="currentPassword" />
+        </div>
+
+        <div class="field-group">
+          <label for="new-password">Nouveau mot de passe</label>
+          <input id="new-password" type="password" formControlName="newPassword" />
+        </div>
+
+        <div class="field-group">
+          <label for="confirm-password">Confirmer le nouveau mot de passe</label>
+          <input id="confirm-password" type="password" formControlName="confirmPassword" />
+        </div>
+
+        @if (passwordForm.errors?.['passwordMismatch'] && passwordForm.controls.confirmPassword.touched) {
+          <p class="field-error">Les mots de passe ne correspondent pas.</p>
+        }
+        @if (passwordError()) {
+          <p class="field-error">{{ passwordError() }}</p>
+        }
+        @if (passwordSuccess()) {
+          <p class="field-success">Mot de passe mis à jour.</p>
+        }
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit">Mettre à jour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
