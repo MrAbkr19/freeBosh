@@ -1,0 +1,76 @@
+<section class="breadcrumb-header">
+  <nav class="breadcrumb">
+    <a (click)="goToModules()">Mes modules</a>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+    <span class="current">{{ courseModule()?.name ?? 'Module' }}</span>
+  </nav>
+
+  @if (courseModule(); as m) {
+    <div class="header-row">
+      <div>
+        <h2>{{ m.name }}</h2>
+        <p>{{ m.code }} • {{ m.faculty }} — {{ m.level }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" type="button" (click)="publierDocument()">
+          <span class="material-symbols-outlined">upload_file</span>
+          Publier un document
+        </button>
+        <button class="btn-secondary" type="button" (click)="faireAnnonce()">
+          <span class="material-symbols-outlined">campaign</span>
+          Faire une annonce
+        </button>
+      </div>
+    </div>
+  }
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <section class="section">
+    <h3 class="section-title">Documents publiés</h3>
+
+    @if (documents().length === 0) {
+      <p class="empty-message">Aucun document publié pour ce module.</p>
+    } @else {
+      <div class="document-grid">
+        @for (doc of documents(); track doc.id) {
+          <article class="document-card">
+            <div class="card-top">
+              <div class="type-icon">
+                <span class="material-symbols-outlined">{{ doc.typeIcon }}</span>
+              </div>
+              <span class="badge">{{ doc.typeLabel }}</span>
+            </div>
+            <h4>{{ doc.title }}</h4>
+            <p class="card-desc">{{ doc.description }}</p>
+            <div class="card-footer">
+              <span class="file-size">{{ doc.fileSizeLabel }}</span>
+              <span class="card-date">{{ doc.dateLabel }}</span>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="section">
+    <h3 class="section-title">Annonces</h3>
+
+    @if (announcements().length === 0) {
+      <p class="empty-message">Aucune annonce publiée pour ce module.</p>
+    } @else {
+      <div class="announcement-list">
+        @for (item of announcements(); track item.id) {
+          <article class="announcement-card">
+            <p class="card-desc">{{ item.content }}</p>
+            <span class="card-date">{{ item.dateLabel }}</span>
+          </article>
+        }
+      </div>
+    }
+  </section>
+}
