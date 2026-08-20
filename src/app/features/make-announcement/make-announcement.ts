@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MockApiService } from '../../services/mock-api';
 import { AuthService } from '../../services/auth';
 import { CourseModule } from '../../models/course-module';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-make-announcement',
@@ -17,6 +18,7 @@ export class MakeAnnouncement {
   private readonly api = inject(MockApiService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
   readonly myModules = signal<CourseModule[]>([]);
   readonly loadingModules = signal(true);
@@ -30,9 +32,10 @@ export class MakeAnnouncement {
 
   constructor() {
     this.loadMyModules();
+    
   }
 
-  private loadMyModules(): void {
+   private loadMyModules(): void {
     const teacher = this.authService.currentUser();
 
     if (!teacher) {
@@ -44,6 +47,11 @@ export class MakeAnnouncement {
       next: (modules) => {
         this.myModules.set(modules.filter((m) => m.teacherIds.includes(teacher.id)));
         this.loadingModules.set(false);
+
+        const preselectedId = this.route.snapshot.queryParamMap.get('moduleId');
+        if (preselectedId) {
+          this.form.patchValue({ moduleId: preselectedId });
+        }
       },
       error: () => {
         this.loadingModules.set(false);
