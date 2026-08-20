@@ -1,0 +1,67 @@
+<section class="page-header">
+  <h2>Ma bibliothèque</h2>
+  <div class="search-bar">
+    <span class="material-symbols-outlined search-icon">search</span>
+    <input
+      type="text"
+      placeholder="Rechercher des documents..."
+      [ngModel]="searchText()"
+      (ngModelChange)="searchText.set($event)"
+    />
+  </div>
+</section>
+
+<section class="chip-row">
+  <button
+    class="chip"
+    [class.chip--active]="selectedModuleId() === null"
+    type="button"
+    (click)="selectModule(null)"
+  >
+    Tous mes modules
+  </button>
+  @for (m of myModules(); track m.id) {
+    <button
+      class="chip"
+      [class.chip--active]="selectedModuleId() === m.id"
+      type="button"
+      (click)="selectModule(m.id)"
+    >
+      {{ m.name }}
+    </button>
+  }
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement de votre bibliothèque…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else if (filteredDocuments().length === 0) {
+  <p class="empty-message">Aucun document trouvé.</p>
+} @else {
+  <div class="document-list">
+    @for (doc of filteredDocuments(); track doc.id) {
+      <article class="document-item">
+        <div class="doc-icon">
+          <span class="material-symbols-outlined">{{ doc.typeIcon }}</span>
+        </div>
+        <div class="doc-info">
+          <h3>{{ doc.title }}</h3>
+          <p>{{ doc.moduleName }} • {{ doc.studentCount }} étudiants</p>
+        </div>
+        <div class="doc-actions">
+          <button class="icon-btn" aria-label="Menu contextuel" type="button">
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
+          <span
+            class="material-symbols-outlined offline-icon"
+            [class.offline-icon--available]="isAvailableOffline(doc.fileUrl)"
+            [title]="isAvailableOffline(doc.fileUrl) ? 'Disponible hors-ligne' : 'Non disponible hors-ligne'"
+          >
+            {{ isAvailableOffline(doc.fileUrl) ? 'download_done' : 'download' }}
+          </span>
+        </div>
+      </article>
+    }
+  </div>
+}

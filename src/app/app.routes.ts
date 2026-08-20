@@ -10,6 +10,7 @@ import { PublishDocument } from './features/publish-document/publish-document';
 import { MakeAnnouncement } from './features/make-announcement/make-announcement';
 import { TeacherModuleList } from './features/teacher-module-list/teacher-module-list';
 import { TeacherModuleDetail } from './features/teacher-module-detail/teacher-module-detail';
+import { TeacherLibrary } from './features/teacher-library/teacher-library';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -30,7 +31,8 @@ export const routes: Routes = [
     { path: 'publier', component: PublishDocument },
     { path: 'annoncer', component: MakeAnnouncement },
     { path: 'modules', component: TeacherModuleList},
-{ path: 'modules/:id', component: TeacherModuleDetail },
+    { path: 'modules/:id', component: TeacherModuleDetail },
+    { path: 'bibliotheque', component: TeacherLibrary },
   ],
 },
 
