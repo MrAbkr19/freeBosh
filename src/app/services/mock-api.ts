@@ -34,6 +34,7 @@ export class MockApiService {
     private readonly newModules: CourseModule[] = [];
   private readonly editedModules = new Map<string, Partial<CourseModule>>();
   private readonly deletedModuleIds = new Set<string>();
+    private readonly newUsers: User[] = [];
 
   /** Loads db.json once and caches it for the lifetime of the app. */
   private loadDb(): Observable<MockDb> {
@@ -129,15 +130,28 @@ export class MockApiService {
   }
 
   // ---- /users ----
-  getUsers(): Observable<User[]> {
+    getUsers(): Observable<User[]> {
     if (!environment.useMockApi) {
       return this.http.get<User[]>(`${environment.apiUrl}/users`);
     }
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) => db.users)
+      map((db) => [...db.users, ...this.newUsers])
     );
+  }
+    createTeacher(input: { fullName: string; matricule: string }): Observable<User> {
+    const newTeacher: User = {
+      id: `local-${Date.now()}`,
+      fullName: input.fullName,
+      matricule: input.matricule,
+      password: 'password',
+      role: 'teacher',
+    };
+
+    this.newUsers.push(newTeacher);
+
+    return of(newTeacher).pipe(delay(SIMULATED_DELAY_MS));
   }
 
     // ---- publish (mock only — no real backend to persist to) ----

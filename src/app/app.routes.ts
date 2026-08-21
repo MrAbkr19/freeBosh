@@ -19,6 +19,7 @@ import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 import { AdminDepartments } from './features/admin-departments/admin-departments';
 import { AdminFilieres } from './features/admin-filieres/admin-filieres';
 import { AdminModules } from './features/admin-module/admin-module';
+import { AdminTeachers } from './features/admin-teachers/admin-teachers';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -54,6 +55,7 @@ export const routes: Routes = [
     { path: 'departements', component: AdminDepartments },
     { path: 'filieres', component: AdminFilieres },
     { path: 'modules', component: AdminModules },
+    { path: 'enseignants', component: AdminTeachers },
   ],
 },
 
