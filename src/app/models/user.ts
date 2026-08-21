@@ -1,5 +1,5 @@
 export type userRole = 'student' | 'teacher' | 'admin';
-
+export type StudentStatus = 'inscrit' | 'en_attente';
 export interface User {
     id: string;
     fullName: string;
@@ -8,5 +8,7 @@ export interface User {
     role:userRole;
     filiere?: string;
     niveau?: string;
+    email?: string;
+    status?: StudentStatus;
 
 }

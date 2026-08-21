@@ -1,0 +1,144 @@
+<section class="page-header">
+  <div>
+    <h2>Enseignants</h2>
+    <p>Gérez le corps professoral, les assignations de modules et les statuts.</p>
+  </div>
+  <button class="btn-primary" type="button" (click)="openCreateModal()">
+    <span class="material-symbols-outlined">add</span>
+    Ajouter un enseignant
+  </button>
+</section>
+
+<div class="search-bar">
+  <span class="material-symbols-outlined search-icon">search</span>
+  <input
+    type="text"
+    placeholder="Rechercher par nom, matricule..."
+    [ngModel]="searchText()"
+    (ngModelChange)="searchText.set($event)"
+  />
+</div>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else if (filteredRows().length === 0) {
+  <p class="empty-message">Aucun enseignant trouvé.</p>
+} @else {
+  <div class="row-header">
+    <div class="col-name">Nom de l'enseignant</div>
+    <div class="col-matricule">Matricule</div>
+    <div class="col-modules">Modules assignés</div>
+    <div class="col-status">Statut</div>
+    <div class="col-actions"></div>
+  </div>
+
+  <div class="teacher-list">
+    @for (row of filteredRows(); track row.id) {
+      <article class="teacher-card">
+        <div class="col-name">
+          <div class="avatar">{{ row.fullName.charAt(0) }}</div>
+          <span>{{ row.fullName }}</span>
+        </div>
+        <div class="col-matricule">{{ row.matricule }}</div>
+        <div class="col-modules">
+          @if (row.moduleNames.length === 0) {
+            <span class="not-assigned">Aucun module</span>
+          } @else {
+            @for (name of row.moduleNames; track name) {
+              <span class="module-chip">{{ name }}</span>
+            }
+          }
+        </div>
+        <div class="col-status">
+          <span class="status-dot" [class.status-dot--active]="row.isActive"></span>
+          <span>{{ row.isActive ? 'Actif' : 'Sans module' }}</span>
+        </div>
+        <div class="col-actions">
+          <button class="icon-action" title="Assigner des modules" type="button" (click)="openAssignModal(row)">
+            <span class="material-symbols-outlined">assignment_add</span>
+          </button>
+        </div>
+      </article>
+    }
+  </div>
+}
+
+@if (isCreateModalOpen()) {
+  <div class="modal-backdrop" (click)="closeCreateModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouvel enseignant</h3>
+        <button class="close-btn" type="button" (click)="closeCreateModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="createForm" (ngSubmit)="submitCreate()">
+        <div class="field-group">
+          <label for="teacher-name">Nom complet</label>
+          <input id="teacher-name" type="text" formControlName="fullName" />
+        </div>
+        <div class="field-group">
+          <label for="teacher-matricule">Matricule</label>
+          <input id="teacher-matricule" type="text" formControlName="matricule" placeholder="ex: ens-020" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeCreateModal()">Annuler</button>
+          <button class="btn-submit" type="submit" [disabled]="isCreating()">
+            {{ isCreating() ? 'Création…' : 'Créer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+@if (assignTarget(); as target) {
+  <div class="modal-backdrop" (click)="closeAssignModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>
+          <span class="material-symbols-outlined">assignment</span>
+          Assigner des Modules
+        </h3>
+        <button class="close-btn" type="button" (click)="closeAssignModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="teacher-preview">
+          <div class="avatar avatar--lg">{{ target.fullName.charAt(0) }}</div>
+          <p>{{ target.fullName }}</p>
+        </div>
+
+        <label class="checklist-label">Modules disponibles</label>
+        <div class="module-checklist">
+          @for (item of checklist(); track item.id) {
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                [checked]="item.checked"
+                (change)="toggleModule(item.id, $any($event.target).checked)"
+              />
+              <div>
+                <p class="checklist-name">{{ item.name }}</p>
+                <p class="checklist-code">{{ item.code }}</p>
+              </div>
+            </label>
+          }
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="closeAssignModal()">Annuler</button>
+        <button class="btn-submit" type="button" [disabled]="isSavingAssignments()" (click)="saveAssignments()">
+          {{ isSavingAssignments() ? 'Enregistrement…' : 'Enregistrer les assignations' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

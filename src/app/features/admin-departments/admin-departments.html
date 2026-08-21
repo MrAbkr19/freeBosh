@@ -1,0 +1,85 @@
+<section class="page-header">
+  <div>
+    <h1>Départements</h1>
+    <p>Gérez les départements académiques et leurs filières associées.</p>
+  </div>
+  <button class="btn-primary" type="button" (click)="openModal()">
+    <span class="material-symbols-outlined">add</span>
+    Ajouter un département
+  </button>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom du département</th>
+            <th class="col-center">Nombre de filières</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (dept of departments(); track dept.id) {
+            <tr>
+              <td>
+                <div class="dept-name">
+                  <div class="dept-icon">
+                    <span class="material-symbols-outlined">{{ dept.icon }}</span>
+                  </div>
+                  <span>{{ dept.name }}</span>
+                </div>
+              </td>
+              <td class="col-center">
+                <span class="filiere-pill">{{ dept.filiereCount }} filières</span>
+              </td>
+              <td class="col-right">
+                <button class="icon-action" title="Supprimer" type="button" (click)="deleteDepartment(dept.id)">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-footer">
+      <span>{{ departments().length }} département(s)</span>
+    </div>
+  </div>
+}
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouveau département</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submitCreate()">
+        <div class="field-group">
+          <label for="dept-name">Nom du département</label>
+          <input id="dept-name" type="text" formControlName="name" placeholder="Ex: Informatique Appliquée" />
+          <p class="field-hint">Le nom complet qui apparaîtra dans les documents officiels.</p>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+            <span class="material-symbols-outlined">check</span>
+            {{ isSubmitting() ? 'Création…' : 'Créer le département' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

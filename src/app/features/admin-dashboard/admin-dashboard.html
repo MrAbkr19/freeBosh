@@ -1,0 +1,48 @@
+<section class="page-header">
+  <h3>Tableau de bord</h3>
+  <p>Bienvenue. Voici l'état actuel de votre établissement.</p>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement des statistiques…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <div class="stat-grid">
+    @for (stat of stats(); track stat.label) {
+      <article class="stat-card" [class.stat-card--highlight]="stat.highlight">
+        <div class="stat-top">
+          <div class="stat-icon">
+            <span class="material-symbols-outlined">{{ stat.icon }}</span>
+          </div>
+        </div>
+        <div>
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+          @if (stat.note) {
+            <div class="stat-note">{{ stat.note }}</div>
+          }
+        </div>
+      </article>
+    }
+  </div>
+
+  <section class="secondary-grid">
+    <div class="activity-card">
+      <h4>Activité récente</h4>
+      <p class="placeholder-note">Aucun journal d'activité pour le moment — nécessite un backend réel.</p>
+    </div>
+
+    <div class="shortcuts-card">
+      <h4>Raccourcis</h4>
+      <button class="btn-primary" type="button" disabled>
+        <span class="material-symbols-outlined">add</span>
+        Nouveau département
+      </button>
+      <button class="btn-secondary" type="button" disabled>
+        <span class="material-symbols-outlined">download</span>
+        Exporter le rapport
+      </button>
+    </div>
+  </section>
+}

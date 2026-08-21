@@ -1,0 +1,136 @@
+<section class="page-header">
+  <h2>Importation de fichiers en masse</h2>
+</section>
+
+<section class="dropzone-card">
+  <div
+    class="drop-zone"
+    [class.drop-zone--dragging]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+  >
+    <input #fileInput type="file" class="hidden-input" accept=".csv" (change)="onFileSelected($event)" />
+    <div class="drop-icon">
+      <span class="material-symbols-outlined">cloud_upload</span>
+    </div>
+    <h3>Glissez et déposez vos fichiers ici</h3>
+    <p>
+      Formats acceptés : CSV. Colonnes attendues : ID Étudiant, Nom, Prénom, Email, Département.
+      Le fichier ne doit pas contenir de virgules à l'intérieur des cellules.
+    </p>
+    <button class="btn-browse" type="button">
+      <span class="material-symbols-outlined">folder_open</span>
+      Parcourir les fichiers
+    </button>
+  </div>
+</section>
+
+@if (fileName()) {
+  <div class="results-grid">
+    <section class="summary-card">
+      <h3>
+        <span class="material-symbols-outlined">analytics</span>
+        Résumé de l'importation
+      </h3>
+
+      <div class="summary-row">
+        <div class="summary-left">
+          <div class="summary-icon"><span class="material-symbols-outlined">description</span></div>
+          <span>Fichier en cours</span>
+        </div>
+        <span class="summary-file">{{ fileName() }}</span>
+      </div>
+
+      <div class="summary-row summary-row--success">
+        <div class="summary-left">
+          <div class="summary-icon summary-icon--success"><span class="material-symbols-outlined">check_circle</span></div>
+          <span>Lignes valides</span>
+        </div>
+        <span class="summary-value summary-value--success">{{ validRows().length }}</span>
+      </div>
+
+      <div class="summary-row summary-row--error">
+        <div class="summary-left">
+          <div class="summary-icon summary-icon--error"><span class="material-symbols-outlined">error</span></div>
+          <span>Erreurs détectées</span>
+        </div>
+        <span class="summary-value summary-value--error">{{ errorRows().length }}</span>
+      </div>
+
+      @if (errorRows().length > 0) {
+        <button class="btn-download" type="button" (click)="downloadErrorReport()">
+          <span class="material-symbols-outlined">download</span>
+          Télécharger le rapport d'erreurs
+        </button>
+      }
+
+      @if (importComplete()) {
+        <p class="import-success-note">{{ validRows().length }} étudiant(s) importé(s) avec succès.</p>
+      }
+    </section>
+
+    <section class="preview-card">
+      <div class="preview-header">
+        <h3>
+          <span class="material-symbols-outlined">table_view</span>
+          Aperçu des données
+        </h3>
+        <span class="preview-badge">{{ previewRows().length }} premières lignes</span>
+      </div>
+
+      <div class="preview-table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Étudiant</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Département</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of previewRows(); track row.studentId + row.email) {
+              <tr [class.row--error]="!row.isValid">
+                <td class="cell-mono">{{ row.studentId || '—' }}</td>
+                <td [class.cell-error]="!row.nom">{{ row.nom || '-- Manquant --' }}</td>
+                <td>{{ row.prenom || '—' }}</td>
+                <td class="cell-muted">{{ row.email || '—' }}</td>
+                <td>{{ row.departement || '—' }}</td>
+                <td>
+                  @if (row.isValid) {
+                    <span class="status-pill status-pill--valid">
+                      <span class="material-symbols-outlined">check</span> Valide
+                    </span>
+                  } @else {
+                    <span class="status-pill status-pill--error" [title]="row.errorReason">
+                      <span class="material-symbols-outlined">error</span> Erreur
+                    </span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="preview-actions">
+        <button class="btn-cancel" type="button" (click)="cancel()">Annuler</button>
+        <button
+          class="btn-confirm"
+          type="button"
+          [disabled]="isImporting() || validRows().length === 0 || importComplete()"
+          (click)="confirmImport()"
+        >
+          {{ isImporting() ? 'Importation…' : importComplete() ? 'Importé' : "Confirmer l'importation" }}
+          @if (!isImporting() && !importComplete()) {
+            <span class="material-symbols-outlined">arrow_forward</span>
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

@@ -75,5 +75,49 @@
       "content": "Le TP1 est repoussé à la semaine prochaine.",
       "createdAt": "2026-08-10T08:30:00.000Z"
     }
-  ]
+  ],
+  "departments": [
+  {
+    "id": "dep1",
+    "name": "Sciences et Technologies",
+    "filiereCount": 12,
+    "icon": "science"
+  },
+  {
+    "id": "dep2",
+    "name": "Lettres et Sciences Humaines",
+    "filiereCount": 8,
+    "icon": "menu_book"
+  },
+  {
+    "id": "dep3",
+    "name": "Droit et Sciences Politiques",
+    "filiereCount": 5,
+    "icon": "account_balance"
+  }
+],
+"filieres": [
+  {
+    "id": "fil1",
+    "name": "Génie Informatique",
+    "departmentId": "dep1",
+    "degreeLevel": "Licence",
+    "description": "Formation en conception, développement et maintenance de systèmes logiciels."
+  },
+  {
+    "id": "fil2",
+    "name": "Réseaux et Télécoms",
+    "departmentId": "dep1",
+    "degreeLevel": "Master",
+    "description": ""
+  },
+  {
+    "id": "fil3",
+    "name": "Mathématiques Appliquées",
+    "departmentId": "dep2",
+    "degreeLevel": "Licence",
+    "description": ""
+  }
+]
+ 
 }
