@@ -31,10 +31,11 @@ export class MockApiService {
   private readonly newAnnouncements: Announcement[] = [];
   private readonly newFilieres: Filiere[] = [];
   private readonly editedFilieres = new Map<string, Partial<Filiere>>();
-    private readonly newModules: CourseModule[] = [];
+  private readonly newModules: CourseModule[] = [];
   private readonly editedModules = new Map<string, Partial<CourseModule>>();
   private readonly deletedModuleIds = new Set<string>();
-    private readonly newUsers: User[] = [];
+  private readonly newUsers: User[] = [];
+  private readonly editedUsers = new Map<string, Partial<User>>();
 
   /** Loads db.json once and caches it for the lifetime of the app. */
   private loadDb(): Observable<MockDb> {
@@ -137,9 +138,12 @@ export class MockApiService {
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) => [...db.users, ...this.newUsers])
+      map((db) =>
+        [...db.users, ...this.newUsers].map((u) => ({ ...u, ...this.editedUsers.get(u.id) }))
+      )
     );
   }
+
     createTeacher(input: { fullName: string; matricule: string }): Observable<User> {
     const newTeacher: User = {
       id: `local-${Date.now()}`,
@@ -152,6 +156,35 @@ export class MockApiService {
     this.newUsers.push(newTeacher);
 
     return of(newTeacher).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+    createStudent(input: {
+    fullName: string;
+    matricule: string;
+    filiere: string;
+    niveau: string;
+    email: string;
+  }): Observable<User> {
+    const newStudent: User = {
+      id: `local-${Date.now()}`,
+      fullName: input.fullName,
+      matricule: input.matricule,
+      password: 'password',
+      role: 'student',
+      filiere: input.filiere,
+      niveau: input.niveau,
+      email: input.email,
+      status: 'inscrit',
+    };
+
+    this.newUsers.push(newStudent);
+
+    return of(newStudent).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+  updateUser(id: string, changes: Partial<User>): Observable<void> {
+    this.editedUsers.set(id, { ...this.editedUsers.get(id), ...changes });
+    return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
 
     // ---- publish (mock only — no real backend to persist to) ----

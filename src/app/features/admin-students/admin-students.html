@@ -1,0 +1,153 @@
+<section class="page-header">
+  <div>
+    <h2>Gestion des Étudiants</h2>
+    <p>Consultez, ajoutez et gérez les dossiers académiques.</p>
+  </div>
+  <button class="btn-primary" type="button" (click)="openCreateModal()">
+    <span class="material-symbols-outlined">add</span>
+    Ajouter un étudiant
+  </button>
+</section>
+
+<div class="filter-card">
+  <div class="filter-group">
+    <label for="search">Recherche</label>
+    <div class="search-input">
+      <span class="material-symbols-outlined">search</span>
+      <input
+        id="search"
+        type="text"
+        placeholder="Rechercher par nom..."
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event)"
+      />
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <label for="filter-filiere">Filière</label>
+    <select id="filter-filiere" [ngModel]="selectedFiliere()" (ngModelChange)="selectedFiliere.set($event)">
+      <option value="">Toutes les filières</option>
+      @for (f of filieres(); track f.id) {
+        <option [value]="f.name">{{ f.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="filter-niveau">Niveau</label>
+    <select id="filter-niveau" [ngModel]="selectedNiveau()" (ngModelChange)="selectedNiveau.set($event)">
+      <option value="">Tous les niveaux</option>
+      @for (n of availableNiveaux(); track n) {
+        <option [value]="n">{{ n }}</option>
+      }
+    </select>
+  </div>
+</div>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Étudiant</th>
+            <th>Matricule</th>
+            <th>Filière</th>
+            <th>Niveau</th>
+            <th>Statut</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of filteredRows(); track row.id) {
+            <tr>
+              <td>
+                <div class="student-cell">
+                  <div class="avatar">{{ row.fullName.charAt(0) }}</div>
+                  <div>
+                    <p class="student-name">{{ row.fullName }}</p>
+                    <p class="student-email">{{ row.email }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="cell-muted">{{ row.matricule }}</td>
+              <td class="cell-muted">{{ row.filiere }}</td>
+              <td class="cell-muted">{{ row.niveau }}</td>
+              <td>
+                <span class="status-pill" [class.status-pill--pending]="row.status === 'en_attente'">
+                  {{ row.status === 'inscrit' ? 'Inscrit' : 'En attente' }}
+                </span>
+              </td>
+              <td class="col-right">
+                <button class="icon-action" title="Modifier" type="button" (click)="openEditModal(row)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-footer">
+      <span>Affichage de {{ filteredRows().length }} sur {{ rows().length }} étudiants</span>
+    </div>
+  </div>
+}
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editingId() ? "Modifier l'étudiant" : 'Nouvel étudiant' }}</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-group">
+          <label for="stu-name">Nom complet</label>
+          <input id="stu-name" type="text" formControlName="fullName" />
+        </div>
+
+        <div class="field-group">
+          <label for="stu-matricule">Matricule</label>
+          <input id="stu-matricule" type="text" formControlName="matricule" placeholder="ex: 2024-045" />
+        </div>
+
+        <div class="field-group">
+          <label for="stu-email">Email</label>
+          <input id="stu-email" type="email" formControlName="email" placeholder="ex: nom@edu.cm" />
+        </div>
+
+        <div class="field-group">
+          <label for="stu-filiere">Filière</label>
+          <select id="stu-filiere" formControlName="filiere">
+            <option value="" disabled>Choisissez une filière…</option>
+            @for (f of filieres(); track f.id) {
+              <option [value]="f.name">{{ f.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="stu-niveau">Niveau</label>
+          <input id="stu-niveau" type="text" formControlName="niveau" placeholder="ex: Niveau 3" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Enregistrement…' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
