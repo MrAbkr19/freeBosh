@@ -13,6 +13,7 @@ import { TeacherModuleDetail } from './features/teacher-module-detail/teacher-mo
 import { TeacherLibrary } from './features/teacher-library/teacher-library';
 import { TeacherProfile } from './features/teacher-profile/teacher-profile';
 import { StudentLibrary } from './features/student-library/student-library';
+import { StudentProfile } from './features/student-profile/student-profile';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -24,6 +25,7 @@ export const routes: Routes = [
       { path: 'modules', component: ModuleList },
       { path: 'modules/:id', component: ModuleDetail },
       { path: 'bibliotheque', component: StudentLibrary },
+      { path: 'profil', component: StudentProfile },
     ],
   },
   {
@@ -37,6 +39,7 @@ export const routes: Routes = [
     { path: 'modules/:id', component: TeacherModuleDetail },
     { path: 'bibliotheque', component: TeacherLibrary },
     { path: 'profil', component: TeacherProfile },
+
   ],
 },
 

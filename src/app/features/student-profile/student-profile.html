@@ -1,0 +1,97 @@
+<header class="page-header">
+  <h2>Mon Profil</h2>
+</header>
+
+<section class="profile-header">
+  <div class="avatar">{{ initials }}</div>
+  <div class="profile-info">
+    <h3>{{ currentUser()?.fullName ?? 'Étudiant' }}</h3>
+    <div class="badges">
+      <span class="badge">Étudiant</span>
+      <span class="matricule">ID: {{ currentUser()?.matricule }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="info-grid">
+  <div class="info-card">
+    <div class="info-icon">
+      <span class="material-symbols-outlined">school</span>
+    </div>
+    <div>
+      <h4>Filière</h4>
+      <p>{{ currentUser()?.filiere ?? '—' }}</p>
+    </div>
+  </div>
+  <div class="info-card">
+    <div class="info-icon">
+      <span class="material-symbols-outlined">timeline</span>
+    </div>
+    <div>
+      <h4>Niveau</h4>
+      <p>{{ currentUser()?.niveau ?? '—' }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="actions-list">
+  <button class="action-row" type="button" (click)="openModal()">
+    <div class="action-left">
+      <span class="material-symbols-outlined">lock</span>
+      <span>Changer le mot de passe</span>
+    </div>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+  </button>
+  <div class="divider"></div>
+  <button class="action-row action-row--danger" type="button" (click)="logout()">
+    <div class="action-left">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Se déconnecter</span>
+    </div>
+  </button>
+</section>
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Changer le mot de passe</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordChange()">
+        <div class="field-group">
+          <label for="current-password">Mot de passe actuel</label>
+          <input id="current-password" type="password" formControlName="currentPassword" placeholder="••••••••" />
+        </div>
+
+        <div class="field-group">
+          <label for="new-password">Nouveau mot de passe</label>
+          <input id="new-password" type="password" formControlName="newPassword" placeholder="••••••••" />
+        </div>
+
+        <div class="field-group">
+          <label for="confirm-password">Confirmer le nouveau mot de passe</label>
+          <input id="confirm-password" type="password" formControlName="confirmPassword" placeholder="••••••••" />
+        </div>
+
+        @if (passwordForm.errors?.['passwordMismatch'] && passwordForm.controls.confirmPassword.touched) {
+          <p class="field-error">Les mots de passe ne correspondent pas.</p>
+        }
+        @if (passwordError()) {
+          <p class="field-error">{{ passwordError() }}</p>
+        }
+        @if (passwordSuccess()) {
+          <p class="field-success">Mot de passe mis à jour.</p>
+        }
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
