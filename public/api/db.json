@@ -75,6 +75,26 @@
       "content": "Le TP1 est repoussé à la semaine prochaine.",
       "createdAt": "2026-08-10T08:30:00.000Z"
     }
-  ]
+  ],
+  "departments": [
+  {
+    "id": "dep1",
+    "name": "Sciences et Technologies",
+    "filiereCount": 12,
+    "icon": "science"
+  },
+  {
+    "id": "dep2",
+    "name": "Lettres et Sciences Humaines",
+    "filiereCount": 8,
+    "icon": "menu_book"
+  },
+  {
+    "id": "dep3",
+    "name": "Droit et Sciences Politiques",
+    "filiereCount": 5,
+    "icon": "account_balance"
+  }
+]
  
 }

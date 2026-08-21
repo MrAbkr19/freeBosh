@@ -6,12 +6,15 @@ import { User } from '../models/user';
 import { CourseModule } from '../models/course-module';
 import { CourseDocument } from '../models/document';
 import { Announcement } from '../models/announcement';
+import { Department } from '../models/department';
 
 interface MockDb {
   users: User[];
   modules: CourseModule[];
   documents: CourseDocument[];
   announcements: Announcement[];
+  departments: Department[];
+
 }
 
 const SIMULATED_DELAY_MS = 400;
@@ -21,6 +24,8 @@ export class MockApiService {
   private readonly http = inject(HttpClient);
   private db$?: Observable<MockDb>;
   private readonly publishedDocuments: CourseDocument[] = [];
+  private readonly newDepartments: Department[] = [];
+  private readonly deletedDepartmentIds = new Set<string>();
   private readonly newAnnouncements: Announcement[] = [];
 
   /** Loads db.json once and caches it for the lifetime of the app. */
@@ -149,5 +154,39 @@ export class MockApiService {
     this.newAnnouncements.push(newAnnouncement);
 
     return of(newAnnouncement).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+    // ---- /departments ----
+  getDepartments(): Observable<Department[]> {
+    if (!environment.useMockApi) {
+      return this.http.get<Department[]>(`${environment.apiUrl}/departments`);
+    }
+
+    return this.loadDb().pipe(
+      delay(SIMULATED_DELAY_MS),
+      map((db) =>
+        [...db.departments, ...this.newDepartments].filter(
+          (d) => !this.deletedDepartmentIds.has(d.id)
+        )
+      )
+    );
+  }
+
+  createDepartment(input: { name: string; filiereCount: number }): Observable<Department> {
+    const newDept: Department = {
+      id: `local-${Date.now()}`,
+      name: input.name,
+      filiereCount: input.filiereCount,
+      icon: 'domain',
+    };
+
+    this.newDepartments.push(newDept);
+
+    return of(newDept).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+  deleteDepartment(id: string): Observable<void> {
+    this.deletedDepartmentIds.add(id);
+    return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
 }
