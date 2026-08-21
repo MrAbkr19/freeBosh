@@ -14,6 +14,8 @@ import { TeacherLibrary } from './features/teacher-library/teacher-library';
 import { TeacherProfile } from './features/teacher-profile/teacher-profile';
 import { StudentLibrary } from './features/student-library/student-library';
 import { StudentProfile } from './features/student-profile/student-profile';
+import { AdminShell } from './layout/admin-shell/admin-shell';
+import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -41,6 +43,11 @@ export const routes: Routes = [
     { path: 'profil', component: TeacherProfile },
 
   ],
+},
+{
+  path: 'admin',
+  component: AdminShell,
+  children: [{ path: 'dashboard', component: AdminDashboard }],
 },
 
 ];

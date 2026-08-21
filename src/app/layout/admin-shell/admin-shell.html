@@ -1,0 +1,95 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="brand-icon">
+      <span class="material-symbols-outlined">school</span>
+    </div>
+    <div>
+      <h1>FreeBosh</h1>
+      <p>Administration</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="nav-link--active">
+      <span class="material-symbols-outlined">dashboard</span>
+      Tableau de bord
+    </a>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">domain</span>
+      Départements
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">school</span>
+      Filières
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">meeting_room</span>
+      Salles &amp; Modules
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">person_4</span>
+      Enseignants
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">group</span>
+      Étudiants
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">file_upload</span>
+      Import en masse
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">settings</span>
+      Paramètres
+    </button>
+    <button class="nav-link" type="button" disabled>
+      <span class="material-symbols-outlined">help</span>
+      Aide &amp; Support
+    </button>
+  </div>
+</aside>
+
+<div class="main-area">
+  <header class="topbar">
+    <h2 class="topbar-title">Vue d'ensemble</h2>
+    <div class="topbar-actions">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Rechercher..." disabled />
+      </div>
+      <button class="icon-btn" aria-label="Notifications" type="button" disabled>
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      <button class="icon-btn" aria-label="Calendrier" type="button" disabled>
+        <span class="material-symbols-outlined">calendar_today</span>
+      </button>
+      <div class="avatar">{{ initials }}</div>
+    </div>
+  </header>
+
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <a class="nav-btn" routerLink="/admin/dashboard" routerLinkActive="nav-btn--active">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span>Accueil</span>
+  </a>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">school</span>
+    <span>Filières</span>
+  </button>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">person_4</span>
+    <span>Profs</span>
+  </button>
+  <button class="nav-btn" type="button" disabled>
+    <span class="material-symbols-outlined">group</span>
+    <span>Étudiants</span>
+  </button>
+</nav>
