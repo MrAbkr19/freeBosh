@@ -12,6 +12,7 @@ import { TeacherModuleList } from './features/teacher-module-list/teacher-module
 import { TeacherModuleDetail } from './features/teacher-module-detail/teacher-module-detail';
 import { TeacherLibrary } from './features/teacher-library/teacher-library';
 import { TeacherProfile } from './features/teacher-profile/teacher-profile';
+import { StudentLibrary } from './features/student-library/student-library';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,6 +23,7 @@ export const routes: Routes = [
       { path: 'accueil', component: StudentHome },
       { path: 'modules', component: ModuleList },
       { path: 'modules/:id', component: ModuleDetail },
+      { path: 'bibliotheque', component: StudentLibrary },
     ],
   },
   {
