@@ -17,6 +17,7 @@ import { StudentProfile } from './features/student-profile/student-profile';
 import { AdminShell } from './layout/admin-shell/admin-shell';
 import { AdminDashboard } from './features/admin-dashboard/admin-dashboard';
 import { AdminDepartments } from './features/admin-departments/admin-departments';
+import { AdminFilieres } from './features/admin-filieres/admin-filieres';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -50,6 +51,7 @@ export const routes: Routes = [
   component: AdminShell,
   children: [{ path: 'dashboard', component: AdminDashboard },
     { path: 'departements', component: AdminDepartments },
+    { path: 'filieres', component: AdminFilieres },
   ],
 },
 

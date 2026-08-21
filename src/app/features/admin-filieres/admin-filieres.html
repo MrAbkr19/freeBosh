@@ -1,0 +1,102 @@
+<section class="page-header">
+  <div>
+    <h1>Gestion des Filières</h1>
+    <p>Gérez les programmes d'études, assignez-les aux départements et suivez les effectifs.</p>
+  </div>
+  <button class="btn-primary" type="button" (click)="openCreateModal()">
+    <span class="material-symbols-outlined">add</span>
+    Ajouter une filière
+  </button>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom de la filière</th>
+            <th>Département parent</th>
+            <th>Niveau</th>
+            <th class="col-right">Étudiants</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows(); track row.id) {
+            <tr>
+              <td class="cell-strong">{{ row.name }}</td>
+              <td class="cell-muted">{{ row.departmentName }}</td>
+              <td>
+                <span class="level-pill" [class.level-pill--master]="row.degreeLevel === 'Master'">
+                  {{ row.degreeLevel }}
+                </span>
+              </td>
+              <td class="col-right cell-muted">{{ row.studentCount }}</td>
+              <td class="col-right">
+                <button class="icon-action" title="Modifier" type="button" (click)="openEditModal(row)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editingId() ? 'Modifier la filière' : 'Nouvelle filière' }}</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-group">
+          <label for="fil-name">Nom de la filière</label>
+          <input id="fil-name" type="text" formControlName="name" />
+        </div>
+
+        <div class="field-group">
+          <label for="fil-dept">Département parent</label>
+          <select id="fil-dept" formControlName="departmentId">
+            <option value="" disabled>Choisissez un département…</option>
+            @for (d of departments(); track d.id) {
+              <option [value]="d.id">{{ d.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="fil-level">Niveau</label>
+          <select id="fil-level" formControlName="degreeLevel">
+            @for (level of degreeLevels; track level) {
+              <option [value]="level">{{ level }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="fil-desc">Description courte (optionnelle)</label>
+          <textarea id="fil-desc" rows="3" formControlName="description"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Enregistrement…' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
