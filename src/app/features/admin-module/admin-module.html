@@ -1,0 +1,164 @@
+<section class="page-header">
+  <div>
+    <h1>Gestion des Salles et Modules</h1>
+    <p>Gérez les modules d'enseignement et leurs affectations.</p>
+  </div>
+  <button class="btn-primary" type="button" (click)="openCreateModal()">
+    <span class="material-symbols-outlined">add</span>
+    Ajouter un module
+  </button>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <div class="table-card">
+    <div class="table-controls">
+      <div class="filters">
+        <select [ngModel]="selectedFaculty()" (ngModelChange)="selectedFaculty.set($event)">
+          <option value="">Toutes les filières</option>
+          @for (f of filieres(); track f.id) {
+            <option [value]="f.name">{{ f.name }}</option>
+          }
+        </select>
+        <select [ngModel]="selectedLevel()" (ngModelChange)="selectedLevel.set($event)">
+          <option value="">Tous les niveaux</option>
+          @for (level of availableLevels(); track level) {
+            <option [value]="level">{{ level }}</option>
+          }
+        </select>
+      </div>
+      <span class="result-count">{{ filteredRows().length }} module(s) trouvé(s)</span>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Nom du module</th>
+            <th>Filière</th>
+            <th>Niveau</th>
+            <th>Enseignants assignés</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of filteredRows(); track row.id) {
+            <tr>
+              <td class="cell-code">{{ row.code }}</td>
+              <td class="cell-strong">{{ row.name }}</td>
+              <td><span class="pill">{{ row.faculty }}</span></td>
+              <td><span class="pill pill--outline">{{ row.level }}</span></td>
+              <td class="cell-muted">
+                @if (row.teacherNames.length === 0) {
+                  <span class="not-assigned">Non assigné</span>
+                } @else {
+                  {{ row.teacherNames.join(', ') }}
+                }
+              </td>
+              <td class="col-right">
+                <button class="icon-action" title="Modifier" type="button" (click)="openEditModal(row)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button class="icon-action icon-action--danger" title="Supprimer" type="button" (click)="confirmDelete(row)">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editingId() ? 'Modifier le module' : 'Nouveau module' }}</h3>
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-group">
+          <label for="mod-code">Code</label>
+          <input id="mod-code" type="text" formControlName="code" placeholder="ex: CS101" />
+        </div>
+
+        <div class="field-group">
+          <label for="mod-name">Nom du module</label>
+          <input id="mod-name" type="text" formControlName="name" />
+        </div>
+
+        <div class="field-group">
+          <label for="mod-faculty">Filière</label>
+          <select id="mod-faculty" formControlName="faculty">
+            <option value="" disabled>Choisissez une filière…</option>
+            @for (f of filieres(); track f.id) {
+              <option [value]="f.name">{{ f.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="mod-level">Niveau</label>
+          <input id="mod-level" type="text" formControlName="level" placeholder="ex: Niveau 3" />
+        </div>
+
+        <div class="field-group">
+          <label>Enseignants assignés</label>
+          <div class="teacher-checklist">
+            @for (t of teachers(); track t.id) {
+              <label class="checklist-item">
+                <input
+                  type="checkbox"
+                  [checked]="isTeacherSelected(t.id)"
+                  (change)="toggleTeacher(t.id, $any($event.target).checked)"
+                />
+                {{ t.fullName }}
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeModal()">Annuler</button>
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Enregistrement…' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+@if (deleteTarget(); as target) {
+  <div class="modal-backdrop" (click)="cancelDelete()">
+    <div class="delete-modal" (click)="$event.stopPropagation()">
+      <div class="delete-header">
+        <div class="warning-icon">
+          <span class="material-symbols-outlined">warning</span>
+        </div>
+        <div>
+          <h3>Supprimer le module</h3>
+          <p>{{ target.code }} — {{ target.name }}</p>
+        </div>
+      </div>
+      <p class="delete-warning">
+        Êtes-vous sûr ? Cette action supprimera également toutes les assignations d'enseignants liées. Cette opération est irréversible.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="cancelDelete()">Annuler</button>
+        <button class="btn-delete" type="button" [disabled]="isDeleting()" (click)="executeDelete()">
+          {{ isDeleting() ? 'Suppression…' : 'Confirmer la suppression' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

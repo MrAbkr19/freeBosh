@@ -31,6 +31,9 @@ export class MockApiService {
   private readonly newAnnouncements: Announcement[] = [];
   private readonly newFilieres: Filiere[] = [];
   private readonly editedFilieres = new Map<string, Partial<Filiere>>();
+    private readonly newModules: CourseModule[] = [];
+  private readonly editedModules = new Map<string, Partial<CourseModule>>();
+  private readonly deletedModuleIds = new Set<string>();
 
   /** Loads db.json once and caches it for the lifetime of the app. */
   private loadDb(): Observable<MockDb> {
@@ -58,15 +61,35 @@ export class MockApiService {
   }
 
   // ---- /modules ----
-  getModules(): Observable<CourseModule[]> {
+    getModules(): Observable<CourseModule[]> {
     if (!environment.useMockApi) {
       return this.http.get<CourseModule[]>(`${environment.apiUrl}/modules`);
     }
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) => db.modules)
+      map((db) =>
+        [...db.modules, ...this.newModules]
+          .filter((m) => !this.deletedModuleIds.has(m.id))
+          .map((m) => ({ ...m, ...this.editedModules.get(m.id) }))
+      )
     );
+  }
+
+    createModule(input: Omit<CourseModule, 'id'>): Observable<CourseModule> {
+    const newModule: CourseModule = { id: `local-${Date.now()}`, ...input };
+    this.newModules.push(newModule);
+    return of(newModule).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+  updateModule(id: string, changes: Partial<CourseModule>): Observable<void> {
+    this.editedModules.set(id, { ...this.editedModules.get(id), ...changes });
+    return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
+  }
+
+  deleteModule(id: string): Observable<void> {
+    this.deletedModuleIds.add(id);
+    return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
 
   // ---- /documents ----
