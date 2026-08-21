@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/features/student-library"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]
