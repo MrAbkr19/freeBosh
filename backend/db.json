@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "fullName": "Jean Mbarga",
+      "matricule": "2024-001",
+      "passwordHash": "$2b$10$RVTMcA/nIRtmdUMh6ksLUOUjLnjxBjjP96Y1uDnyABotl7sTiqk/G",
+      "role": "student",
+      "filiere": "Génie Informatique",
+      "niveau": "Niveau 3"
+    }
+  ]
+}
