@@ -66,6 +66,26 @@
       "courseModuleId": "m1",
       "teacherId": "u2",
       "createdAt": "2026-08-05T09:00:00.000Z"
+    },
+    {
+      "id": "d1787697430432",
+      "title": "Nouveau support de cours",
+      "description": "Test de publication",
+      "fileUrl": "test.pdf",
+      "fileSize": 500000,
+      "courseModuleId": "m1",
+      "teacherId": "u2",
+      "createdAt": "2026-08-25T22:37:10.432Z"
+    },
+    {
+      "id": "d1787697505900",
+      "title": "Nouveau support de cours",
+      "description": "Test de publication",
+      "fileUrl": "test.pdf",
+      "fileSize": 500000,
+      "courseModuleId": "m1",
+      "teacherId": "u2",
+      "createdAt": "2026-08-25T22:38:25.900Z"
     }
   ],
   "announcements": [
