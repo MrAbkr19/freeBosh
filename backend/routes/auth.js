@@ -35,5 +35,16 @@ router.post('/login', async (req, res) => {
 
   res.json({ user: safeUser, token });
 });
+const { requireAuth } = require('../middleware/auth-middleware');
+router.get('/me', requireAuth, async (req, res) => {
+  await initDb();
+  const user = db.data.users.find((u) => u.id === req.user.id);
 
+  if (!user) {
+    return res.status(404).json({ error: 'Utilisateur introuvable.' });
+  }
+
+  const { passwordHash, ...safeUser } = user;
+  res.json({ user: safeUser });
+});
 module.exports = router;
