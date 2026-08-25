@@ -8,6 +8,7 @@ if (!process.env.JWT_SECRET) {
 }
 
 const authRoutes = require('./routes/auth');
+const moduleRoutes = require('./routes/modules');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/modules', moduleRoutes);
 
 app.listen(PORT, () => {
   console.log(`FreeBosh API listening on port ${PORT}`);

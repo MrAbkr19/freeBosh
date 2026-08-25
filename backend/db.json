@@ -4,10 +4,46 @@
       "id": "u1",
       "fullName": "Jean Mbarga",
       "matricule": "2024-001",
-      "passwordHash": "$2b$10$RVTMcA/nIRtmdUMh6ksLUOUjLnjxBjjP96Y1uDnyABotl7sTiqk/G",
+      "passwordHash": "$2b$10$qd990oS42.OSndMZdBlm1.CSae0cf4imfAn9FRDfXe874Sm.BudWe",
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
+    },
+    {
+      "id": "u2",
+      "fullName": "Dr. Ateba Rigobert",
+      "matricule": "ens-014",
+      "passwordHash": "$2b$10$qd990oS42.OSndMZdBlm1.CSae0cf4imfAn9FRDfXe874Sm.BudWe",
+      "role": "teacher"
+    },
+    {
+      "id": "u3",
+      "fullName": "Admin FreeBosh",
+      "matricule": "admin",
+      "passwordHash": "$2b$10$qd990oS42.OSndMZdBlm1.CSae0cf4imfAn9FRDfXe874Sm.BudWe",
+      "role": "admin"
+    }
+  ],
+  "modules": [
+    {
+      "id": "m1",
+      "code": "IF310",
+      "name": "Réseaux",
+      "faculty": "Génie Informatique",
+      "level": "Niveau 3",
+      "teacherIds": [
+        "u2"
+      ]
+    },
+    {
+      "id": "m2",
+      "code": "IF322",
+      "name": "Bases de données avancées",
+      "faculty": "Génie Informatique",
+      "level": "Niveau 3",
+      "teacherIds": [
+        "u2"
+      ]
     }
   ]
 }
