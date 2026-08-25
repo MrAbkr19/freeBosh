@@ -72,6 +72,15 @@ async function seed() {
       createdAt: '2026-08-05T09:00:00.000Z',
     },
   ];
+    db.data.announcements = [
+    {
+      id: 'a1',
+      teacherId: 'u2',
+      courseModuleId: 'm1',
+      content: 'Le TP1 est repoussé à la semaine prochaine.',
+      createdAt: '2026-08-10T08:30:00.000Z',
+    },
+  ];
 
   await db.write();
   console.log('Seeded 1 user with a hashed password.');

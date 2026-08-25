@@ -4,7 +4,7 @@
       "id": "u1",
       "fullName": "Jean Mbarga",
       "matricule": "2024-001",
-      "passwordHash": "$2b$10$Qler09V4nJuq7v3UVnKVXO55ni9YOgWlr2kA2O4NDTRLros102rW2",
+      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
@@ -13,14 +13,14 @@
       "id": "u2",
       "fullName": "Dr. Ateba Rigobert",
       "matricule": "ens-014",
-      "passwordHash": "$2b$10$Qler09V4nJuq7v3UVnKVXO55ni9YOgWlr2kA2O4NDTRLros102rW2",
+      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
       "role": "teacher"
     },
     {
       "id": "u3",
       "fullName": "Admin FreeBosh",
       "matricule": "admin",
-      "passwordHash": "$2b$10$Qler09V4nJuq7v3UVnKVXO55ni9YOgWlr2kA2O4NDTRLros102rW2",
+      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
       "role": "admin"
     }
   ],
@@ -66,6 +66,15 @@
       "courseModuleId": "m1",
       "teacherId": "u2",
       "createdAt": "2026-08-05T09:00:00.000Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "a1",
+      "teacherId": "u2",
+      "courseModuleId": "m1",
+      "content": "Le TP1 est repoussé à la semaine prochaine.",
+      "createdAt": "2026-08-10T08:30:00.000Z"
     }
   ]
 }
