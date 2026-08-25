@@ -50,7 +50,28 @@ async function seed() {
       teacherIds: ['u2'],
     },
   ];
-
+  db.data.documents = [
+    {
+      id: 'd1',
+      title: 'Chapitre 1 - Introduction aux réseaux',
+      description: 'Notions de base sur les couches OSI',
+      fileUrl: '/assets/mock-files/if310-chap1.pdf',
+      fileSize: 2457600,
+      courseModuleId: 'm1',
+      teacherId: 'u2',
+      createdAt: '2026-08-01T09:00:00.000Z',
+    },
+    {
+      id: 'd2',
+      title: 'TP1 - Configuration IP',
+      description: "Travaux pratiques sur l'adressage IPv4",
+      fileUrl: '/assets/mock-files/if310-tp1.pdf',
+      fileSize: 1048576,
+      courseModuleId: 'm1',
+      teacherId: 'u2',
+      createdAt: '2026-08-05T09:00:00.000Z',
+    },
+  ];
 
   await db.write();
   console.log('Seeded 1 user with a hashed password.');
