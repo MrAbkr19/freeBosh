@@ -95,6 +95,20 @@
       "courseModuleId": "m1",
       "content": "Le TP1 est repoussé à la semaine prochaine.",
       "createdAt": "2026-08-10T08:30:00.000Z"
+    },
+    {
+      "id": "a1787697751255",
+      "teacherId": "u2",
+      "courseModuleId": "m1",
+      "content": "Rappel : le cours de demain est déplacé en salle B12.",
+      "createdAt": "2026-08-25T22:42:31.255Z"
+    },
+    {
+      "id": "a1787698004054",
+      "teacherId": "u2",
+      "courseModuleId": "m1",
+      "content": "Rappel : le cours de demain est déplacé en salle B12.",
+      "createdAt": "2026-08-25T22:46:44.054Z"
     }
   ]
 }
