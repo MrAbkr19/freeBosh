@@ -17,5 +17,13 @@ function requireAuth(req, res, next) {
     return res.status(401).json({ error: 'Token invalide ou expiré.' });
   }
 }
+function requireAdmin(req, res, next) {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Accès réservé aux administrateurs.' });
+  }
+  next();
+}
 
-module.exports = { requireAuth };
+// module.exports = { requireAuth, requireAdmin };
+
+module.exports = { requireAuth, requireAdmin };

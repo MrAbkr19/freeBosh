@@ -4,7 +4,7 @@
       "id": "u1",
       "fullName": "Jean Mbarga",
       "matricule": "2024-001",
-      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
@@ -13,14 +13,14 @@
       "id": "u2",
       "fullName": "Dr. Ateba Rigobert",
       "matricule": "ens-014",
-      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
       "role": "teacher"
     },
     {
       "id": "u3",
       "fullName": "Admin FreeBosh",
       "matricule": "admin",
-      "passwordHash": "$2b$10$urxUMxovv5D0kCJjPY9asew1ZxjXCRtLuAVzX.lBY1VBpcSl4e0pK",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
       "role": "admin"
     }
   ],
@@ -66,26 +66,6 @@
       "courseModuleId": "m1",
       "teacherId": "u2",
       "createdAt": "2026-08-05T09:00:00.000Z"
-    },
-    {
-      "id": "d1787697430432",
-      "title": "Nouveau support de cours",
-      "description": "Test de publication",
-      "fileUrl": "test.pdf",
-      "fileSize": 500000,
-      "courseModuleId": "m1",
-      "teacherId": "u2",
-      "createdAt": "2026-08-25T22:37:10.432Z"
-    },
-    {
-      "id": "d1787697505900",
-      "title": "Nouveau support de cours",
-      "description": "Test de publication",
-      "fileUrl": "test.pdf",
-      "fileSize": 500000,
-      "courseModuleId": "m1",
-      "teacherId": "u2",
-      "createdAt": "2026-08-25T22:38:25.900Z"
     }
   ],
   "announcements": [
@@ -97,25 +77,31 @@
       "createdAt": "2026-08-10T08:30:00.000Z"
     },
     {
-      "id": "a1787697751255",
-      "teacherId": "u2",
+      "id": "a1787744082734",
+      "teacherId": "u3",
       "courseModuleId": "m1",
       "content": "Rappel : le cours de demain est déplacé en salle B12.",
-      "createdAt": "2026-08-25T22:42:31.255Z"
+      "createdAt": "2026-08-26T11:34:42.734Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dep1",
+      "name": "Sciences et Technologies",
+      "filiereCount": 12,
+      "icon": "science"
     },
     {
-      "id": "a1787698004054",
-      "teacherId": "u2",
-      "courseModuleId": "m1",
-      "content": "Rappel : le cours de demain est déplacé en salle B12.",
-      "createdAt": "2026-08-25T22:46:44.054Z"
+      "id": "dep2",
+      "name": "Lettres et Sciences Humaines",
+      "filiereCount": 8,
+      "icon": "menu_book"
     },
     {
-      "id": "a1787742652275",
-      "teacherId": "u2",
-      "courseModuleId": "m1",
-      "content": "Rappel : le cours de demain est déplacé en salle B12.",
-      "createdAt": "2026-08-26T11:10:52.275Z"
+      "id": "dep3",
+      "name": "Droit et Sciences Politiques",
+      "filiereCount": 5,
+      "icon": "account_balance"
     }
   ]
 }

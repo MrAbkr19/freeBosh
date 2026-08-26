@@ -81,6 +81,11 @@ async function seed() {
       createdAt: '2026-08-10T08:30:00.000Z',
     },
   ];
+    db.data.departments = [
+    { id: 'dep1', name: 'Sciences et Technologies', filiereCount: 12, icon: 'science' },
+    { id: 'dep2', name: 'Lettres et Sciences Humaines', filiereCount: 8, icon: 'menu_book' },
+    { id: 'dep3', name: 'Droit et Sciences Politiques', filiereCount: 5, icon: 'account_balance' },
+  ];
 
   await db.write();
   console.log('Seeded 1 user with a hashed password.');
