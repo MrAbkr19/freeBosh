@@ -1,0 +1,107 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "fullName": "Jean Mbarga",
+      "matricule": "2024-001",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "role": "student",
+      "filiere": "Génie Informatique",
+      "niveau": "Niveau 3"
+    },
+    {
+      "id": "u2",
+      "fullName": "Dr. Ateba Rigobert",
+      "matricule": "ens-014",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "role": "teacher"
+    },
+    {
+      "id": "u3",
+      "fullName": "Admin FreeBosh",
+      "matricule": "admin",
+      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "role": "admin"
+    }
+  ],
+  "modules": [
+    {
+      "id": "m1",
+      "code": "IF310",
+      "name": "Réseaux",
+      "faculty": "Génie Informatique",
+      "level": "Niveau 3",
+      "teacherIds": [
+        "u2"
+      ]
+    },
+    {
+      "id": "m2",
+      "code": "IF322",
+      "name": "Bases de données avancées",
+      "faculty": "Génie Informatique",
+      "level": "Niveau 3",
+      "teacherIds": [
+        "u2"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "d1",
+      "title": "Chapitre 1 - Introduction aux réseaux",
+      "description": "Notions de base sur les couches OSI",
+      "fileUrl": "/assets/mock-files/if310-chap1.pdf",
+      "fileSize": 2457600,
+      "courseModuleId": "m1",
+      "teacherId": "u2",
+      "createdAt": "2026-08-01T09:00:00.000Z"
+    },
+    {
+      "id": "d2",
+      "title": "TP1 - Configuration IP",
+      "description": "Travaux pratiques sur l'adressage IPv4",
+      "fileUrl": "/assets/mock-files/if310-tp1.pdf",
+      "fileSize": 1048576,
+      "courseModuleId": "m1",
+      "teacherId": "u2",
+      "createdAt": "2026-08-05T09:00:00.000Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "a1",
+      "teacherId": "u2",
+      "courseModuleId": "m1",
+      "content": "Le TP1 est repoussé à la semaine prochaine.",
+      "createdAt": "2026-08-10T08:30:00.000Z"
+    },
+    {
+      "id": "a1787744082734",
+      "teacherId": "u3",
+      "courseModuleId": "m1",
+      "content": "Rappel : le cours de demain est déplacé en salle B12.",
+      "createdAt": "2026-08-26T11:34:42.734Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dep1",
+      "name": "Sciences et Technologies",
+      "filiereCount": 12,
+      "icon": "science"
+    },
+    {
+      "id": "dep2",
+      "name": "Lettres et Sciences Humaines",
+      "filiereCount": 8,
+      "icon": "menu_book"
+    },
+    {
+      "id": "dep3",
+      "name": "Droit et Sciences Politiques",
+      "filiereCount": 5,
+      "icon": "account_balance"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+const bcrypt = require('bcrypt');
+const { db, initDb } = require('./db');
+
+async function seed() {
+  await initDb();
+
+  const hashedPassword = await bcrypt.hash('password', 10); 
+
+  db.data.users =[
+    {
+    id: 'u1',
+    fullName: 'Jean Mbarga',
+    matricule: '2024-001',
+    passwordHash: hashedPassword,
+    role: 'student',
+    filiere: 'Génie Informatique',
+    niveau: 'Niveau 3',
+  },
+      {
+      id: 'u2',
+      fullName: 'Dr. Ateba Rigobert',
+      matricule: 'ens-014',
+      passwordHash: hashedPassword,
+      role: 'teacher',
+    },
+    {
+      id: 'u3',
+      fullName: 'Admin FreeBosh',
+      matricule: 'admin',
+      passwordHash: hashedPassword,
+      role: 'admin',
+    },
+  ];
+
+  db.data.modules = [
+    {
+      id: 'm1',
+      code: 'IF310',
+      name: 'Réseaux',
+      faculty: 'Génie Informatique',
+      level: 'Niveau 3',
+      teacherIds: ['u2'],
+    },
+    {
+      id: 'm2',
+      code: 'IF322',
+      name: 'Bases de données avancées',
+      faculty: 'Génie Informatique',
+      level: 'Niveau 3',
+      teacherIds: ['u2'],
+    },
+  ];
+  db.data.documents = [
+    {
+      id: 'd1',
+      title: 'Chapitre 1 - Introduction aux réseaux',
+      description: 'Notions de base sur les couches OSI',
+      fileUrl: '/assets/mock-files/if310-chap1.pdf',
+      fileSize: 2457600,
+      courseModuleId: 'm1',
+      teacherId: 'u2',
+      createdAt: '2026-08-01T09:00:00.000Z',
+    },
+    {
+      id: 'd2',
+      title: 'TP1 - Configuration IP',
+      description: "Travaux pratiques sur l'adressage IPv4",
+      fileUrl: '/assets/mock-files/if310-tp1.pdf',
+      fileSize: 1048576,
+      courseModuleId: 'm1',
+      teacherId: 'u2',
+      createdAt: '2026-08-05T09:00:00.000Z',
+    },
+  ];
+    db.data.announcements = [
+    {
+      id: 'a1',
+      teacherId: 'u2',
+      courseModuleId: 'm1',
+      content: 'Le TP1 est repoussé à la semaine prochaine.',
+      createdAt: '2026-08-10T08:30:00.000Z',
+    },
+  ];
+    db.data.departments = [
+    { id: 'dep1', name: 'Sciences et Technologies', filiereCount: 12, icon: 'science' },
+    { id: 'dep2', name: 'Lettres et Sciences Humaines', filiereCount: 8, icon: 'menu_book' },
+    { id: 'dep3', name: 'Droit et Sciences Politiques', filiereCount: 5, icon: 'account_balance' },
+  ];
+
+  await db.write();
+  console.log('Seeded 1 user with a hashed password.');
+}
+
+seed();
