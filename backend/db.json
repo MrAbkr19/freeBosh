@@ -109,6 +109,13 @@
       "courseModuleId": "m1",
       "content": "Rappel : le cours de demain est déplacé en salle B12.",
       "createdAt": "2026-08-25T22:46:44.054Z"
+    },
+    {
+      "id": "a1787742652275",
+      "teacherId": "u2",
+      "courseModuleId": "m1",
+      "content": "Rappel : le cours de demain est déplacé en salle B12.",
+      "createdAt": "2026-08-26T11:10:52.275Z"
     }
   ]
 }
