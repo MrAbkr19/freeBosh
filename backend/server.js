@@ -12,6 +12,7 @@ const moduleRoutes = require('./routes/modules');
 const documentRoutes = require('./routes/documents');
 const announcementRoutes = require('./routes/announcements');
 const departmentRoutes = require('./routes/departments');
+const filiereRoutes = require('./routes/filieres');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use('/modules', moduleRoutes);
 app.use('/documents', documentRoutes);
 app.use('/announcements', announcementRoutes);
 app.use('/departments', departmentRoutes);
+app.use('/filieres', filiereRoutes);
 
 app.listen(PORT, () => {
   console.log(`FreeBosh API listening on port ${PORT}`);
