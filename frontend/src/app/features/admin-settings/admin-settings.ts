@@ -54,11 +54,15 @@ const DEFAULT_OFFLINE_SETTINGS: AdminOfflineSettings = {
 
 @Component({
   selector: 'app-admin-settings',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-settings.html',
   styleUrl: './admin-settings.css',
 })
-export class AdminSettings implements OnInit {
+export class AdminSettings {
+  readonly isLoading = signal(true);
+  readonly loadError = signal<string | null>(null);
+
   // System settings signals
   readonly maxFileSize = signal<number>(DEFAULT_SYSTEM_SETTINGS.maxFileSize);
   readonly acceptedFormats = signal<FileFormatOption[]>([...DEFAULT_SYSTEM_SETTINGS.acceptedFormats]);
@@ -68,53 +72,62 @@ export class AdminSettings implements OnInit {
   readonly schoolName = signal<string>(DEFAULT_SCHOOL_SETTINGS.schoolName);
   readonly academicYear = signal<string>(DEFAULT_SCHOOL_SETTINGS.academicYear);
   readonly semesters = signal<string[]>([...DEFAULT_SCHOOL_SETTINGS.semesters]);
-  readonly newSemesterInput = signal<string>('');
 
   // Offline PWA settings signals
   readonly storageQuotaMb = signal<number>(DEFAULT_OFFLINE_SETTINGS.storageQuotaMb);
   readonly cacheExpirationDays = signal<number>(DEFAULT_OFFLINE_SETTINGS.cacheExpirationDays);
   readonly autoSyncOnReconnect = signal<boolean>(DEFAULT_OFFLINE_SETTINGS.autoSyncOnReconnect);
 
-  // Toast / feedback states
-  readonly sysToastVisible = signal<boolean>(false);
-  readonly schoolToastVisible = signal<boolean>(false);
-  readonly offlineToastVisible = signal<boolean>(false);
+  // Save states & toasts
   readonly isSavingSys = signal<boolean>(false);
   readonly isSavingSchool = signal<boolean>(false);
   readonly isSavingOffline = signal<boolean>(false);
 
+  readonly sysToastVisible = signal<boolean>(false);
+  readonly schoolToastVisible = signal<boolean>(false);
+  readonly offlineToastVisible = signal<boolean>(false);
+
   readonly availableAcademicYears = ['2023-2024', '2024-2025', '2025-2026', '2026-2027'];
 
-  ngOnInit(): void {
-    this.loadPersistedSettings();
+  constructor() {
+    this.loadSettings();
   }
 
-  private loadPersistedSettings(): void {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw);
+  private loadSettings(): void {
+    this.isLoading.set(true);
+    this.loadError.set(null);
 
-      if (data.system) {
-        if (typeof data.system.maxFileSize === 'number') this.maxFileSize.set(data.system.maxFileSize);
-        if (Array.isArray(data.system.acceptedFormats)) this.acceptedFormats.set(data.system.acceptedFormats);
-        if (typeof data.system.sessionTimeout === 'number') this.sessionTimeout.set(data.system.sessionTimeout);
-      }
+    // Simulate standard async fetch delay
+    setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const data = JSON.parse(raw);
 
-      if (data.school) {
-        if (data.school.schoolName) this.schoolName.set(data.school.schoolName);
-        if (data.school.academicYear) this.academicYear.set(data.school.academicYear);
-        if (Array.isArray(data.school.semesters)) this.semesters.set(data.school.semesters);
-      }
+          if (data.system) {
+            if (typeof data.system.maxFileSize === 'number') this.maxFileSize.set(data.system.maxFileSize);
+            if (Array.isArray(data.system.acceptedFormats)) this.acceptedFormats.set(data.system.acceptedFormats);
+            if (typeof data.system.sessionTimeout === 'number') this.sessionTimeout.set(data.system.sessionTimeout);
+          }
 
-      if (data.offline) {
-        if (typeof data.offline.storageQuotaMb === 'number') this.storageQuotaMb.set(data.offline.storageQuotaMb);
-        if (typeof data.offline.cacheExpirationDays === 'number') this.cacheExpirationDays.set(data.offline.cacheExpirationDays);
-        if (typeof data.offline.autoSyncOnReconnect === 'boolean') this.autoSyncOnReconnect.set(data.offline.autoSyncOnReconnect);
+          if (data.school) {
+            if (data.school.schoolName) this.schoolName.set(data.school.schoolName);
+            if (data.school.academicYear) this.academicYear.set(data.school.academicYear);
+            if (Array.isArray(data.school.semesters)) this.semesters.set(data.school.semesters);
+          }
+
+          if (data.offline) {
+            if (typeof data.offline.storageQuotaMb === 'number') this.storageQuotaMb.set(data.offline.storageQuotaMb);
+            if (typeof data.offline.cacheExpirationDays === 'number') this.cacheExpirationDays.set(data.offline.cacheExpirationDays);
+            if (typeof data.offline.autoSyncOnReconnect === 'boolean') this.autoSyncOnReconnect.set(data.offline.autoSyncOnReconnect);
+          }
+        }
+        this.isLoading.set(false);
+      } catch {
+        this.isLoading.set(false);
+        this.loadError.set('Impossible de charger les paramètres. Veuillez recharger la page.');
       }
-    } catch (e) {
-      console.warn('Impossible de charger les paramètres locaux :', e);
-    }
+    }, 300);
   }
 
   private persistCurrentSettings(): void {

@@ -1,0 +1,363 @@
+<section class="page-header">
+  <div>
+    <h1>Support &amp; Assistance</h1>
+    <p>Soumettez vos demandes ou consultez l'historique de vos tickets.</p>
+  </div>
+</section>
+
+@if (isLoading()) {
+  <p class="state-message">Chargement des demandes…</p>
+} @else if (loadError()) {
+  <p class="state-message state-message--error">{{ loadError() }}</p>
+} @else {
+  <!-- Bento Grid Layout for Form & Info -->
+  <div class="bento-grid">
+    <!-- Contact Form Card -->
+    <article class="support-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="icon-badge">
+            <span class="material-symbols-outlined">contact_support</span>
+          </div>
+          <div>
+            <h3>Contacter le support</h3>
+            <p>Remplissez le formulaire ci-dessous pour ouvrir un ticket.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form class="support-form" (submit)="submitTicket($event)">
+          @if (formError()) {
+            <div class="form-error">
+              <span class="material-symbols-outlined">error</span>
+              <span>{{ formError() }}</span>
+            </div>
+          }
+
+          <div class="field-group">
+            <label for="subject">Sujet</label>
+            <input
+              id="subject"
+              type="text"
+              placeholder="Résumé bref de votre demande"
+              [ngModel]="subject()"
+              (ngModelChange)="subject.set($event)"
+              name="subject"
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="category">Catégorie</label>
+            <select
+              id="category"
+              [ngModel]="category()"
+              (ngModelChange)="category.set($event)"
+              name="category"
+            >
+              <option value="" disabled selected>Sélectionnez une catégorie...</option>
+              <option value="bug">Bug technique</option>
+              <option value="question">Question fonctionnelle</option>
+              <option value="evolution">Demande d'évolution</option>
+              <option value="other">Autre</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="description">Description détaillée</label>
+            <textarea
+              id="description"
+              rows="5"
+              placeholder="Décrivez votre problème ou votre question en détail..."
+              [ngModel]="description()"
+              (ngModelChange)="description.set($event)"
+              name="description"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button
+              class="btn-primary"
+              type="submit"
+              [disabled]="isSubmitting()"
+            >
+              @if (isSubmitting()) {
+                <span class="spinner"></span>
+                <span>Envoi en cours…</span>
+              } @else {
+                <span class="material-symbols-outlined">send</span>
+                <span>Envoyer la demande</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </article>
+
+    <!-- Info Sidebar Card -->
+    <article class="support-card info-card">
+      <div>
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="icon-badge icon-badge--secondary">
+              <span class="material-symbols-outlined">info</span>
+            </div>
+            <div>
+              <h3>Informations</h3>
+              <p>Disponibilité et assistance.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="info-intro">
+            Notre équipe de support académique est disponible du lundi au vendredi, de 8h00 à 18h00.
+          </p>
+
+          <ul class="info-list">
+            <li class="info-item">
+              <span class="material-symbols-outlined info-icon">schedule</span>
+              <div>
+                <div class="info-label">Temps de réponse moyen</div>
+                <div class="info-value">Moins de 4 heures</div>
+              </div>
+            </li>
+            <li class="info-item">
+              <span class="material-symbols-outlined info-icon">phone_in_talk</span>
+              <div>
+                <div class="info-label">Urgence critique ?</div>
+                <div class="info-value">+237 6 23 45 67 89</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-body" style="padding-top: 0;">
+        <div class="kb-banner">
+          <p>
+            Consultez notre
+            <button class="kb-link" type="button" (click)="openFaqModal()">
+              base de connaissances
+            </button>
+            avant de soumettre un ticket.
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Request History Table Card -->
+  <div class="table-card">
+    <div class="table-controls">
+      <div class="table-title">
+        <span class="material-symbols-outlined">history</span>
+        <h3>Historique des demandes</h3>
+      </div>
+      <div class="filters">
+        <select
+          [ngModel]="statusFilter()"
+          (ngModelChange)="setStatusFilter($event)"
+        >
+          <option value="all">Tous les statuts</option>
+          <option value="pending">En attente</option>
+          <option value="in_progress">En cours</option>
+          <option value="resolved">Traité</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>ID Ticket</th>
+            <th>Sujet</th>
+            <th>Statut</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedTickets(); track row.id) {
+            <tr>
+              <td>{{ row.date }}</td>
+              <td class="cell-id">{{ row.id }}</td>
+              <td class="cell-subject">{{ row.subject }}</td>
+              <td>
+                @if (row.status === 'pending') {
+                  <span class="status-badge status-badge--pending">
+                    <span class="status-dot"></span>
+                    En attente
+                  </span>
+                } @else if (row.status === 'in_progress') {
+                  <span class="status-badge status-badge--in-progress">
+                    <span class="material-symbols-outlined status-icon">pending</span>
+                    En cours
+                  </span>
+                } @else {
+                  <span class="status-badge status-badge--resolved">
+                    <span class="material-symbols-outlined status-icon">check_circle</span>
+                    Traité
+                  </span>
+                }
+              </td>
+              <td class="col-right">
+                <button
+                  class="icon-action"
+                  title="Voir détails"
+                  type="button"
+                  (click)="openTicketDetails(row)"
+                >
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="state-message">
+                Aucune demande trouvée avec ce filtre.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-footer">
+      <span class="pagination-text">{{ displayRangeText() }}</span>
+      <div class="pagination-controls">
+        <button
+          class="btn-page"
+          type="button"
+          title="Page précédente"
+          [disabled]="currentPage() <= 1"
+          (click)="prevPage()"
+        >
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button
+          class="btn-page"
+          type="button"
+          title="Page suivante"
+          [disabled]="currentPage() >= totalPages()"
+          (click)="nextPage()"
+        >
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Ticket Detail Modal -->
+@if (selectedTicket(); as ticket) {
+  <div class="modal-backdrop" (click)="closeTicketDetails()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <span class="material-symbols-outlined" style="color: var(--color-primary);">confirmation_number</span>
+          <h3>Détail du Ticket {{ ticket.id }}</h3>
+        </div>
+        <button class="close-btn" type="button" (click)="closeTicketDetails()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="ticket-meta-grid">
+          <div>
+            <p class="meta-label">Date de création</p>
+            <p class="meta-val">{{ ticket.date }}</p>
+          </div>
+          <div>
+            <p class="meta-label">Catégorie</p>
+            <p class="meta-val">{{ getCategoryLabel(ticket.category) }}</p>
+          </div>
+          <div>
+            <p class="meta-label">Statut actuel</p>
+            <p class="meta-val">
+              @if (ticket.status === 'pending') {
+                <span class="status-badge status-badge--pending">En attente</span>
+              } @else if (ticket.status === 'in_progress') {
+                <span class="status-badge status-badge--in-progress">En cours de traitement</span>
+              } @else {
+                <span class="status-badge status-badge--resolved">Traité</span>
+              }
+            </p>
+          </div>
+          <div>
+            <p class="meta-label">Priorité</p>
+            <p class="meta-val">Normale</p>
+          </div>
+        </div>
+
+        <div class="ticket-desc-box">
+          <p class="ticket-desc-title">{{ ticket.subject }}</p>
+          <p class="ticket-desc-text">{{ ticket.description }}</p>
+        </div>
+
+        @if (ticket.response) {
+          <div class="ticket-reply-box">
+            <p class="ticket-reply-title">
+              <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">support_agent</span>
+              Réponse de l'équipe Support ({{ ticket.responseDate || 'Récemment' }})
+            </p>
+            <p class="ticket-reply-text">{{ ticket.response }}</p>
+          </div>
+        } @else {
+          <div class="ticket-pending-note">
+            <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">hourglass_top</span>
+            Votre demande a bien été reçue et est en cours d'analyse par un administrateur.
+          </div>
+        }
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="closeTicketDetails()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Knowledge Base / FAQ Modal -->
+@if (isFaqModalOpen()) {
+  <div class="modal-backdrop" (click)="closeFaqModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <span class="material-symbols-outlined" style="color: var(--color-primary);">menu_book</span>
+          <h3>Base de connaissances</h3>
+        </div>
+        <button class="close-btn" type="button" (click)="closeFaqModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="faq-list">
+          <div class="faq-item">
+            <p class="faq-q">Comment fonctionne la synchronisation hors-ligne PWA ?</p>
+            <p class="faq-a">FreeBosh enregistre les polycopiés consultés dans IndexedDB. Dès qu'un enseignant publie un nouveau document sur le réseau local, la PWA met à jour le cache automatiquement.</p>
+          </div>
+          <div class="faq-item">
+            <p class="faq-q">Comment importer des étudiants ou enseignants en masse ?</p>
+            <p class="faq-a">Rendez-vous dans la section « Import en masse » du panneau d'administration pour téléverser un fichier CSV préformaté.</p>
+          </div>
+          <div class="faq-item">
+            <p class="faq-q">Quelle est la taille maximale autorisée pour un document ?</p>
+            <p class="faq-a">La limite par défaut est de 50 Mo par fichier. Elle est configurable dans les Paramètres globaux de la plateforme.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="closeFaqModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Toast Feedback -->
+@if (toastMessage()) {
+  <div class="toast-container">
+    <span class="material-symbols-outlined toast-icon">check_circle</span>
+    <span>{{ toastMessage() }}</span>
+  </div>
+}
