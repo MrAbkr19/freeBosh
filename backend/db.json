@@ -102,6 +102,12 @@
       "name": "Droit et Sciences Politiques",
       "filiereCount": 5,
       "icon": "account_balance"
+    },
+    {
+      "id": "dep1787745141298",
+      "name": "Informatique Appliquée",
+      "filiereCount": 0,
+      "icon": "domain"
     }
   ]
 }
