@@ -1,0 +1,152 @@
+<div class="settings-container">
+  <!-- Header Section -->
+  <header class="header-section">
+    <div class="header-back-row">
+      <a routerLink="/etudiant/profil" class="back-btn" aria-label="Retour au profil">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h2 class="display-title">Paramètres</h2>
+    </div>
+    <p class="subtitle">Gérez vos préférences d'apprentissage et de stockage.</p>
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement des paramètres…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else {
+    <!-- Bento Grid Layout for Settings -->
+    <div class="bento-grid">
+      <!-- Storage Section -->
+      <section class="settings-card storage-card">
+        <div class="card-accent"></div>
+        <div class="card-content">
+          <div class="card-header-row">
+            <div class="icon-circle">
+              <span class="material-symbols-outlined">sd_storage</span>
+            </div>
+            <h3 class="card-title">Stockage hors-ligne</h3>
+          </div>
+
+          <div class="storage-details">
+            <p class="storage-used-text">Espace utilisé : {{ storageUsedMb() }} Mo</p>
+            <!-- Progress Bar -->
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="storagePercentage()"></div>
+            </div>
+            <p class="storage-hint">Principalement des documents et modules hors-ligne.</p>
+          </div>
+        </div>
+
+        <button
+          class="btn-clear-cache"
+          [class.btn-clear-cache--cleared]="isCacheCleared()"
+          type="button"
+          (click)="openConfirmModal()"
+        >
+          @if (isCacheCleared()) {
+            <span class="material-symbols-outlined">check</span>
+            <span>Cache vidé</span>
+          } @else {
+            <span class="material-symbols-outlined">delete</span>
+            <span>Vider le cache hors-ligne</span>
+          }
+        </button>
+      </section>
+
+      <!-- Display Section -->
+      <section class="settings-card display-card">
+        <div class="card-accent"></div>
+        <div class="card-content">
+          <div class="card-header-row">
+            <div class="icon-circle">
+              <span class="material-symbols-outlined">text_fields</span>
+            </div>
+            <h3 class="card-title">Affichage</h3>
+          </div>
+
+          <div class="display-controls">
+            <!-- Font Size Selector -->
+            <div class="field-block">
+              <label class="field-label">Taille de police</label>
+              <div class="segmented-control">
+                <button
+                  class="segmented-btn"
+                  [class.segmented-btn--active]="fontSize() === 'small'"
+                  type="button"
+                  (click)="setFontSize('small')"
+                >
+                  Petit
+                </button>
+                <button
+                  class="segmented-btn"
+                  [class.segmented-btn--active]="fontSize() === 'normal'"
+                  type="button"
+                  (click)="setFontSize('normal')"
+                >
+                  Normal
+                </button>
+                <button
+                  class="segmented-btn"
+                  [class.segmented-btn--active]="fontSize() === 'large'"
+                  type="button"
+                  (click)="setFontSize('large')"
+                >
+                  Grand
+                </button>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Serene Mode Toggle -->
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-name">Ambiance Sereine</p>
+                <p class="toggle-description">Réduit le contraste pour plus de concentration.</p>
+              </div>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="sereneMode()"
+                  (change)="toggleSereneMode()"
+                />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  }
+</div>
+
+<!-- Confirmation Modal -->
+@if (isConfirmModalOpen()) {
+  <div class="modal-backdrop" (click)="closeConfirmModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-warning-icon">
+        <span class="material-symbols-outlined">warning</span>
+      </div>
+      <h3 class="modal-title">Vider le cache ?</h3>
+      <p class="modal-desc">
+        Cette action supprimera {{ storageUsedMb() }} Mo de données hors-ligne. Vous devrez télécharger à nouveau vos modules pour y accéder sans connexion.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-cancel-modal" type="button" (click)="closeConfirmModal()">
+          Annuler
+        </button>
+        <button class="btn-confirm-modal" type="button" (click)="confirmClearCache()">
+          Vider
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (toastMessage()) {
+  <div class="toast-container">
+    <span class="material-symbols-outlined toast-icon">check_circle</span>
+    <span>{{ toastMessage() }}</span>
+  </div>
+}

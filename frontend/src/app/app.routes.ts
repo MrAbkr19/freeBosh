@@ -24,6 +24,8 @@ import { AdminStudents } from './features/admin-students/admin-students';
 import { AdminBulkImport } from './features/admin-bulk-import/admin-bulk-import';
 import { AdminSettings } from './features/admin-settings/admin-settings';
 import { AdminSupport } from './features/admin-support/admin-support';
+import { StudentSettings } from './features/student-settings/student-settings';
+import { StudentSupport } from './features/student-support/student-support';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -36,6 +38,11 @@ export const routes: Routes = [
       { path: 'modules/:id', component: ModuleDetail },
       { path: 'bibliotheque', component: StudentLibrary },
       { path: 'profil', component: StudentProfile },
+      { path: 'profil/settings', component: StudentSettings },
+      { path: 'profil/support', component: StudentSupport },
+      { path: 'settings', component: StudentSettings },
+      { path: 'support', component: StudentSupport },
+
     ],
   },
   {
