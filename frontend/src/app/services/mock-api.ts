@@ -46,9 +46,14 @@ export class MockApiService {
   }
 
   // ---- /auth/login ----
-  login(matricule: string, password: string): Observable<User> {
+    login(matricule: string, password: string): Observable<{ user: User; token: string }> {
+        console.log('useMockApi is:', environment.useMockApi); // TEMP
+
     if (!environment.useMockApi) {
-      return this.http.post<User>(`${environment.apiUrl}/auth/login`, { matricule, password });
+      return this.http.post<{ user: User; token: string }>(`${environment.apiUrl}/auth/login`, {
+        matricule,
+        password,
+      });
     }
 
     return this.loadDb().pipe(
@@ -57,16 +62,20 @@ export class MockApiService {
         const match = db.users.find(
           (u) => u.matricule === matricule.trim() && u.password === password
         );
-        return match ? of(match) : throwError(() => new Error('Identifiants invalides'));
+        return match
+          ? of({ user: match, token: 'mock-token' })
+          : throwError(() => new Error('Identifiants invalides'));
       })
     );
   }
-
   // ---- /modules ----
     getModules(): Observable<CourseModule[]> {
     if (!environment.useMockApi) {
-      return this.http.get<CourseModule[]>(`${environment.apiUrl}/modules`);
+      return this.http
+        .get<{ modules: CourseModule[] }>(`${environment.apiUrl}/modules`)
+        .pipe(map((res) => res.modules));
     }
+    // ...mock branch unchanged
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
@@ -95,10 +104,12 @@ export class MockApiService {
   }
 
   // ---- /documents ----
-    getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
+     getDocuments(courseModuleId?: string): Observable<CourseDocument[]> {
     if (!environment.useMockApi) {
       const query = courseModuleId ? `?courseModuleId=${courseModuleId}` : '';
-      return this.http.get<CourseDocument[]>(`${environment.apiUrl}/documents${query}`);
+      return this.http
+        .get<{ documents: CourseDocument[] }>(`${environment.apiUrl}/documents${query}`)
+        .pipe(map((res) => res.documents));
     }
 
     return this.loadDb().pipe(
@@ -116,7 +127,9 @@ export class MockApiService {
     getAnnouncements(courseModuleId?: string): Observable<Announcement[]> {
     if (!environment.useMockApi) {
       const query = courseModuleId ? `?courseModuleId=${courseModuleId}` : '';
-      return this.http.get<Announcement[]>(`${environment.apiUrl}/announcements${query}`);
+      return this.http
+        .get<{ announcements: Announcement[] }>(`${environment.apiUrl}/announcements${query}`)
+        .pipe(map((res) => res.announcements));
     }
 
     return this.loadDb().pipe(
@@ -131,19 +144,18 @@ export class MockApiService {
   }
 
   // ---- /users ----
-    getUsers(): Observable<User[]> {
+   getUsers(): Observable<User[]> {
     if (!environment.useMockApi) {
-      return this.http.get<User[]>(`${environment.apiUrl}/users`);
+      return this.http
+        .get<{ users: User[] }>(`${environment.apiUrl}/users/basic`)
+        .pipe(map((res) => res.users));
     }
 
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
-      map((db) =>
-        [...db.users, ...this.newUsers].map((u) => ({ ...u, ...this.editedUsers.get(u.id) }))
-      )
+      map((db) => db.users)
     );
   }
-
     createTeacher(input: { fullName: string; matricule: string }): Observable<User> {
     const newTeacher: User = {
       id: `local-${Date.now()}`,
