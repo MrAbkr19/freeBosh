@@ -4,7 +4,7 @@
       "id": "u1",
       "fullName": "Jean Mbarga",
       "matricule": "2024-001",
-      "passwordHash": "$2b$10$6o9cV8KrO3gvmiF5xn8BguGcwA4Yy3QIbL3/51A7fg03xn5VpV4M2",
+      "passwordHash": "$2b$10$SeoOj7TfVjqFwUlRtkwGqOk4pVbVUFlvUW4JJIJTV0AkB5FJNrJam",
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
@@ -13,44 +13,15 @@
       "id": "u2",
       "fullName": "Dr. Ateba Rigobert",
       "matricule": "ens-014",
-      "passwordHash": "$2b$10$SY74nENwSOCgIP0XhT7fN.cplSA3oflSXkCx/3EOpL8uKRwDW3z.a",
+      "passwordHash": "$2b$10$SeoOj7TfVjqFwUlRtkwGqOk4pVbVUFlvUW4JJIJTV0AkB5FJNrJam",
       "role": "teacher"
     },
     {
       "id": "u3",
       "fullName": "Admin FreeBosh",
       "matricule": "admin",
-      "passwordHash": "$2b$10$SY74nENwSOCgIP0XhT7fN.cplSA3oflSXkCx/3EOpL8uKRwDW3z.a",
+      "passwordHash": "$2b$10$SeoOj7TfVjqFwUlRtkwGqOk4pVbVUFlvUW4JJIJTV0AkB5FJNrJam",
       "role": "admin"
-    },
-    {
-      "id": "u1787904924647",
-      "fullName": "Prof. Test",
-      "matricule": "ens-099",
-      "passwordHash": "$2b$10$zMfXgyiGrurKUBG6vQNjq.WlX5C8LHDq7xbp0AhiY4QfAZN/QjyDy",
-      "role": "teacher"
-    },
-    {
-      "id": "u1787905133123",
-      "fullName": "Étudiant Test",
-      "matricule": "2024-999",
-      "passwordHash": "$2b$10$EPirjBmUNQuO83M4xNrw8.5T90qlD0qLG5MlBV3dRh5WLb4EdvC.q",
-      "role": "student",
-      "filiere": "Génie Informatique",
-      "niveau": "Niveau 3",
-      "email": "test@edu.cm",
-      "status": "inscrit"
-    },
-    {
-      "id": "u1787905193684",
-      "fullName": "Étudiant Test",
-      "matricule": "2024-991",
-      "passwordHash": "$2b$10$P08SBSHNzDhxb8/xB8GV3uV9DUfJSbHwuME77hyUPK57iP0VuSLGe",
-      "role": "student",
-      "filiere": "Génie Informatique",
-      "niveau": "Niveau 3",
-      "email": "test@edu.cm",
-      "status": "en_attente"
     }
   ],
   "modules": [
@@ -145,13 +116,6 @@
       "id": "fil3",
       "name": "Mathématiques Appliquées",
       "departmentId": "dep2",
-      "degreeLevel": "Licence",
-      "description": ""
-    },
-    {
-      "id": "fil1787827226103",
-      "name": "Test Filiere Modifiée",
-      "departmentId": "dep1",
       "degreeLevel": "Licence",
       "description": ""
     }
