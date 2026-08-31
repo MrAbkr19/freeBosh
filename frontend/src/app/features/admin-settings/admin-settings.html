@@ -1,0 +1,292 @@
+<div class="settings-container">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="page-header-text">
+      <h1>Paramètres globaux</h1>
+      <p>Configurez les limites techniques, l'identité de l'établissement et le stockage hors-ligne.</p>
+    </div>
+    <button class="btn-reset" type="button" (click)="resetDefaults()" title="Restaurer la configuration par défaut">
+      <span class="material-symbols-outlined">restart_alt</span>
+      Réinitialiser par défaut
+    </button>
+  </header>
+
+  <!-- Section 1: Paramètres système -->
+  <section class="settings-section">
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <div class="section-icon-badge">
+          <span class="material-symbols-outlined">dns</span>
+        </div>
+        <h2 class="section-title">Paramètres système</h2>
+      </div>
+      <p class="section-desc">Configurez les limites techniques et les règles de session globales.</p>
+    </div>
+
+    <div class="section-body">
+      <!-- Taille maximale de fichier -->
+      <div class="form-group">
+        <label class="form-label" for="max-file-size">Taille maximale de fichier (Mo)</label>
+        <div class="input-container input-container--half">
+          <input
+            id="max-file-size"
+            class="form-input"
+            type="number"
+            min="1"
+            max="500"
+            [ngModel]="maxFileSize()"
+            (ngModelChange)="maxFileSize.set($event)"
+          />
+        </div>
+        <p class="form-hint">Limite appliquée aux imports en masse et aux polycopiés de cours déposés par les enseignants.</p>
+      </div>
+
+      <!-- Formats acceptés -->
+      <div class="form-group">
+        <label class="form-label">Formats de fichiers acceptés</label>
+        <div class="formats-grid">
+          @for (fmt of acceptedFormats(); track fmt.code) {
+            <label class="format-chip" [class.format-chip--active]="fmt.checked">
+              <input
+                type="checkbox"
+                [checked]="fmt.checked"
+                (change)="toggleFormat(fmt.code)"
+              />
+              <span>{{ fmt.label }}</span>
+            </label>
+          }
+        </div>
+        <p class="form-hint">Seuls les formats cochés pourront être téléversés sur FreeBosh.</p>
+      </div>
+
+      <!-- Durée de session -->
+      <div class="form-group">
+        <label class="form-label" for="session-timeout">Durée de validité de session (minutes)</label>
+        <div class="input-container input-container--half">
+          <input
+            id="session-timeout"
+            class="form-input"
+            type="number"
+            min="5"
+            max="1440"
+            [ngModel]="sessionTimeout()"
+            (ngModelChange)="sessionTimeout.set($event)"
+          />
+        </div>
+        <p class="form-hint">Délai d'inactivité avant déconnexion automatique de l'utilisateur.</p>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <div class="toast-pill" [class.toast-pill--visible]="sysToastVisible()">
+        <span class="material-symbols-outlined">check_circle</span>
+        Paramètres système enregistrés
+      </div>
+      <button
+        class="btn-save"
+        type="button"
+        [disabled]="isSavingSys()"
+        (click)="saveSystemSettings()"
+      >
+        @if (isSavingSys()) {
+          <span class="spinner"></span>
+          Enregistrement…
+        } @else {
+          Enregistrer
+        }
+      </button>
+    </div>
+  </section>
+
+  <!-- Section 2: Paramètres de l'établissement -->
+  <section class="settings-section">
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <div class="section-icon-badge">
+          <span class="material-symbols-outlined">account_balance</span>
+        </div>
+        <h2 class="section-title">Paramètres de l'établissement</h2>
+      </div>
+      <p class="section-desc">Gérez les informations d'identité et la structure calendaire.</p>
+    </div>
+
+    <div class="section-body">
+      <!-- Nom de l'établissement -->
+      <div class="form-group">
+        <label class="form-label" for="school-name">Nom de l'établissement</label>
+        <div class="input-container">
+          <input
+            id="school-name"
+            class="form-input"
+            type="text"
+            [ngModel]="schoolName()"
+            (ngModelChange)="schoolName.set($event)"
+            placeholder="Ex : Université de FreeBosh"
+          />
+        </div>
+      </div>
+
+      <div class="grid-2-cols">
+        <!-- Année académique -->
+        <div class="form-group">
+          <label class="form-label" for="academic-year">Année académique en cours</label>
+          <div class="input-container">
+            <select
+              id="academic-year"
+              class="form-select"
+              [ngModel]="academicYear()"
+              (ngModelChange)="academicYear.set($event)"
+            >
+              @for (year of availableAcademicYears; track year) {
+                <option [value]="year">{{ year }}</option>
+              }
+            </select>
+            <span class="material-symbols-outlined select-arrow">arrow_drop_down</span>
+          </div>
+        </div>
+
+        <!-- Périodes/semestres -->
+        <div class="form-group">
+          <label class="form-label">Périodes / Semestres</label>
+          <div class="semesters-list">
+            @for (sem of semesters(); track $index) {
+              <div class="semester-row">
+                <div class="input-container">
+                  <input
+                    class="form-input"
+                    type="text"
+                    [value]="sem"
+                    (input)="updateSemester($index, $event)"
+                  />
+                </div>
+                <button
+                  class="btn-delete-row"
+                  type="button"
+                  title="Supprimer la période"
+                  (click)="removeSemester($index)"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            }
+            <button class="btn-add-item" type="button" (click)="addSemester()">
+              <span class="material-symbols-outlined">add</span>
+              Ajouter une période
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <div class="toast-pill" [class.toast-pill--visible]="schoolToastVisible()">
+        <span class="material-symbols-outlined">check_circle</span>
+        Établissement mis à jour
+      </div>
+      <button
+        class="btn-save"
+        type="button"
+        [disabled]="isSavingSchool()"
+        (click)="saveSchoolSettings()"
+      >
+        @if (isSavingSchool()) {
+          <span class="spinner"></span>
+          Enregistrement…
+        } @else {
+          Enregistrer
+        }
+      </button>
+    </div>
+  </section>
+
+  <!-- Section 3: Paramètres Stockage & PWA Hors-Ligne -->
+  <section class="settings-section">
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <div class="section-icon-badge">
+          <span class="material-symbols-outlined">offline_bolt</span>
+        </div>
+        <h2 class="section-title">Stockage &amp; Mode Hors-ligne PWA</h2>
+      </div>
+      <p class="section-desc">Gérez la politique de stockage local (IndexedDB) et la synchronisation des cours.</p>
+    </div>
+
+    <div class="section-body">
+      <div class="grid-2-cols">
+        <!-- Quota de stockage -->
+        <div class="form-group">
+          <label class="form-label" for="storage-quota">Quota de cache par étudiant (Mo)</label>
+          <div class="input-container">
+            <input
+              id="storage-quota"
+              class="form-input"
+              type="number"
+              min="20"
+              max="1000"
+              [ngModel]="storageQuotaMb()"
+              (ngModelChange)="storageQuotaMb.set($event)"
+            />
+          </div>
+          <p class="form-hint">Espace maximal alloué pour enregistrer les polycopiés hors-ligne.</p>
+        </div>
+
+        <!-- Expiration du cache -->
+        <div class="form-group">
+          <label class="form-label" for="cache-expiration">Durée de conservation du cache</label>
+          <div class="input-container">
+            <select
+              id="cache-expiration"
+              class="form-select"
+              [ngModel]="cacheExpirationDays()"
+              (ngModelChange)="cacheExpirationDays.set($event)"
+            >
+              <option [value]="30">30 jours</option>
+              <option [value]="60">60 jours</option>
+              <option [value]="90">90 jours (1 trimestre)</option>
+              <option [value]="180">180 jours (1 semestre)</option>
+              <option [value]="365">1 an</option>
+            </select>
+            <span class="material-symbols-outlined select-arrow">arrow_drop_down</span>
+          </div>
+          <p class="form-hint">Purger automatiquement les anciens polycopiés non consultés.</p>
+        </div>
+      </div>
+
+      <!-- Switch Auto Sync -->
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Synchronisation automatique en arrière-plan</div>
+          <div class="toggle-desc">Mettre à jour les nouveaux polycopiés dès le retour d'une connexion réseau sur le campus.</div>
+        </div>
+        <label class="switch">
+          <input
+            type="checkbox"
+            [ngModel]="autoSyncOnReconnect()"
+            (ngModelChange)="autoSyncOnReconnect.set($event)"
+          />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <div class="toast-pill" [class.toast-pill--visible]="offlineToastVisible()">
+        <span class="material-symbols-outlined">check_circle</span>
+        Paramètres hors-ligne enregistrés
+      </div>
+      <button
+        class="btn-save"
+        type="button"
+        [disabled]="isSavingOffline()"
+        (click)="saveOfflineSettings()"
+      >
+        @if (isSavingOffline()) {
+          <span class="spinner"></span>
+          Enregistrement…
+        } @else {
+          Enregistrer
+        }
+      </button>
+    </div>
+  </section>
+</div>
