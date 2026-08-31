@@ -66,6 +66,16 @@
       "courseModuleId": "m1",
       "teacherId": "u2",
       "createdAt": "2026-08-05T09:00:00.000Z"
+    },
+    {
+      "id": "d1788182788265",
+      "title": "note",
+      "description": "",
+      "fileUrl": "KADO.pdf",
+      "fileSize": 2184546,
+      "courseModuleId": "m1",
+      "teacherId": "u2",
+      "createdAt": "2026-08-31T13:26:28.265Z"
     }
   ],
   "announcements": [
