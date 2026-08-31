@@ -23,6 +23,7 @@ import { AdminTeachers } from './features/admin-teachers/admin-teachers';
 import { AdminStudents } from './features/admin-students/admin-students';
 import { AdminBulkImport } from './features/admin-bulk-import/admin-bulk-import';
 import { AdminSettings } from './features/admin-settings/admin-settings';
+import { AdminSupport } from './features/admin-support/admin-support';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -62,6 +63,7 @@ export const routes: Routes = [
     { path: 'etudiants', component: AdminStudents },
     { path: 'import', component: AdminBulkImport },
     { path: 'settings', component: AdminSettings },
+    { path: 'support', component: AdminSupport },
   ],
 },
 
