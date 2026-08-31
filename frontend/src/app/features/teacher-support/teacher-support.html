@@ -1,0 +1,145 @@
+<div class="support-container">
+  <!-- Header Section -->
+  <header class="header-section">
+    <div class="header-back-row">
+      <a routerLink="/enseignant/profil" class="back-btn" aria-label="Retour au profil">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h2 class="display-title">Support &amp; Assistance</h2>
+    </div>
+    <p class="subtitle">
+      Besoin d'aide avec la plateforme d'enseignement ? Remplissez le formulaire ci-dessous ou consultez vos tickets récents.
+    </p>
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement du support…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else {
+    <!-- Form Card -->
+    <section class="academic-card form-card">
+      <div class="decorative-blob"></div>
+      <form class="form-body" (submit)="submitForm($event)">
+        @if (formError()) {
+          <div class="form-error">
+            <span class="material-symbols-outlined">error</span>
+            <span>{{ formError() }}</span>
+          </div>
+        }
+
+        <div class="field-block">
+          <label class="field-label" for="subject">Sujet</label>
+          <input
+            class="academic-input"
+            id="subject"
+            name="subject"
+            type="text"
+            placeholder="Résumé bref de votre demande..."
+            [ngModel]="subject()"
+            (ngModelChange)="subject.set($event)"
+            required
+          />
+        </div>
+
+        <div class="field-block">
+          <label class="field-label" for="category">Catégorie</label>
+          <div class="select-wrapper">
+            <select
+              class="academic-input appearance-none"
+              id="category"
+              name="category"
+              [ngModel]="category()"
+              (ngModelChange)="category.set($event)"
+              required
+            >
+              <option disabled value="">Sélectionnez une catégorie</option>
+              <option value="bug">Bug technique</option>
+              <option value="functional">Question fonctionnelle</option>
+              <option value="feature">Demande d'évolution</option>
+              <option value="other">Autre</option>
+            </select>
+            <div class="select-arrow">
+              <span class="material-symbols-outlined">expand_more</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label" for="description">Description détaillée</label>
+          <textarea
+            class="academic-input resize-none"
+            id="description"
+            name="description"
+            placeholder="Décrivez votre problème ou votre demande en détail..."
+            rows="5"
+            [ngModel]="description()"
+            (ngModelChange)="description.set($event)"
+            required
+          ></textarea>
+        </div>
+
+        <div class="submit-wrapper">
+          <button class="btn-primary" type="submit" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner"></span>
+              <span>Envoi en cours…</span>
+            } @else {
+              <span class="material-symbols-outlined icon-send">send</span>
+              <span>Envoyer la demande</span>
+            }
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Ticket History Section -->
+    <section class="history-section">
+      <h3 class="history-title">
+        <span class="material-symbols-outlined text-primary">history</span>
+        Historique des tickets
+      </h3>
+
+      <div class="tickets-list">
+        @for (ticket of tickets(); track ticket.id) {
+          <article class="academic-card ticket-card">
+            <div class="ticket-top">
+              <div>
+                <span class="badge-category">{{ ticket.category }}</span>
+                <h4 class="ticket-subject">{{ ticket.subject }}</h4>
+              </div>
+              <div>
+                @if (ticket.status === 'pending') {
+                  <span class="status-pill status-pill--pending">En attente</span>
+                } @else if (ticket.status === 'in_progress') {
+                  <span class="status-pill status-pill--progress">En cours</span>
+                } @else {
+                  <span class="status-pill status-pill--closed">Fermé</span>
+                }
+              </div>
+            </div>
+
+            <div class="ticket-footer">
+              <span class="ticket-date">
+                <span class="material-symbols-outlined icon-small">calendar_today</span>
+                {{ ticket.date }}
+              </span>
+              <span class="ticket-id">Ticket {{ ticket.id }}</span>
+            </div>
+          </article>
+        } @empty {
+          <div class="empty-box">
+            <p>Aucun ticket d'assistance pour le moment.</p>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>
+
+@if (toastMessage()) {
+  <div class="toast-container">
+    <span class="material-symbols-outlined toast-icon">check_circle</span>
+    <span>{{ toastMessage() }}</span>
+  </div>
+}
