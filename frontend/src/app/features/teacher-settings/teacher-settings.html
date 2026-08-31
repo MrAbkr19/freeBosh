@@ -1,0 +1,116 @@
+<div class="settings-container">
+  <!-- Header Section -->
+  <header class="header-section">
+    <div class="header-back-row">
+      <a routerLink="/enseignant/profil" class="back-btn" aria-label="Retour au profil">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h1 class="display-title">Paramètres Enseignant</h1>
+    </div>
+    <p class="subtitle">Gérez vos préférences de stockage, d'affichage et de navigation.</p>
+  </header>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement des paramètres…</p>
+  } @else if (loadError()) {
+    <p class="state-message state-message--error">{{ loadError() }}</p>
+  } @else {
+    <div class="settings-cards-list">
+      <!-- Gestion du stockage hors-ligne -->
+      <section class="settings-card">
+        <div class="card-header-row">
+          <div class="icon-circle">
+            <span class="material-symbols-outlined">sd_storage</span>
+          </div>
+          <div>
+            <h2 class="card-title">Gestion du stockage hors-ligne</h2>
+            <p class="card-subtitle">Espace utilisé : {{ storageUsedMb() }} Mo</p>
+          </div>
+        </div>
+
+        <div class="storage-body">
+          <!-- Progress Bar -->
+          <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="storagePercentage()"></div>
+          </div>
+
+          <button
+            class="btn-clear-cache"
+            [class.btn-clear-cache--cleared]="isCacheCleared()"
+            type="button"
+            (click)="clearOfflineCache()"
+          >
+            @if (isCacheCleared()) {
+              <span class="material-symbols-outlined icon-btn">check</span>
+              <span>Cache vidé</span>
+            } @else {
+              <span class="material-symbols-outlined icon-btn">delete</span>
+              <span>Vider le cache hors-ligne</span>
+            }
+          </button>
+        </div>
+      </section>
+
+      <!-- Affichage -->
+      <section class="settings-card">
+        <div class="card-header-row mb-section">
+          <div class="icon-circle">
+            <span class="material-symbols-outlined">display_settings</span>
+          </div>
+          <h2 class="card-title">Affichage</h2>
+        </div>
+
+        <div class="display-rows">
+          <!-- Taille de police -->
+          <div class="setting-item-row border-divider">
+            <div class="item-text">
+              <h3 class="item-label">Taille de la police</h3>
+              <p class="item-desc">Ajustez la taille du texte pour une meilleure lisibilité.</p>
+            </div>
+            <div class="select-box">
+              <select
+                class="form-select"
+                [ngModel]="fontSize()"
+                (ngModelChange)="onFontSizeChange($event)"
+              >
+                <option value="small">Petite</option>
+                <option value="medium">Normale</option>
+                <option value="large">Grande</option>
+              </select>
+              <div class="select-arrow">
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ambiance Sereine -->
+          <div class="setting-item-row pt-item">
+            <div class="item-text">
+              <h3 class="item-label flex-inline">
+                Mode "Ambiance Sereine"
+                <span class="badge-beta">Beta</span>
+              </h3>
+              <p class="item-desc">Réduit le contraste et active un fond texturé pour faciliter la concentration.</p>
+            </div>
+            <!-- Toggle Switch -->
+            <label class="switch">
+              <input
+                type="checkbox"
+                [checked]="sereneMode()"
+                (change)="toggleSereneMode()"
+              />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </div>
+  }
+</div>
+
+@if (toastMessage()) {
+  <div class="toast-container">
+    <span class="material-symbols-outlined toast-icon">check_circle</span>
+    <span>{{ toastMessage() }}</span>
+  </div>
+}

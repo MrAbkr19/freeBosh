@@ -26,6 +26,8 @@ import { AdminSettings } from './features/admin-settings/admin-settings';
 import { AdminSupport } from './features/admin-support/admin-support';
 import { StudentSettings } from './features/student-settings/student-settings';
 import { StudentSupport } from './features/student-support/student-support';
+import { TeacherSettings } from './features/teacher-settings/teacher-settings';
+import { TeacherSupport } from './features/teacher-support/teacher-support';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,8 +42,6 @@ export const routes: Routes = [
       { path: 'profil', component: StudentProfile },
       { path: 'profil/settings', component: StudentSettings },
       { path: 'profil/support', component: StudentSupport },
-      { path: 'settings', component: StudentSettings },
-      { path: 'support', component: StudentSupport },
 
     ],
   },
@@ -56,6 +56,8 @@ export const routes: Routes = [
     { path: 'modules/:id', component: TeacherModuleDetail },
     { path: 'bibliotheque', component: TeacherLibrary },
     { path: 'profil', component: TeacherProfile },
+    { path: 'profil/settings', component: TeacherSettings },
+    { path: 'profil/support', component: TeacherSupport },
 
   ],
 },
