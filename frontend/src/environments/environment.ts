@@ -10,6 +10,6 @@
 export const environment = {
   production: true,
   useMockApi: true,
-  apiUrl: 'https://api.freebosh.example.com',
+  apiUrl: 'https://freebosh-production.up.railway.app',
   mockDataUrl: '/api/db.json',
 };
