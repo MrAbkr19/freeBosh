@@ -85,17 +85,33 @@ export class MockApiService {
   }
 
   createModule(input: Omit<CourseModule, 'id'>): Observable<CourseModule> {
+    if (!environment.useMockApi) {
+      return this.http
+        .post<{ module: CourseModule }>(`${environment.apiUrl}/modules`, input)
+        .pipe(map((res) => res.module));
+    }
+
     const newModule: CourseModule = { id: `local-${Date.now()}`, ...input };
     this.newModules.push(newModule);
     return of(newModule).pipe(delay(SIMULATED_DELAY_MS));
   }
 
   updateModule(id: string, changes: Partial<CourseModule>): Observable<void> {
+    if (!environment.useMockApi) {
+      return this.http
+        .put<{ module: CourseModule }>(`${environment.apiUrl}/modules/${id}`, changes)
+        .pipe(map(() => undefined));
+    }
+
     this.editedModules.set(id, { ...this.editedModules.get(id), ...changes });
     return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
 
   deleteModule(id: string): Observable<void> {
+    if (!environment.useMockApi) {
+      return this.http.delete<void>(`${environment.apiUrl}/modules/${id}`);
+    }
+
     this.deletedModuleIds.add(id);
     return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
@@ -140,7 +156,7 @@ export class MockApiService {
     );
   }
 
-  // ---- /users ----
+  // ---- /users/basic (any authenticated role — name/role only) ----
   getUsers(): Observable<User[]> {
     if (!environment.useMockApi) {
       return this.http
@@ -154,7 +170,29 @@ export class MockApiService {
     );
   }
 
+  // ---- /users (admin only — full records) ----
+  getUsersFull(): Observable<User[]> {
+    if (!environment.useMockApi) {
+      return this.http
+        .get<{ users: User[] }>(`${environment.apiUrl}/users`)
+        .pipe(map((res) => res.users));
+    }
+
+    return this.loadDb().pipe(
+      delay(SIMULATED_DELAY_MS),
+      map((db) =>
+        [...db.users, ...this.newUsers].map((u) => ({ ...u, ...this.editedUsers.get(u.id) }))
+      )
+    );
+  }
+
   createTeacher(input: { fullName: string; matricule: string }): Observable<User> {
+    if (!environment.useMockApi) {
+      return this.http
+        .post<{ user: User }>(`${environment.apiUrl}/users`, { ...input, role: 'teacher' })
+        .pipe(map((res) => res.user));
+    }
+
     const newTeacher: User = {
       id: `local-${Date.now()}`,
       fullName: input.fullName,
@@ -175,6 +213,12 @@ export class MockApiService {
     niveau: string;
     email: string;
   }): Observable<User> {
+    if (!environment.useMockApi) {
+      return this.http
+        .post<{ user: User }>(`${environment.apiUrl}/users`, { ...input, role: 'student' })
+        .pipe(map((res) => res.user));
+    }
+
     const newStudent: User = {
       id: `local-${Date.now()}`,
       fullName: input.fullName,
@@ -193,6 +237,12 @@ export class MockApiService {
   }
 
   updateUser(id: string, changes: Partial<User>): Observable<void> {
+    if (!environment.useMockApi) {
+      return this.http
+        .put<{ user: User }>(`${environment.apiUrl}/users/${id}`, changes)
+        .pipe(map(() => undefined));
+    }
+
     this.editedUsers.set(id, { ...this.editedUsers.get(id), ...changes });
     return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }
@@ -311,7 +361,9 @@ export class MockApiService {
   // ---- /filieres ----
   getFilieres(): Observable<Filiere[]> {
     if (!environment.useMockApi) {
-      return this.http.get<Filiere[]>(`${environment.apiUrl}/filieres`);
+      return this.http
+        .get<{ filieres: Filiere[] }>(`${environment.apiUrl}/filieres`)
+        .pipe(map((res) => res.filieres));
     }
 
     return this.loadDb().pipe(
@@ -326,12 +378,24 @@ export class MockApiService {
   }
 
   createFiliere(input: Omit<Filiere, 'id'>): Observable<Filiere> {
+    if (!environment.useMockApi) {
+      return this.http
+        .post<{ filiere: Filiere }>(`${environment.apiUrl}/filieres`, input)
+        .pipe(map((res) => res.filiere));
+    }
+
     const newFiliere: Filiere = { id: `local-${Date.now()}`, ...input };
     this.newFilieres.push(newFiliere);
     return of(newFiliere).pipe(delay(SIMULATED_DELAY_MS));
   }
 
   updateFiliere(id: string, changes: Partial<Filiere>): Observable<void> {
+    if (!environment.useMockApi) {
+      return this.http
+        .put<{ filiere: Filiere }>(`${environment.apiUrl}/filieres/${id}`, changes)
+        .pipe(map(() => undefined));
+    }
+
     this.editedFilieres.set(id, { ...this.editedFilieres.get(id), ...changes });
     return of(undefined).pipe(delay(SIMULATED_DELAY_MS));
   }

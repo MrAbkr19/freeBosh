@@ -22,6 +22,42 @@
       "matricule": "admin",
       "passwordHash": "$2b$10$SeoOj7TfVjqFwUlRtkwGqOk4pVbVUFlvUW4JJIJTV0AkB5FJNrJam",
       "role": "admin"
+    },
+    {
+      "id": "u1788257867129",
+      "fullName": "go",
+      "matricule": "ens-120",
+      "passwordHash": "$2b$10$noV2Qu0xdZR7xdg8Jtp1CeRbXeus9jNzkpe5OrHrkNqUwAsqhqRoq",
+      "role": "teacher"
+    },
+    {
+      "id": "u1788257914697",
+      "fullName": "nolla",
+      "matricule": "2024-005",
+      "passwordHash": "$2b$10$pSw0a.Us/ekUJIXCF5IlmO.jmFGJJENFoUZx6ztGQzMjyWQhItvDS",
+      "role": "student",
+      "filiere": "Génie Informatique",
+      "niveau": "master",
+      "email": "hajo@gmail.com",
+      "status": "inscrit"
+    },
+    {
+      "id": "u1788258079949",
+      "fullName": "237699000000 john01",
+      "matricule": "\"John Doe\"",
+      "passwordHash": "$2b$10$vVnjiJEoSycZ0UfUGNz0eOrrAFOVQ49BAV.QGkUp.HL8L18CMUvau",
+      "role": "student",
+      "email": "john@example.com",
+      "status": "inscrit"
+    },
+    {
+      "id": "u1788258079950",
+      "fullName": "237677000000 jane01",
+      "matricule": "\"Jane Doe\"",
+      "passwordHash": "$2b$10$jRPpqAdKczUwx3khaKz8kegIqajPRCbuT76nj7LtzUl4WTROGbxOS",
+      "role": "student",
+      "email": "jane@example.com",
+      "status": "inscrit"
     }
   ],
   "modules": [
@@ -44,6 +80,14 @@
       "teacherIds": [
         "u2"
       ]
+    },
+    {
+      "id": "m1788257849926",
+      "code": "cs100",
+      "name": "giuyhp",
+      "faculty": "Technology 1",
+      "level": "niveau3",
+      "teacherIds": []
     }
   ],
   "documents": [
@@ -127,6 +171,20 @@
       "name": "Mathématiques Appliquées",
       "departmentId": "dep2",
       "degreeLevel": "Licence",
+      "description": ""
+    },
+    {
+      "id": "fil1788257796032",
+      "name": "Génie Informatique",
+      "departmentId": "dep1",
+      "degreeLevel": "Master",
+      "description": ""
+    },
+    {
+      "id": "fil1788257822026",
+      "name": "Technology 1",
+      "departmentId": "dep1",
+      "degreeLevel": "Doctorat",
       "description": ""
     }
   ]
