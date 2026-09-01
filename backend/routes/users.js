@@ -11,6 +11,18 @@ function toSafeUser(user) {
   return safeUser;
 }
 
+router.get('/basic', requireAuth, async (req, res) => {
+  await initDb();
+
+  const basicUsers = db.data.users.map((u) => ({
+    id: u.id,
+    fullName: u.fullName,
+    role: u.role,
+  }));
+
+  res.json({ users: basicUsers });
+});
+
 router.get('/', requireAuth, requireAdmin, async (req, res) => {
   await initDb();
   res.json({ users: db.data.users.map(toSafeUser) });

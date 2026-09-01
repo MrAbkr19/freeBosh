@@ -40,10 +40,10 @@ export class LoginComponent {
     const { matricule, password } = this.loginForm.getRawValue();
 
     this.authService.login(matricule, password).subscribe({
-      next: (user) => {
-        this.isLoading.set(false);
-        this.router.navigateByUrl(this.authService.redirectPathFor(user.role));
-      },
+  next: ({ user }) => {
+    this.isLoading.set(false);
+    this.router.navigateByUrl(this.authService.redirectPathFor(user.role));
+  },
       error: () => {
         this.isLoading.set(false);
         this.errorMessage.set('Matricule ou mot de passe incorrect. Veuillez réessayer.');
