@@ -68,7 +68,8 @@
       "faculty": "Génie Informatique",
       "level": "Niveau 3",
       "teacherIds": [
-        "u2"
+        "u2",
+        "u1788257867129"
       ]
     },
     {
@@ -149,6 +150,12 @@
       "name": "Droit et Sciences Politiques",
       "filiereCount": 5,
       "icon": "account_balance"
+    },
+    {
+      "id": "dep1788270746736",
+      "name": "yghiuhpo",
+      "filiereCount": 0,
+      "icon": "domain"
     }
   ],
   "filieres": [
