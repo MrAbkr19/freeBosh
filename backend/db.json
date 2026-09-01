@@ -4,7 +4,7 @@
       "id": "u1",
       "fullName": "Jean Mbarga",
       "matricule": "2024-001",
-      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "passwordHash": "$2b$10$6o9cV8KrO3gvmiF5xn8BguGcwA4Yy3QIbL3/51A7fg03xn5VpV4M2",
       "role": "student",
       "filiere": "Génie Informatique",
       "niveau": "Niveau 3"
@@ -13,15 +13,44 @@
       "id": "u2",
       "fullName": "Dr. Ateba Rigobert",
       "matricule": "ens-014",
-      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "passwordHash": "$2b$10$SY74nENwSOCgIP0XhT7fN.cplSA3oflSXkCx/3EOpL8uKRwDW3z.a",
       "role": "teacher"
     },
     {
       "id": "u3",
       "fullName": "Admin FreeBosh",
       "matricule": "admin",
-      "passwordHash": "$2b$10$Lnop/A.klGYOtb37B/rre.XawX3g3Jz6qLovFVGoMBS9kR4lPFJnu",
+      "passwordHash": "$2b$10$SY74nENwSOCgIP0XhT7fN.cplSA3oflSXkCx/3EOpL8uKRwDW3z.a",
       "role": "admin"
+    },
+    {
+      "id": "u1787904924647",
+      "fullName": "Prof. Test",
+      "matricule": "ens-099",
+      "passwordHash": "$2b$10$zMfXgyiGrurKUBG6vQNjq.WlX5C8LHDq7xbp0AhiY4QfAZN/QjyDy",
+      "role": "teacher"
+    },
+    {
+      "id": "u1787905133123",
+      "fullName": "Étudiant Test",
+      "matricule": "2024-999",
+      "passwordHash": "$2b$10$EPirjBmUNQuO83M4xNrw8.5T90qlD0qLG5MlBV3dRh5WLb4EdvC.q",
+      "role": "student",
+      "filiere": "Génie Informatique",
+      "niveau": "Niveau 3",
+      "email": "test@edu.cm",
+      "status": "inscrit"
+    },
+    {
+      "id": "u1787905193684",
+      "fullName": "Étudiant Test",
+      "matricule": "2024-991",
+      "passwordHash": "$2b$10$P08SBSHNzDhxb8/xB8GV3uV9DUfJSbHwuME77hyUPK57iP0VuSLGe",
+      "role": "student",
+      "filiere": "Génie Informatique",
+      "niveau": "Niveau 3",
+      "email": "test@edu.cm",
+      "status": "en_attente"
     }
   ],
   "modules": [
@@ -75,13 +104,6 @@
       "courseModuleId": "m1",
       "content": "Le TP1 est repoussé à la semaine prochaine.",
       "createdAt": "2026-08-10T08:30:00.000Z"
-    },
-    {
-      "id": "a1787744082734",
-      "teacherId": "u3",
-      "courseModuleId": "m1",
-      "content": "Rappel : le cours de demain est déplacé en salle B12.",
-      "createdAt": "2026-08-26T11:34:42.734Z"
     }
   ],
   "departments": [
@@ -102,12 +124,36 @@
       "name": "Droit et Sciences Politiques",
       "filiereCount": 5,
       "icon": "account_balance"
+    }
+  ],
+  "filieres": [
+    {
+      "id": "fil1",
+      "name": "Génie Informatique",
+      "departmentId": "dep1",
+      "degreeLevel": "Licence",
+      "description": "Formation en conception, développement et maintenance de systèmes logiciels."
     },
     {
-      "id": "dep1787745141298",
-      "name": "Informatique Appliquée",
-      "filiereCount": 0,
-      "icon": "domain"
+      "id": "fil2",
+      "name": "Réseaux et Télécoms",
+      "departmentId": "dep1",
+      "degreeLevel": "Master",
+      "description": ""
+    },
+    {
+      "id": "fil3",
+      "name": "Mathématiques Appliquées",
+      "departmentId": "dep2",
+      "degreeLevel": "Licence",
+      "description": ""
+    },
+    {
+      "id": "fil1787827226103",
+      "name": "Test Filiere Modifiée",
+      "departmentId": "dep1",
+      "degreeLevel": "Licence",
+      "description": ""
     }
   ]
 }
