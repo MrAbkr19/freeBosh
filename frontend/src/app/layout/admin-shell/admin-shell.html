@@ -1,60 +1,91 @@
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="brand-icon">
-      <span class="material-symbols-outlined">school</span>
+      <img src="icons/Asset 2.png" alt="FreeBosh Logo" class="brand-logo-img" />
     </div>
     <div>
-      <h1>FreeBosh</h1>
-      <p>Administration</p>
+      <h1 class="brand-title">FreeBosh</h1>
+      <p class="brand-subtitle">Administrateur</p>
     </div>
   </div>
 
   <nav class="sidebar-nav">
-    <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="nav-link--active">
-      <span class="material-symbols-outlined">dashboard</span>
-      Tableau de bord
-    </a>
-    <a class="nav-link" routerLink="/admin/departements" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">domain</span>
-  Départements
-</a>
-   <a class="nav-link" routerLink="/admin/filieres" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">school</span>
-  Filières
-</a>
-    <a class="nav-link" routerLink="/admin/modules" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">meeting_room</span>
-  Salles &amp; Modules
-</a>
-    <a class="nav-link" routerLink="/admin/enseignants" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">person_4</span>
-  Enseignants
-</a>
-    <a class="nav-link" routerLink="/admin/etudiants" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">group</span>
-  Étudiants
-</a>
-    <a class="nav-link" routerLink="/admin/import" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">file_upload</span>
-  Import en masse
-</a>
+    <ul class="nav-list">
+      <li>
+        <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Tableau de bord</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/departements" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">domain</span>
+          <span>Départements</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/filieres" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">school</span>
+          <span>Filières</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/modules" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">meeting_room</span>
+          <span>Salles &amp; Modules</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/enseignants" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">person_4</span>
+          <span>Enseignants</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/etudiants" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">group</span>
+          <span>Étudiants</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/admin/import" routerLinkActive="nav-link--active">
+          <span class="material-symbols-outlined">file_upload</span>
+          <span>Importation en masse</span>
+        </a>
+      </li>
+    </ul>
   </nav>
 
   <div class="sidebar-footer">
-    <button class="nav-link" type="button" routerLink="/admin/settings" routerLinkActive="nav-link--active">
-      <span class="material-symbols-outlined">settings</span>
-      Paramètres
-    </button>
-    <button class="nav-link" type="button" routerLink="/admin/support" routerLinkActive="nav-link--active">
-      <span class="material-symbols-outlined">help</span>
-      Aide &amp; Support
-    </button>
+    <div class="academic-year-card">
+      <span>Année Académique 2024-2025</span>
+    </div>
+    <ul class="footer-links">
+      <li>
+        <a class="footer-nav-link" routerLink="/admin/settings" routerLinkActive="footer-nav-link--active">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Paramètres</span>
+        </a>
+      </li>
+      <li>
+        <a class="footer-nav-link" routerLink="/admin/support" routerLinkActive="footer-nav-link--active">
+          <span class="material-symbols-outlined">help</span>
+          <span>Assistance</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </aside>
 
 <div class="main-area">
   <header class="topbar">
-    <h2 class="topbar-title">Vue d'ensemble</h2>
+    <div class="mobile-brand">
+      <div class="mobile-logo">
+        <img src="icons/Asset 2.png" alt="FreeBosh" class="mobile-logo-img" />
+      </div>
+      <h1 class="mobile-title">FreeBosh</h1>
+    </div>
+    <h2 class="topbar-title">{{ activeTitle() }}</h2>
     <div class="topbar-actions">
       <div class="search-box">
         <span class="material-symbols-outlined">search</span>
@@ -80,28 +111,24 @@
     <span class="material-symbols-outlined">dashboard</span>
     <span>Accueil</span>
   </a>
-  <button class="nav-btn" type="button" routerLink="/admin/filieres" routerLinkActive="nav-link--active">
+  <a class="nav-btn" routerLink="/admin/departements" routerLinkActive="nav-btn--active">
+    <span class="material-symbols-outlined">domain</span>
+    <span>Dépts</span>
+  </a>
+  <a class="nav-btn" routerLink="/admin/filieres" routerLinkActive="nav-btn--active">
     <span class="material-symbols-outlined">school</span>
     <span>Filières</span>
-  </button>
-  <button class="nav-btn" type="button" routerLink="/admin/enseignants" routerLinkActive="nav-link--active">
-    <span class="material-symbols-outlined">person_4</span>
-    <span>Profs</span>
-  </button>
-  <button class="nav-btn" type="button" routerLink="/admin/departements" routerLinkActive="nav-link--active">
-    <span class="material-symbols-outlined">domain</span>
-    <span>Départements</span>
-  </button>
-  <button class="nav-btn" type="button" routerLink="/admin/modules" routerLinkActive="nav-link--active">
+  </a>
+  <a class="nav-btn" routerLink="/admin/modules" routerLinkActive="nav-btn--active">
     <span class="material-symbols-outlined">meeting_room</span>
     <span>Modules</span>
-  </button>
-  <button class="nav-btn" type="button" routerLink="/admin/etudiants" routerLinkActive="nav-link--active">
+  </a>
+  <a class="nav-btn" routerLink="/admin/enseignants" routerLinkActive="nav-btn--active">
+    <span class="material-symbols-outlined">person_4</span>
+    <span>Profs</span>
+  </a>
+  <a class="nav-btn" routerLink="/admin/etudiants" routerLinkActive="nav-btn--active">
     <span class="material-symbols-outlined">group</span>
-    <span>etudiants</span>
-  </button>
-  <!-- <a class="nav-link" routerLink="/admin/filieres" routerLinkActive="nav-link--active">
-  <span class="material-symbols-outlined">school</span>
-  Filières
-</a> -->
+    <span>Étudiants</span>
+  </a>
 </nav>

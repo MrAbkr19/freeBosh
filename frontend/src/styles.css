@@ -1,22 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global design tokens aligned with Stitch design system */
 :root {
   --color-background: #f8fafc;
   --color-surface: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
   --color-surface-variant: #e0e3e5;
   --color-primary: #2563eb;
   --color-primary-dark: #1d4ed8;
+  --color-primary-gradient: linear-gradient(135deg, #2563eb 0%, #0f172a 100%);
   --color-academic: #0f172a;
   --color-on-surface: #191c1e;
   --color-on-surface-variant: #434655;
+  --color-outline: #737686;
   --color-outline-variant: #c3c6d7;
   --color-error: #ba1a1a;
   --color-error-container: #ffdad6;
   --color-on-error-container: #93000a;
+  --color-secondary-container: #dae2fd;
 
   --radius-default: 4px;
   --radius-lg: 8px;
-  --radius-xl: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  --font-family: 'Inter', system-ui, sans-serif;
-}
+  --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+  --shadow-btn: 0 8px 16px -4px rgba(37, 99, 235, 0.35);
+
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

@@ -1,16 +1,20 @@
 <header class="topbar">
-  <button class="icon-btn" aria-label="Menu" type="button">
-    <span class="material-symbols-outlined">school</span>
-  </button>
-  <h1 class="brand">FreeBosh</h1>
+  <div class="brand-group">
+    <div class="logo-box">
+      <img src="icons/Asset 2.png" alt="FreeBosh Logo" class="logo-img" />
+    </div>
+    <h1 class="brand">FreeBosh</h1>
+  </div>
   <div class="status-group">
     <div class="status-pill" [class.status-pill--offline]="!connectivity.isOnline()">
       <span class="status-dot" [class.status-dot--offline]="!connectivity.isOnline()"></span>
       <span>{{ connectivity.isOnline() ? 'En ligne' : 'Hors ligne' }}</span>
     </div>
-    <span class="material-symbols-outlined status-icon">
-      {{ connectivity.isOnline() ? 'wifi' : 'wifi_off' }}
-    </span>
+    <button class="status-btn" type="button" aria-label="Statut connexion">
+      <span class="material-symbols-outlined">
+        {{ connectivity.isOnline() ? 'wifi' : 'wifi_off' }}
+      </span>
+    </button>
   </div>
 </header>
 
@@ -54,4 +58,4 @@
     <span class="material-symbols-outlined">person</span>
     <span>Profil</span>
   </a>
-</nav>
+</nav>

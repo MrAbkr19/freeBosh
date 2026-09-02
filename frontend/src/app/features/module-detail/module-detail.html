@@ -36,9 +36,11 @@
           </span>
         </div>
 
-        <span class="badge">{{ doc.typeLabel }}</span>
-        <h3>{{ doc.title }}</h3>
-        <p class="card-desc">{{ doc.description }}</p>
+        <div class="card-body">
+          <span class="badge">{{ doc.typeLabel }}</span>
+          <h3>{{ doc.title }}</h3>
+          <p class="card-desc">{{ doc.description }}</p>
+        </div>
 
         <div class="card-footer">
           <span class="file-size">{{ doc.fileSizeLabel }}</span>
@@ -46,4 +48,4 @@
       </article>
     }
   </div>
-}
+}
