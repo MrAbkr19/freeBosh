@@ -1,10 +1,20 @@
 <header class="topbar">
-  <div class="brand-group">
-    <div class="logo-box">
-      <img src="icons/Asset 2.png" alt="FreeBosh Logo" class="logo-img" />
+  @if (subPageConfig().isSubPage) {
+    <div class="header-back-group">
+      <a [routerLink]="subPageConfig().backRoute" class="header-back-btn" aria-label="Retour au profil">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h1 class="header-page-title">{{ subPageConfig().title }}</h1>
     </div>
-    <h1 class="brand">FreeBosh</h1>
-  </div>
+  } @else {
+    <div class="brand-group">
+      <div class="logo-box">
+        <img src="icons/Asset 2.png" alt="FreeBosh Logo" class="logo-img" />
+      </div>
+      <h1 class="brand">FreeBosh</h1>
+    </div>
+  }
+
   <div class="status-group">
     <div class="status-pill" [class.status-pill--offline]="!connectivity.isOnline()">
       <span class="status-dot" [class.status-dot--offline]="!connectivity.isOnline()"></span>
@@ -58,4 +68,4 @@
     <span class="material-symbols-outlined">person</span>
     <span>Profil</span>
   </a>
-</nav>
+</nav>
