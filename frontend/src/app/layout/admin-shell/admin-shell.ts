@@ -51,4 +51,9 @@ export class AdminShell {
   get initials(): string {
     return initialsFor(this.currentUser()?.fullName);
   }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigateByUrl('/');
+  }
 }

@@ -20,11 +20,6 @@
       <span class="status-dot" [class.status-dot--offline]="!connectivity.isOnline()"></span>
       <span>{{ connectivity.isOnline() ? 'En ligne' : 'Hors ligne' }}</span>
     </div>
-    <button class="status-btn" type="button" aria-label="Statut connexion">
-      <span class="material-symbols-outlined">
-        {{ connectivity.isOnline() ? 'wifi' : 'wifi_off' }}
-      </span>
-    </button>
   </div>
 </header>
 

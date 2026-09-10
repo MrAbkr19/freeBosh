@@ -77,21 +77,21 @@
             </div>
           </div>
 
-          <!-- Ambiance Sereine -->
+          <!-- Mode Sombre -->
           <div class="setting-item-row pt-item">
             <div class="item-text">
               <h3 class="item-label flex-inline">
-                Mode "Ambiance Sereine"
+                Mode Sombre
                 <span class="badge-beta">Beta</span>
               </h3>
-              <p class="item-desc">Réduit le contraste et active un fond texturé pour faciliter la concentration.</p>
+              <p class="item-desc">Active le mode sombre pour économiser la batterie.</p>
             </div>
             <!-- Toggle Switch -->
             <label class="switch">
               <input
                 type="checkbox"
-                [checked]="sereneMode()"
-                (change)="toggleSereneMode()"
+                [checked]="themeService.isDark()"
+                (change)="themeService.toggleTheme()"
               />
               <span class="slider"></span>
             </label>

@@ -93,6 +93,24 @@
 
             <div class="divider"></div>
 
+            <!-- Mode Sombre Toggle -->
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-name">Mode Sombre</p>
+                <p class="toggle-description">Active le mode sombre pour économiser la batterie.</p>
+              </div>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="themeService.isDark()"
+                  (change)="themeService.toggleTheme()"
+                />
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="divider"></div>
+
             <!-- Serene Mode Toggle -->
             <div class="toggle-row">
               <div>

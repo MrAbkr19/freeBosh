@@ -1,6 +1,20 @@
+<div class="login-theme-toggle">
+  <button
+    class="theme-toggle-btn"
+    type="button"
+    (click)="themeService.toggleTheme()"
+    [attr.aria-label]="themeService.isDark() ? 'Activer le mode clair' : 'Activer le mode sombre'"
+    [title]="themeService.isDark() ? 'Passer au mode clair' : 'Passer au mode sombre'"
+  >
+    <span class="material-symbols-outlined">
+      {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+    </span>
+  </button>
+</div>
+
 <header class="login-header">
   <div class="logo-badge">
-    <img src="icons/logo-acceuil-favicon.png" alt="FreeBosh Logo" class="logo-img" />
+    <img src="icons/logo-acceuil.png" alt="FreeBosh Logo" class="logo-img" />
   </div>
 </header>
 
@@ -77,4 +91,4 @@
       Besoin d'aide ? <a href="#">Contacter le support</a>
     </p>
   </div>
-</main>
+</main>

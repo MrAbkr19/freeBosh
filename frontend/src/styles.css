@@ -1,33 +1,245 @@
-/* Global design tokens aligned with Stitch design system */
-:root {
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-container-low: #f2f4f6;
-  --color-surface-container: #eceef0;
-  --color-surface-container-high: #e6e8ea;
-  --color-surface-container-highest: #e0e3e5;
-  --color-surface-variant: #e0e3e5;
-  --color-primary: #2563eb;
-  --color-primary-dark: #1d4ed8;
-  --color-primary-gradient: linear-gradient(135deg, #2563eb 0%, #0f172a 100%);
-  --color-academic: #0f172a;
-  --color-on-surface: #191c1e;
-  --color-on-surface-variant: #434655;
-  --color-outline: #737686;
-  --color-outline-variant: #c3c6d7;
-  --color-error: #ba1a1a;
-  --color-error-container: #ffdad6;
-  --color-on-error-container: #93000a;
-  --color-secondary-container: #dae2fd;
+/* Global design tokens with Emerald Green (#16a34a) brand palette across Dark & Light themes */
 
-  --radius-default: 4px;
-  --radius-lg: 8px;
-  --radius-xl: 16px;
+/* --- THÈME PAR DÉFAUT / DARK MODE (Charcoal Profond & Vert Émeraude) --- */
+:root,
+[data-theme="dark"] {
+  /* --- TYPOGRAPHIE (Manrope) --- */
+  --font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  /* --- COULEURS PRINCIPALES / BRAND (Vert Émeraude) --- */
+  --color-primary: #16a34a;
+  --color-primary-dark: #15803d;
+  --color-primary-light: #4ade80;
+  --color-primary-container: rgba(22, 163, 74, 0.2);
+  --color-primary-container-subtle: rgba(22, 163, 74, 0.1);
+  --color-primary-border-hover: rgba(22, 163, 74, 0.5);
+  --color-primary-gradient: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  --color-primary-admin: #0d0d0f;
+  --color-on-primary: #ffffff;
+
+  /* --- TEXTES & ACADÉMIQUE (Mode Sombre Charcoal & Blanc Pur) --- */
+  --color-academic: #ffffff;
+  --color-on-surface: #f4f4f5;
+  --color-on-surface-variant: #a1a1aa;
+  --color-on-surface-muted: #71717a;
+  --color-label: #e4e4e7;
+
+  /* --- SURFACES & ARRIÈRE-PLANS (Noir Profond & Gris Anthracite) --- */
+  --color-background: #0c0c0e;
+  --color-surface: #18181b;
+  --color-surface-hover: #232327;
+  --color-surface-container: #202024;
+  --color-surface-container-low: #131316;
+  --color-surface-container-high: #27272b;
+  --color-surface-container-highest: #323238;
+  --color-surface-variant: #232327;
+  --color-secondary-container: rgba(22, 163, 74, 0.2);
+  --color-secondary-container-text: #4ade80;
+
+  /* --- BORDURES & SÉPARATEURS --- */
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-card: rgba(22, 163, 74, 0.2);
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-dashed: rgba(22, 163, 74, 0.35);
+  --color-outline: #71717a;
+  --color-outline-variant: #3f3f46;
+
+  /* --- ÉTATS : ERREUR / INCOMPLET --- */
+  --color-error: #f87171;
+  --color-error-container: rgba(239, 68, 68, 0.18);
+  --color-error-border: rgba(239, 68, 68, 0.35);
+  --color-on-error: #ffffff;
+  --color-error-dark: #ef4444;
+  --color-error-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+
+  /* --- ÉTATS : SUCCÈS / COMPLET --- */
+  --color-success: #4ade80;
+  --color-success-light: #86efac;
+  --color-success-container: rgba(74, 222, 128, 0.15);
+  --color-success-border: rgba(74, 222, 128, 0.3);
+  --color-on-success: #000000;
+  --color-on-success-container: #4ade80;
+
+  /* --- ÉTATS : AVERTISSEMENT & INFO --- */
+  --color-warning: #fbbf24;
+  --color-warning-container: rgba(251, 191, 36, 0.15);
+  --color-on-warning-container: #fbbf24;
+  --color-warning-orange: #fb923c;
+  --color-warning-orange-container: rgba(251, 146, 60, 0.15);
+  --color-on-warning-orange: #fb923c;
+  --color-info: #38bdf8;
+  --color-info-container: rgba(56, 189, 248, 0.15);
+  --color-info-banner: rgba(56, 189, 248, 0.08);
+  --color-info-border: rgba(56, 189, 248, 0.3);
+  --color-on-info: #38bdf8;
+
+  /* --- ÉTAT OFFLINE --- */
+  --color-offline: #f87171;
+  --color-offline-container: rgba(248, 113, 113, 0.2);
+
+  /* --- RAYONS (BORDER RADIUS) --- */
+  --radius-sm: 6px;
+  --radius-default: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
-  --shadow-btn: 0 8px 16px -4px rgba(37, 99, 235, 0.35);
+  /* --- OMBRES (CHARCOAL & GLOW ÉMERAUDE) --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(22, 163, 74, 0.25);
+  --shadow-modal: 0 24px 48px rgba(0, 0, 0, 0.85);
+  --shadow-btn: 0 4px 18px rgba(22, 163, 74, 0.35);
+  --shadow-btn-sm: 0 2px 10px rgba(22, 163, 74, 0.25);
 
-  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
+  /* --- OVERLAY / SCRIM --- */
+  --color-scrim: rgba(0, 0, 0, 0.8);
+  --color-scrim-light: rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
+/* --- THÈME CLAIR (Blanc Épuré, Vert Émeraude & Slate) --- */
+[data-theme="light"] {
+  /* --- COULEURS PRINCIPALES / BRAND (Vert Émeraude) --- */
+  --color-primary: #16a34a;
+  --color-primary-dark: #15803d;
+  --color-primary-light: #22c55e;
+  --color-primary-container: rgba(22, 163, 74, 0.12);
+  --color-primary-container-subtle: rgba(22, 163, 74, 0.06);
+  --color-primary-border-hover: rgba(22, 163, 74, 0.4);
+  --color-primary-gradient: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  --color-primary-admin: #0f172a;
+  --color-on-primary: #ffffff;
+
+  /* --- TEXTES & ACADÉMIQUE --- */
+  --color-academic: #090d16;
+  --color-on-surface: #1e293b;
+  --color-on-surface-variant: #64748b;
+  --color-on-surface-muted: #94a3b8;
+  --color-label: #334155;
+
+  /* --- SURFACES & ARRIÈRE-PLANS --- */
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-surface-container: #f1f5f9;
+  --color-surface-container-low: #f8fafc;
+  --color-surface-container-high: #e2e8f0;
+  --color-surface-container-highest: #cbd5e1;
+  --color-surface-variant: #f1f5f9;
+  --color-secondary-container: rgba(22, 163, 74, 0.12);
+  --color-secondary-container-text: #15803d;
+
+  /* --- BORDURES & SÉPARATEURS --- */
+  --color-border: #e2e8f0;
+  --color-border-card: rgba(22, 163, 74, 0.15);
+  --color-border-subtle: #f1f5f9;
+  --color-border-dashed: rgba(22, 163, 74, 0.3);
+  --color-outline: #94a3b8;
+  --color-outline-variant: #cbd5e1;
+
+  /* --- ÉTATS : ERREUR / INCOMPLET --- */
+  --color-error: #ef4444;
+  --color-error-container: rgba(239, 68, 68, 0.1);
+  --color-error-border: rgba(239, 68, 68, 0.25);
+  --color-on-error: #ffffff;
+  --color-error-dark: #dc2626;
+  --color-error-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+
+  /* --- ÉTATS : SUCCÈS / COMPLET --- */
+  --color-success: #16a34a;
+  --color-success-light: #22c55e;
+  --color-success-container: rgba(22, 163, 74, 0.12);
+  --color-success-border: rgba(22, 163, 74, 0.25);
+  --color-on-success: #ffffff;
+  --color-on-success-container: #15803d;
+
+  /* --- ÉTATS : AVERTISSEMENT & INFO --- */
+  --color-warning: #d97706;
+  --color-warning-container: rgba(217, 119, 6, 0.1);
+  --color-on-warning-container: #b45309;
+  --color-warning-orange: #ea580c;
+  --color-warning-orange-container: rgba(234, 88, 12, 0.1);
+  --color-on-warning-orange: #c2410c;
+  --color-info: #0284c7;
+  --color-info-container: rgba(2, 132, 199, 0.1);
+  --color-info-banner: rgba(2, 132, 199, 0.05);
+  --color-info-border: rgba(2, 132, 199, 0.25);
+  --color-on-info: #0284c7;
+
+  /* --- ÉTAT OFFLINE --- */
+  --color-offline: #ef4444;
+  --color-offline-container: rgba(239, 68, 68, 0.12);
+
+  /* --- OMBRES --- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --shadow-card-hover: 0 12px 32px -4px rgba(0, 0, 0, 0.1), 0 0 16px rgba(22, 163, 74, 0.15);
+  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --shadow-btn: 0 4px 14px rgba(22, 163, 74, 0.25);
+  --shadow-btn-sm: 0 2px 8px rgba(22, 163, 74, 0.18);
+
+  /* --- OVERLAY / SCRIM --- */
+  --color-scrim: rgba(0, 0, 0, 0.5);
+  --color-scrim-light: rgba(0, 0, 0, 0.25);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  color: var(--color-on-surface);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button,
+input,
+select,
+textarea,
+optgroup {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family);
+  font-weight: 700;
+  color: var(--color-academic);
+  letter-spacing: -0.025em;
+}
+
+p {
+  color: var(--color-on-surface-variant);
+  letter-spacing: -0.01em;
+}
+
+label {
+  font-weight: 600;
+  color: var(--color-label);
+  letter-spacing: -0.01em;
+}
