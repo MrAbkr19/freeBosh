@@ -87,6 +87,30 @@ async function seed() {
     { id: 'dep3', name: 'Droit et Sciences Politiques', filiereCount: 5, icon: 'account_balance' },
   ];
 
+    db.data.filieres = [
+    {
+      id: 'fil1',
+      name: 'Génie Informatique',
+      departmentId: 'dep1',
+      degreeLevel: 'Licence',
+      description: 'Formation en conception, développement et maintenance de systèmes logiciels.',
+    },
+    {
+      id: 'fil2',
+      name: 'Réseaux et Télécoms',
+      departmentId: 'dep1',
+      degreeLevel: 'Master',
+      description: '',
+    },
+    {
+      id: 'fil3',
+      name: 'Mathématiques Appliquées',
+      departmentId: 'dep2',
+      degreeLevel: 'Licence',
+      description: '',
+    },
+  ];
+
   await db.write();
   console.log('Seeded 1 user with a hashed password.');
 }

@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { MockApiService } from '../../services/mock-api';
 import { AdminStat } from '../../models/admin-stat';
@@ -12,6 +13,7 @@ import { AdminStat } from '../../models/admin-stat';
 })
 export class AdminDashboard {
   private readonly api = inject(MockApiService);
+  private readonly router = inject(Router);
 
   readonly isLoading = signal(true);
   readonly loadError = signal<string | null>(null);
@@ -27,7 +29,7 @@ export class AdminDashboard {
 
     forkJoin({
       modules: this.api.getModules(),
-      users: this.api.getUsers(),
+      users: this.api.getUsersFull(),
     }).subscribe({
       next: ({ modules, users }) => {
         const filiereCount = new Set(modules.map((m) => m.faculty)).size;
@@ -54,5 +56,22 @@ export class AdminDashboard {
         this.loadError.set('Impossible de charger les statistiques. Vérifiez votre connexion.');
       },
     });
+  }
+
+  goToNewDepartment(): void {
+    this.router.navigateByUrl('/admin/departements');
+  }
+
+  exportReport(): void {
+    const rows = this.stats().map((s) => `${s.label},${s.value}`).join('\n');
+    const csv = `Statistique,Valeur\n${rows}`;
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `rapport-freebosh-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 }

@@ -56,7 +56,7 @@ export class AdminTeachers {
     this.loadError.set(null);
 
     forkJoin({
-      users: this.api.getUsers(),
+      users: this.api.getUsersFull(),
       modules: this.api.getModules(),
     }).subscribe({
       next: ({ users, modules }) => {

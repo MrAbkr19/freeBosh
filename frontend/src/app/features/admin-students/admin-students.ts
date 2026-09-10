@@ -62,7 +62,7 @@ export class AdminStudents {
     this.isLoading.set(true);
     this.loadError.set(null);
 
-    this.api.getUsers().subscribe({
+        this.api.getUsersFull().subscribe({
       next: (users) => {
         const students = users.filter((u) => u.role === 'student');
 
