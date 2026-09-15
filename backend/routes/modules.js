@@ -26,7 +26,7 @@ router.get('/', requireAuth, async (req, res) => {
       modules = db.data.modules.filter((m) => m.teacherIds.includes(requester.id));
       break;
 
-    case 'admin':
+    case 'admin':76 
       modules = db.data.modules;
       break;
 

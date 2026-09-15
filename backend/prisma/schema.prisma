@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  fullName     String
+  matricule    String   @unique
+  passwordHash String
+  role         String
+  filiere      String?
+  niveau       String?
+  email        String?
+  status       String?
+}
+
+model CourseModule {
+  id         String   @id @default(cuid())
+  code       String
+  name       String
+  faculty    String
+  level      String
+  teacherIds String[]
+}
+
+model CourseDocument {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  fileUrl        String
+  fileSize       Int
+  courseModuleId String
+  teacherId      String
+  createdAt      DateTime @default(now())
+}
+
+model Announcement {
+  id             String   @id @default(cuid())
+  teacherId      String
+  courseModuleId String
+  content        String
+  createdAt      DateTime @default(now())
+}
+
+model Department {
+  id           String @id @default(cuid())
+  name         String
+  filiereCount Int    @default(0)
+  icon         String @default("domain")
+}
+
+model Filiere {
+  id           String  @id @default(cuid())
+  name         String
+  departmentId String
+  degreeLevel  String
+  description  String?
+}
