@@ -1,11 +1,21 @@
-<header class="topbar">
-  <button class="icon-btn" aria-label="Menu" type="button">
-    <span class="material-symbols-outlined">school</span>
+<div class="login-theme-toggle">
+  <button
+    class="theme-toggle-btn"
+    type="button"
+    (click)="themeService.toggleTheme()"
+    [attr.aria-label]="themeService.isDark() ? 'Activer le mode clair' : 'Activer le mode sombre'"
+    [title]="themeService.isDark() ? 'Passer au mode clair' : 'Passer au mode sombre'"
+  >
+    <span class="material-symbols-outlined">
+      {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+    </span>
   </button>
-  <h1 class="brand">FreeBosh</h1>
-  <button class="icon-btn" aria-label="Statut de connexion" type="button">
-    <span class="material-symbols-outlined">wifi_off</span>
-  </button>
+</div>
+
+<header class="login-header">
+  <div class="logo-badge">
+    <img src="icons/logo-acceuil.png" alt="FreeBosh Logo" class="logo-img" />
+  </div>
 </header>
 
 <main class="login-main">

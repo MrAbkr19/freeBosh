@@ -1,12 +1,6 @@
 <div class="settings-container">
   <!-- Header Section -->
   <header class="header-section">
-    <div class="header-back-row">
-      <a routerLink="/etudiant/profil" class="back-btn" aria-label="Retour au profil">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
-      <h2 class="display-title">Paramètres</h2>
-    </div>
     <p class="subtitle">Gérez vos préférences d'apprentissage et de stockage.</p>
   </header>
 
@@ -95,6 +89,24 @@
                   Grand
                 </button>
               </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Mode Sombre Toggle -->
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-name">Mode Sombre</p>
+                <p class="toggle-description">Active le mode sombre pour économiser la batterie.</p>
+              </div>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="themeService.isDark()"
+                  (change)="themeService.toggleTheme()"
+                />
+                <span class="slider"></span>
+              </label>
             </div>
 
             <div class="divider"></div>

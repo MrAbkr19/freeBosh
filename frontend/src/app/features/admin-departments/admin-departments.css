@@ -10,14 +10,15 @@
 }
 
 .page-header h1 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 700;
-  color: var(--color-on-surface);
+  color: var(--color-academic);
+  letter-spacing: -0.02em;
   margin: 0 0 4px;
 }
 
 .page-header p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-on-surface-variant);
   margin: 0;
 }
@@ -27,32 +28,45 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  border-radius: var(--radius-lg);
+  padding: 12px 22px;
+  border-radius: var(--radius-2xl);
   border: none;
-  background: var(--color-primary);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: all 0.15s;
   align-self: flex-start;
+}
+
+.btn-primary:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .state-message {
   text-align: center;
   color: var(--color-on-surface-variant);
-  padding: 32px 0;
+  padding: 40px 0;
+  font-size: 15px;
 }
 
 .state-message--error {
-  color: var(--color-on-error-container);
+  color: var(--color-error);
 }
 
 .table-card {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border-card);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
@@ -67,16 +81,16 @@ table {
 }
 
 thead tr {
-  border-bottom: 1px solid var(--color-outline-variant);
-  background: color-mix(in srgb, var(--color-surface-container) 50%, transparent);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-container-low);
 }
 
 th {
   padding: 16px 24px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--color-on-surface-variant);
 }
 
@@ -89,15 +103,20 @@ th {
 }
 
 tbody tr {
-  border-bottom: 1px solid var(--color-outline-variant);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background-color 0.15s;
 }
 
 tbody tr:hover {
-  background: var(--color-background);
+  background: var(--color-primary-container-subtle);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
 }
 
 td {
-  padding: 20px 24px;
+  padding: 16px 24px;
 }
 
 .dept-name {
@@ -107,10 +126,10 @@ td {
 }
 
 .dept-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-xl);
+  background: var(--color-primary-container);
   color: var(--color-primary);
   display: flex;
   align-items: center;
@@ -118,9 +137,14 @@ td {
   flex-shrink: 0;
 }
 
+.dept-icon .material-symbols-outlined {
+  font-size: 22px;
+}
+
 .dept-name span {
-  font-weight: 500;
-  color: var(--color-on-surface);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-academic);
 }
 
 .filiere-pill {
@@ -130,35 +154,41 @@ td {
   background: var(--color-surface-container);
   color: var(--color-on-surface-variant);
   font-size: 12px;
+  font-weight: 600;
 }
 
 .icon-action {
   border: none;
   background: transparent;
-  color: var(--color-on-surface-variant);
-  padding: 8px;
-  border-radius: var(--radius-lg);
+  color: var(--color-outline);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
 }
 
 .icon-action:hover {
   color: var(--color-error);
-  background: color-mix(in srgb, var(--color-error-container) 40%, transparent);
+  background: var(--color-error-container);
 }
 
 .table-footer {
-  padding: 16px 24px;
-  background: color-mix(in srgb, var(--color-surface-container) 30%, transparent);
-  border-top: 1px solid var(--color-outline-variant);
+  padding: 14px 24px;
+  background: var(--color-surface-container-low);
+  border-top: 1px solid var(--color-border-subtle);
   font-size: 12px;
+  font-weight: 500;
   color: var(--color-on-surface-variant);
 }
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(45, 49, 51, 0.4);
+  background: var(--color-scrim);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -169,10 +199,10 @@ td {
 
 .modal-panel {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-modal);
   overflow: hidden;
 }
 
@@ -181,13 +211,13 @@ td {
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--color-outline-variant);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .modal-header h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-on-surface);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-academic);
   margin: 0;
 }
 
@@ -214,70 +244,81 @@ form {
 
 .field-group label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-on-surface);
-  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-label);
+  margin-bottom: 6px;
 }
 
 .field-group input {
   width: 100%;
-  padding: 10px 16px;
+  padding: 11px 16px;
   background: var(--color-surface);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--radius-lg);
-  font-size: 16px;
-  font-family: var(--font-family);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: 14px;
+  font-family: inherit;
   color: var(--color-on-surface);
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .field-group input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+  box-shadow: 0 0 0 3px var(--color-primary-container);
 }
 
 .field-hint {
   font-size: 12px;
-  color: var(--color-on-surface-variant);
-  margin: 8px 0 0;
+  color: var(--color-outline);
+  margin: 6px 0 0;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding-top: 24px;
+  gap: 10px;
+  padding-top: 20px;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 10px 20px;
+  border-radius: var(--radius-2xl);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 
 .btn-cancel {
-  padding: 10px 20px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-outline-variant);
+  border: 1px solid var(--color-border);
   background: transparent;
-  color: var(--color-on-surface);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+  color: var(--color-label);
+}
+
+.btn-cancel:hover {
+  background: var(--color-surface-container-low);
 }
 
 .btn-submit {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius-lg);
+  gap: 6px;
   border: none;
-  background: var(--color-primary);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-btn-sm);
+}
+
+.btn-submit:hover:not(:disabled) {
+  opacity: 0.94;
 }
 
 .btn-submit:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

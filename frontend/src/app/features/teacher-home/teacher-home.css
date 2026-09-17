@@ -10,15 +10,15 @@
 }
 
 .welcome-text h1 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-on-surface);
-  margin: 0 0 8px;
+  color: var(--color-academic);
+  margin: 0 0 6px;
 }
 
 .welcome-text p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-on-surface-variant);
   margin: 0;
 }
@@ -26,7 +26,7 @@
 .welcome-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-primary,
@@ -35,18 +35,25 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  border-radius: var(--radius-lg);
-  font-size: 14px;
-  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: var(--radius-2xl);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: all 0.15s;
 }
 
 .btn-primary {
   border: none;
-  background: var(--color-primary);
-  color: #ffffff;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
 }
 
 .btn-primary:active {
@@ -54,9 +61,15 @@
 }
 
 .btn-secondary {
-  border: 1px solid var(--color-outline-variant);
-  background: transparent;
-  color: var(--color-primary);
+  border: 1px solid var(--color-border-card);
+  background: var(--color-surface);
+  color: var(--color-academic);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-outline-variant);
 }
 
 .btn-secondary:active {
@@ -66,11 +79,12 @@
 .state-message {
   text-align: center;
   color: var(--color-on-surface-variant);
-  padding: 32px 0;
+  padding: 40px 0;
+  font-size: 15px;
 }
 
 .state-message--error {
-  color: var(--color-on-error-container);
+  color: var(--color-error);
 }
 
 .empty-message {
@@ -86,16 +100,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-on-surface);
-  border-bottom: 1px solid var(--color-outline-variant);
-  padding-bottom: 8px;
-  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-academic);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 10px;
+  margin: 0 0 18px;
 }
 
 .section-title .material-symbols-outlined {
   color: var(--color-primary);
+  font-size: 22px;
 }
 
 .module-grid {
@@ -106,18 +121,21 @@
 
 .module-card {
   background: var(--color-surface);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-2xl);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .module-card:hover {
-  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-primary-border-hover);
 }
 
 .module-card:active {
@@ -126,9 +144,9 @@
 
 .card-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .badge {
@@ -136,18 +154,19 @@
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 600;
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  background: var(--color-primary-container);
   color: var(--color-primary);
 }
 
 .more-icon {
-  color: var(--color-on-surface-variant);
+  color: var(--color-outline);
+  font-size: 20px;
 }
 
 .module-card h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-on-surface);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-academic);
   margin: 0 0 4px;
 }
 
@@ -161,9 +180,9 @@
 .card-footer {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-surface-container-high);
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border-subtle);
   margin-top: auto;
 }
 
@@ -172,18 +191,21 @@
   align-items: center;
   gap: 4px;
   font-size: 12px;
+  font-weight: 500;
   color: var(--color-on-surface-variant);
 }
 
 .stat .material-symbols-outlined {
   font-size: 16px;
+  color: var(--color-primary);
 }
 
 .activity-card {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-2xl);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
 }
 
 .activity-list {
@@ -197,10 +219,10 @@
 .activity-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--color-surface-container-high);
+  gap: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .activity-item:last-child {
@@ -211,27 +233,36 @@
 
 .activity-icon {
   background: var(--color-surface-container);
-  color: var(--color-on-surface-variant);
-  padding: 8px;
-  border-radius: var(--radius-lg);
+  color: var(--color-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-xl);
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
+.activity-icon .material-symbols-outlined {
+  font-size: 20px;
+}
+
 .activity-desc {
-  font-size: 16px;
-  color: var(--color-on-surface);
+  font-size: 14px;
+  color: var(--color-academic);
   margin: 0;
+  line-height: 1.4;
 }
 
 .activity-desc .strong {
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--color-primary);
 }
 
 .activity-date {
   font-size: 12px;
-  color: var(--color-on-surface-variant);
-  margin: 4px 0 0;
+  color: var(--color-outline);
+  margin: 3px 0 0;
 }
 
 @media (min-width: 768px) {
@@ -243,11 +274,6 @@
 
   .welcome-actions {
     flex-direction: row;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: auto;
   }
 
   .module-grid {

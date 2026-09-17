@@ -90,6 +90,38 @@
       </div>
     </section>
 
+ <!-- Section 4: Affichage & Thème -->
+    <section class="settings-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="icon-badge">
+            <span class="material-symbols-outlined">palette</span>
+          </div>
+          <div>
+            <h3>Affichage &amp; Thème</h3>
+            <p>Personnalisez l'apparence visuelle de l'interface d'administration.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="toggle-box">
+          <div>
+            <div class="toggle-label">Mode Sombre</div>
+            <div class="toggle-hint">Activez le mode sombre pour réduire la fatigue visuelle et économiser l'énergie.</div>
+          </div>
+          <label class="switch-toggle">
+            <input
+              type="checkbox"
+              [checked]="themeService.isDark()"
+              (change)="themeService.toggleTheme()"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
     <!-- Section 2: Paramètres de l'établissement -->
     <section class="settings-card">
       <div class="card-header">
@@ -252,5 +284,7 @@
         </button>
       </div>
     </section>
+
+   
   </div>
 }

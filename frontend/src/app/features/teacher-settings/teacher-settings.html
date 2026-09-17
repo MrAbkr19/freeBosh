@@ -1,12 +1,6 @@
 <div class="settings-container">
   <!-- Header Section -->
   <header class="header-section">
-    <div class="header-back-row">
-      <a routerLink="/enseignant/profil" class="back-btn" aria-label="Retour au profil">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
-      <h1 class="display-title">Paramètres Enseignant</h1>
-    </div>
     <p class="subtitle">Gérez vos préférences de stockage, d'affichage et de navigation.</p>
   </header>
 
@@ -83,21 +77,21 @@
             </div>
           </div>
 
-          <!-- Ambiance Sereine -->
+          <!-- Mode Sombre -->
           <div class="setting-item-row pt-item">
             <div class="item-text">
               <h3 class="item-label flex-inline">
-                Mode "Ambiance Sereine"
+                Mode Sombre
                 <span class="badge-beta">Beta</span>
               </h3>
-              <p class="item-desc">Réduit le contraste et active un fond texturé pour faciliter la concentration.</p>
+              <p class="item-desc">Active le mode sombre pour économiser la batterie.</p>
             </div>
             <!-- Toggle Switch -->
             <label class="switch">
               <input
                 type="checkbox"
-                [checked]="sereneMode()"
-                (change)="toggleSereneMode()"
+                [checked]="themeService.isDark()"
+                (change)="themeService.toggleTheme()"
               />
               <span class="slider"></span>
             </label>

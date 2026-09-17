@@ -3,48 +3,62 @@
   min-height: 100dvh;
   background: var(--color-background);
   font-family: var(--font-family);
+  position: relative;
 }
 
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
+.login-theme-toggle {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 20;
+}
+
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: var(--color-surface);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
-  z-index: 50;
-}
-
-.icon-btn {
-  border: none;
-  background: transparent;
-  color: var(--color-on-surface-variant);
-  padding: 8px;
-  border-radius: var(--radius-full);
-  display: flex;
+  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.icon-btn:hover {
-  background: var(--color-surface-variant);
-}
-
-.icon-btn:active {
-  transform: scale(0.95);
-}
-
-.brand {
-  font-size: 24px;
-  font-weight: 700;
+.theme-toggle-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
   color: var(--color-primary);
-  letter-spacing: -0.01em;
-  margin: 0;
+  transform: rotate(15deg) scale(1.05);
+}
+
+.login-header {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+}
+
+.logo-badge {
+  width: 72px;
+  height: 72px;
+  background: var(--color-background);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .login-main {
@@ -63,8 +77,9 @@
 
 .login-card {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border-card);
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
@@ -76,15 +91,15 @@
 }
 
 .login-heading h2 {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-on-surface);
+  color: var(--color-academic);
   margin: 0 0 8px;
 }
 
 .login-heading p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-on-surface-variant);
   margin: 0;
 }
@@ -100,18 +115,21 @@
   align-items: flex-start;
   gap: 12px;
   background: var(--color-error-container);
-  color: var(--color-on-error-container);
-  padding: 16px;
-  border-radius: var(--radius-lg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error-border);
+  padding: 14px 16px;
+  border-radius: var(--radius-xl);
 }
 
 .error-banner .material-symbols-outlined {
   color: var(--color-error);
+  font-size: 20px;
 }
 
 .error-banner p {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .field-group {
@@ -121,9 +139,9 @@
 }
 
 .field-group label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-on-surface-variant);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-label);
 }
 
 .input-wrapper {
@@ -134,40 +152,41 @@
 
 .input-icon {
   position: absolute;
-  left: 12px;
-  color: var(--color-outline-variant);
+  left: 14px;
+  color: var(--color-outline);
   pointer-events: none;
   font-size: 20px;
 }
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 16px 12px 40px;
+  padding: 12px 16px 12px 42px;
   background: var(--color-surface);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--radius-lg);
-  font-size: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: 14px;
+  font-family: inherit;
   color: var(--color-on-surface);
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-wrapper input::placeholder {
-  color: color-mix(in srgb, var(--color-outline-variant) 60%, transparent);
+  color: var(--color-outline);
 }
 
 .input-wrapper input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+  box-shadow: 0 0 0 3px var(--color-primary-container);
 }
 
 .visibility-toggle {
   position: absolute;
-  right: 8px;
+  right: 10px;
   border: none;
   background: transparent;
-  color: var(--color-outline-variant);
+  color: var(--color-outline);
   padding: 4px;
   cursor: pointer;
   display: flex;
@@ -183,38 +202,45 @@
   justify-content: flex-end;
 }
 
-.forgot-row a {
-  font-size: 12px;
+.forgot-row a,
+.support-text a {
   color: var(--color-primary);
+  font-weight: 600;
   text-decoration: none;
 }
 
-.forgot-row a:hover {
+.forgot-row a {
+  font-size: 12px;
+}
+
+.forgot-row a:hover,
+.support-text a:hover {
   text-decoration: underline;
 }
 
 .submit-btn {
   margin-top: 8px;
   width: 100%;
-  padding: 16px;
-  background: var(--color-primary);
-  color: #ffffff;
+  padding: 14px 20px;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-2xl);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-btn);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: var(--color-primary-dark);
-  box-shadow: none;
+  opacity: 0.94;
+  transform: translateY(-1px);
 }
 
 .submit-btn:active:not(:disabled) {
@@ -222,7 +248,7 @@
 }
 
 .submit-btn:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -237,18 +263,8 @@
 }
 
 .support-text {
-  margin-top: 32px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-on-surface-variant);
-}
-
-.support-text a {
-  color: var(--color-primary);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.support-text a:hover {
-  text-decoration: underline;
 }

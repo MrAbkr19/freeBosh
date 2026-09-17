@@ -10,14 +10,15 @@
 }
 
 .page-header h1 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 700;
-  color: var(--color-on-surface);
+  color: var(--color-academic);
+  letter-spacing: -0.02em;
   margin: 0 0 4px;
 }
 
 .page-header p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-on-surface-variant);
   margin: 0;
 }
@@ -27,32 +28,45 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  border-radius: var(--radius-lg);
+  padding: 12px 22px;
+  border-radius: var(--radius-2xl);
   border: none;
-  background: var(--color-primary);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: all 0.15s;
   align-self: flex-start;
+}
+
+.btn-primary:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .state-message {
   text-align: center;
   color: var(--color-on-surface-variant);
-  padding: 32px 0;
+  padding: 40px 0;
+  font-size: 15px;
 }
 
 .state-message--error {
-  color: var(--color-on-error-container);
+  color: var(--color-error);
 }
 
 .table-card {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border-card);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
@@ -67,14 +81,16 @@ table {
 }
 
 thead tr {
-  border-bottom: 1px solid var(--color-outline-variant);
-  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-container-low);
 }
 
 th {
   padding: 16px 24px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--color-on-surface-variant);
 }
 
@@ -83,49 +99,60 @@ th {
 }
 
 tbody tr {
-  border-bottom: 1px solid var(--color-outline-variant);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background-color 0.15s;
 }
 
 tbody tr:hover {
-  background: var(--color-background);
+  background: var(--color-primary-container-subtle);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
 }
 
 td {
   padding: 16px 24px;
-  font-size: 16px;
 }
 
 .cell-strong {
-  color: var(--color-on-surface);
-  font-weight: 500;
+  color: var(--color-academic);
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .cell-muted {
   color: var(--color-on-surface-variant);
+  font-size: 14px;
 }
 
 .level-pill {
   display: inline-flex;
-  padding: 2px 10px;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   font-size: 12px;
-  font-weight: 500;
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  color: var(--color-primary);
+  font-weight: 600;
+  background: var(--color-secondary-container);
+  color: var(--color-secondary-container-text);
 }
 
 .level-pill--master {
-  background: color-mix(in srgb, var(--color-tertiary-container, #943700) 10%, transparent);
-  color: var(--color-tertiary-container, #943700);
+  background: var(--color-warning-orange-container);
+  color: var(--color-on-warning-orange);
 }
 
 .icon-action {
   border: none;
   background: transparent;
-  color: var(--color-on-surface-variant);
-  padding: 8px;
-  border-radius: var(--radius-lg);
+  color: var(--color-outline);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
 }
 
 .icon-action:hover {
@@ -136,7 +163,7 @@ td {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(25, 28, 30, 0.4);
+  background: var(--color-scrim);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -147,12 +174,12 @@ td {
 
 .modal-panel {
   background: var(--color-surface);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-modal);
 }
 
 .modal-header {
@@ -160,16 +187,17 @@ td {
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--color-outline-variant);
-  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
   position: sticky;
   top: 0;
+  background: var(--color-surface);
+  z-index: 10;
 }
 
 .modal-header h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-on-surface);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-academic);
   margin: 0;
 }
 
@@ -195,34 +223,36 @@ form {
 }
 
 .field-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .field-group label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-on-surface);
-  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-label);
+  margin-bottom: 6px;
 }
 
 .field-group input,
 .field-group select,
 .field-group textarea {
   width: 100%;
-  padding: 10px 16px;
+  padding: 11px 16px;
   background: var(--color-surface);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--radius-lg);
-  font-size: 16px;
-  font-family: var(--font-family);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: 14px;
+  font-family: inherit;
   color: var(--color-on-surface);
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .field-group textarea {
+  border-radius: var(--radius-xl);
   resize: vertical;
-  font-family: inherit;
+  min-height: 80px;
 }
 
 .field-group input:focus,
@@ -230,40 +260,50 @@ form {
 .field-group textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+  box-shadow: 0 0 0 3px var(--color-primary-container);
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding-top: 8px;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 10px 20px;
+  border-radius: var(--radius-2xl);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 
 .btn-cancel {
-  padding: 10px 20px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-outline-variant);
+  border: 1px solid var(--color-border);
   background: transparent;
-  color: var(--color-on-surface);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+  color: var(--color-label);
+}
+
+.btn-cancel:hover {
+  background: var(--color-surface-container-low);
 }
 
 .btn-submit {
-  padding: 10px 20px;
-  border-radius: var(--radius-lg);
   border: none;
-  background: var(--color-primary);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+  background: var(--color-primary-gradient);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-btn-sm);
+}
+
+.btn-submit:hover:not(:disabled) {
+  opacity: 0.94;
 }
 
 .btn-submit:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

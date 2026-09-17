@@ -1,7 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ThemeService } from '../../services/theme';
 
 export type TeacherFontSize = 'small' | 'medium' | 'large';
 
@@ -23,6 +24,7 @@ export class TeacherSettings {
   readonly maxStorageMb = signal<number>(300);
   readonly fontSize = signal<TeacherFontSize>('medium');
   readonly sereneMode = signal<boolean>(false);
+  readonly themeService = inject(ThemeService);
 
   // Actions & Feedback
   readonly isCacheCleared = signal<boolean>(false);

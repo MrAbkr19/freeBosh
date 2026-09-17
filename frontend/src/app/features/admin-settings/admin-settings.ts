@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../../services/theme';
 
 export interface FileFormatOption {
   code: string;
@@ -60,6 +61,7 @@ const DEFAULT_OFFLINE_SETTINGS: AdminOfflineSettings = {
   styleUrl: './admin-settings.css',
 })
 export class AdminSettings {
+  readonly themeService = inject(ThemeService);
   readonly isLoading = signal(true);
   readonly loadError = signal<string | null>(null);
 

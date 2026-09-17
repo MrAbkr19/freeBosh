@@ -1,7 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ThemeService } from '../../services/theme';
 
 export type FontSizeOption = 'small' | 'normal' | 'large';
 
@@ -23,6 +24,7 @@ export class StudentSettings {
   readonly sereneMode = signal<boolean>(false);
   readonly storageUsedMb = signal<number>(124);
   readonly maxStorageMb = signal<number>(350);
+  readonly themeService = inject(ThemeService);
 
   // Modal & feedback signals
   readonly isConfirmModalOpen = signal<boolean>(false);
