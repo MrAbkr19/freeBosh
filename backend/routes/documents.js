@@ -1,13 +1,11 @@
 const express = require('express');
-const { db, initDb } = require('../db');
+const { prisma } = require('../prisma-client');
 const { requireAuth } = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
 router.get('/', requireAuth, async (req, res) => {
-  await initDb();
-
-  const requester = db.data.users.find((u) => u.id === req.user.id);
+  const requester = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!requester) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -17,25 +15,33 @@ router.get('/', requireAuth, async (req, res) => {
 
   switch (requester.role) {
     case 'student': {
-      const accessibleModuleIds = db.data.modules
-        .filter((m) => m.faculty === requester.filiere && m.level === requester.niveau)
-        .map((m) => m.id);
+      const accessibleModules = await prisma.courseModule.findMany({
+        where: { faculty: requester.filiere, level: requester.niveau },
+        select: { id: true },
+      });
+      const accessibleModuleIds = accessibleModules.map((m) => m.id);
 
-      documents = db.data.documents.filter((d) => accessibleModuleIds.includes(d.courseModuleId));
+      documents = await prisma.courseDocument.findMany({
+        where: { courseModuleId: { in: accessibleModuleIds } },
+      });
       break;
     }
 
     case 'teacher': {
-      const accessibleModuleIds = db.data.modules
-        .filter((m) => m.teacherIds.includes(requester.id))
-        .map((m) => m.id);
+      const accessibleModules = await prisma.courseModule.findMany({
+        where: { teacherIds: { has: requester.id } },
+        select: { id: true },
+      });
+      const accessibleModuleIds = accessibleModules.map((m) => m.id);
 
-      documents = db.data.documents.filter((d) => accessibleModuleIds.includes(d.courseModuleId));
+      documents = await prisma.courseDocument.findMany({
+        where: { courseModuleId: { in: accessibleModuleIds } },
+      });
       break;
     }
 
     case 'admin':
-      documents = db.data.documents;
+      documents = await prisma.courseDocument.findMany();
       break;
 
     default:
@@ -52,9 +58,7 @@ router.post('/', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Titre, module et fichier sont requis.' });
   }
 
-  await initDb();
-
-  const requester = db.data.users.find((u) => u.id === req.user.id);
+  const requester = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!requester) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -64,32 +68,28 @@ router.post('/', requireAuth, async (req, res) => {
     return res.status(403).json({ error: 'Seuls les enseignants et administrateurs peuvent publier des documents.' });
   }
 
-  const targetModule = db.data.modules.find((m) => m.id === courseModuleId);
+  const targetModule = await prisma.courseModule.findUnique({ where: { id: courseModuleId } });
 
   if (!targetModule) {
     return res.status(404).json({ error: 'Module introuvable.' });
   }
 
-  // A teacher can only publish into modules they actually teach.
-  // Admins are exempt from this check — they can publish anywhere.
   if (requester.role === 'teacher' && !targetModule.teacherIds.includes(requester.id)) {
     return res.status(403).json({ error: "Vous n'enseignez pas ce module." });
   }
 
-  const newDocument = {
-    id: `d${Date.now()}`,
-    title,
-    description: description || '',
-    fileUrl: fileName, // placeholder only — matches the mock frontend's metadata-only approach
-    fileSize: fileSize || 0,
-    courseModuleId,
-    teacherId: requester.id,
-    createdAt: new Date().toISOString(),
-  };
-
-  db.data.documents.push(newDocument);
-  await db.write();
+  const newDocument = await prisma.courseDocument.create({
+    data: {
+      title,
+      description: description || '',
+      fileUrl: fileName,
+      fileSize: fileSize || 0,
+      courseModuleId,
+      teacherId: requester.id,
+    },
+  });
 
   res.status(201).json({ document: newDocument });
 });
+
 module.exports = router;
