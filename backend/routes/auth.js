@@ -1,10 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { db, initDb } = require('../db');
 const { prisma } = require('../prisma-client');
 const { requireAuth } = require('../middleware/auth-middleware');
-
 
 const router = express.Router();
 
@@ -15,10 +13,7 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({ error: 'Matricule et mot de passe requis.' });
   }
 
-  // await initDb();
-  // const user = db.data.users.find((u) => u.matricule === matricule);
-    const user = await prisma.user.findUnique({ where: { matricule } });
-
+  const user = await prisma.user.findUnique({ where: { matricule } });
 
   if (!user) {
     return res.status(401).json({ error: 'Identifiants invalides.' });
@@ -40,10 +35,8 @@ router.post('/login', async (req, res) => {
 
   res.json({ user: safeUser, token });
 });
-// const { requireAuth } = require('../middleware/auth-middleware');
+
 router.get('/me', requireAuth, async (req, res) => {
-  // await initDb();
-  // const user = db.data.users.find((u) => u.id === req.user.id);
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!user) {
@@ -65,11 +58,7 @@ router.put('/password', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Le nouveau mot de passe doit contenir au moins 6 caractères.' });
   }
 
-  // await initDb();
-
-  // const user = db.data.users.find((u) => u.id === req.user.id);
-    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
-
+  const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!user) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -81,14 +70,9 @@ router.put('/password', requireAuth, async (req, res) => {
     return res.status(401).json({ error: 'Mot de passe actuel incorrect.' });
   }
 
-  // user.passwordHash = await bcrypt.hash(newPassword, 10);
-  // await db.write();
+  const newHash = await bcrypt.hash(newPassword, 10);
 
-
-
-  const { passwordHash, ...safeUser } = user;
-
-await prisma.user.update({
+  await prisma.user.update({
     where: { id: user.id },
     data: { passwordHash: newHash },
   });
