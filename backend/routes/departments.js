@@ -1,12 +1,12 @@
 const express = require('express');
-const { db, initDb } = require('../db');
+const { prisma } = require('../prisma-client');
 const { requireAuth, requireAdmin } = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
 router.get('/', requireAuth, requireAdmin, async (req, res) => {
-  await initDb();
-  res.json({ departments: db.data.departments });
+  const departments = await prisma.department.findMany();
+  res.json({ departments });
 });
 
 router.post('/', requireAuth, requireAdmin, async (req, res) => {
@@ -16,32 +16,25 @@ router.post('/', requireAuth, requireAdmin, async (req, res) => {
     return res.status(400).json({ error: 'Le nom du département est requis.' });
   }
 
-  await initDb();
-
-  const newDepartment = {
-    id: `dep${Date.now()}`,
-    name,
-    filiereCount: 0,
-    icon: 'domain',
-  };
-
-  db.data.departments.push(newDepartment);
-  await db.write();
+  const newDepartment = await prisma.department.create({
+    data: {
+      name,
+      filiereCount: 0,
+      icon: 'domain',
+    },
+  });
 
   res.status(201).json({ department: newDepartment });
 });
 
 router.delete('/:id', requireAuth, requireAdmin, async (req, res) => {
-  await initDb();
+  const existing = await prisma.department.findUnique({ where: { id: req.params.id } });
 
-  const exists = db.data.departments.some((d) => d.id === req.params.id);
-
-  if (!exists) {
+  if (!existing) {
     return res.status(404).json({ error: 'Département introuvable.' });
   }
 
-  db.data.departments = db.data.departments.filter((d) => d.id !== req.params.id);
-  await db.write();
+  await prisma.department.delete({ where: { id: req.params.id } });
 
   res.status(204).send();
 });
