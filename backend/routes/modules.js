@@ -1,13 +1,13 @@
 const express = require('express');
-const { db, initDb } = require('../db');
+const { prisma } = require('../prisma-client');
 const { requireAuth, requireAdmin } = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
 router.get('/', requireAuth, async (req, res) => {
-  await initDb();
+  const requester = await prisma.user.findUnique({ where: { id: req.user.id } });
 
-  const requester = db.data.users.find((u) => u.id === req.user.id);
+  // const requester = db.data.users.find((u) => u.id === req.user.id);
 
   if (!requester) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -16,18 +16,20 @@ router.get('/', requireAuth, async (req, res) => {
   let modules;
 
   switch (requester.role) {
+
     case 'student':
-      modules = db.data.modules.filter(
-        (m) => m.faculty === requester.filiere && m.level === requester.niveau
-      );
+      modules = await prisma.courseModule.findMany({
+        where: { faculty: requester.filiere, level: requester.niveau },
+      });
       break;
 
     case 'teacher':
-      modules = db.data.modules.filter((m) => m.teacherIds.includes(requester.id));
+          modules = await prisma.courseModule.findMany({
+        where: { teacherIds: { has: requester.id } },
+      });
       break;
-
     case 'admin':
-      modules = db.data.modules;
+      modules = await prisma.courseModule.findMany();
       break;
 
     default:
@@ -44,19 +46,21 @@ router.post('/', requireAuth, requireAdmin, async (req, res) => {
     return res.status(400).json({ error: 'Code, nom, filière et niveau sont requis.' });
   }
 
-  await initDb();
+  // await initDb();
 
-  const newModule = {
-    id: `m${Date.now()}`,
-    code,
-    name,
-    faculty,
-    level,
-    teacherIds: Array.isArray(teacherIds) ? teacherIds : [],
-  };
 
-  db.data.modules.push(newModule);
-  await db.write();
+  const newModule = await prisma.courseModule.create({
+    data: {
+      code,
+      name,
+      faculty,
+      level,
+      teacherIds: Array.isArray(teacherIds) ? teacherIds : [],
+    },
+  });
+
+  // db.data.modules.push(newModule);
+  // await db.write();
 
   res.status(201).json({ module: newModule });
 });
@@ -66,34 +70,35 @@ router.put('/:id', requireAuth, requireAdmin, async (req, res) => {
 
   await initDb();
 
-  const targetModule = db.data.modules.find((m) => m.id === req.params.id);
+  const targetModule = await prisma.courseModule.findUnique({ where: { id: req.params.id } });
 
   if (!targetModule) {
     return res.status(404).json({ error: 'Module introuvable.' });
   }
 
-  if (code !== undefined) targetModule.code = code;
-  if (name !== undefined) targetModule.name = name;
-  if (faculty !== undefined) targetModule.faculty = faculty;
-  if (level !== undefined) targetModule.level = level;
-  if (teacherIds !== undefined) targetModule.teacherIds = teacherIds;
+  const updatedModule = await prisma.courseModule.update({
+    where: { id: req.params.id },
+    data: {
+      ...(code !== undefined && { code }),
+      ...(name !== undefined && { name }),
+      ...(faculty !== undefined && { faculty }),
+      ...(level !== undefined && { level }),
+      ...(teacherIds !== undefined && { teacherIds }),
+    },
+  });
 
-  await db.write();
-
-  res.json({ module: targetModule });
+  res.json({ module: updatedModule });
 });
 
 router.delete('/:id', requireAuth, requireAdmin, async (req, res) => {
-  await initDb();
 
-  const exists = db.data.modules.some((m) => m.id === req.params.id);
+  const exists = await prisma.courseModule.findUnique({ where: { id: req.params.id } });
 
   if (!exists) {
     return res.status(404).json({ error: 'Module introuvable.' });
   }
 
-  db.data.modules = db.data.modules.filter((m) => m.id !== req.params.id);
-  await db.write();
+  await prisma.courseModule.delete({ where: { id: req.params.id } });
 
   res.status(204).send();
 });
