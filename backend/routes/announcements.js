@@ -1,13 +1,11 @@
 const express = require('express');
-const { db, initDb } = require('../db');
+const { prisma } = require('../prisma-client');
 const { requireAuth } = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
 router.get('/', requireAuth, async (req, res) => {
-  await initDb();
-
-  const requester = db.data.users.find((u) => u.id === req.user.id);
+  const requester = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!requester) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -17,29 +15,33 @@ router.get('/', requireAuth, async (req, res) => {
 
   switch (requester.role) {
     case 'student': {
-      const accessibleModuleIds = db.data.modules
-        .filter((m) => m.faculty === requester.filiere && m.level === requester.niveau)
-        .map((m) => m.id);
+      const accessibleModules = await prisma.courseModule.findMany({
+        where: { faculty: requester.filiere, level: requester.niveau },
+        select: { id: true },
+      });
+      const accessibleModuleIds = accessibleModules.map((m) => m.id);
 
-      announcements = db.data.announcements.filter((a) =>
-        accessibleModuleIds.includes(a.courseModuleId)
-      );
+      announcements = await prisma.announcement.findMany({
+        where: { courseModuleId: { in: accessibleModuleIds } },
+      });
       break;
     }
 
     case 'teacher': {
-      const accessibleModuleIds = db.data.modules
-        .filter((m) => m.teacherIds.includes(requester.id))
-        .map((m) => m.id);
+      const accessibleModules = await prisma.courseModule.findMany({
+        where: { teacherIds: { has: requester.id } },
+        select: { id: true },
+      });
+      const accessibleModuleIds = accessibleModules.map((m) => m.id);
 
-      announcements = db.data.announcements.filter((a) =>
-        accessibleModuleIds.includes(a.courseModuleId)
-      );
+      announcements = await prisma.announcement.findMany({
+        where: { courseModuleId: { in: accessibleModuleIds } },
+      });
       break;
     }
 
     case 'admin':
-      announcements = db.data.announcements;
+      announcements = await prisma.announcement.findMany();
       break;
 
     default:
@@ -56,9 +58,7 @@ router.post('/', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Contenu et module sont requis.' });
   }
 
-  await initDb();
-
-  const requester = db.data.users.find((u) => u.id === req.user.id);
+  const requester = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!requester) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
@@ -68,7 +68,7 @@ router.post('/', requireAuth, async (req, res) => {
     return res.status(403).json({ error: 'Seuls les enseignants et administrateurs peuvent publier des annonces.' });
   }
 
-  const targetModule = db.data.modules.find((m) => m.id === courseModuleId);
+  const targetModule = await prisma.courseModule.findUnique({ where: { id: courseModuleId } });
 
   if (!targetModule) {
     return res.status(404).json({ error: 'Module introuvable.' });
@@ -78,17 +78,15 @@ router.post('/', requireAuth, async (req, res) => {
     return res.status(403).json({ error: "Vous n'enseignez pas ce module." });
   }
 
-  const newAnnouncement = {
-    id: `a${Date.now()}`,
-    teacherId: requester.id,
-    courseModuleId,
-    content,
-    createdAt: new Date().toISOString(),
-  };
-
-  db.data.announcements.push(newAnnouncement);
-  await db.write();
+  const newAnnouncement = await prisma.announcement.create({
+    data: {
+      teacherId: requester.id,
+      courseModuleId,
+      content,
+    },
+  });
 
   res.status(201).json({ announcement: newAnnouncement });
 });
+
 module.exports = router;
