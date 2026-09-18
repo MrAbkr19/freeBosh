@@ -1,31 +1,28 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const { db, initDb } = require('../db');
+const { prisma } = require('../prisma-client');
 const { requireAuth, requireAdmin } = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
-// Strip passwordHash before ever sending a user back to the client.
 function toSafeUser(user) {
   const { passwordHash, ...safeUser } = user;
   return safeUser;
 }
 
+// Any authenticated user — name/role only, for resolving "posted by" labels.
 router.get('/basic', requireAuth, async (req, res) => {
-  await initDb();
+  const users = await prisma.user.findMany({
+    select: { id: true, fullName: true, role: true },
+  });
 
-  const basicUsers = db.data.users.map((u) => ({
-    id: u.id,
-    fullName: u.fullName,
-    role: u.role,
-  }));
-
-  res.json({ users: basicUsers });
+  res.json({ users });
 });
 
+// Admin only — full records.
 router.get('/', requireAuth, requireAdmin, async (req, res) => {
-  await initDb();
-  res.json({ users: db.data.users.map(toSafeUser) });
+  const users = await prisma.user.findMany();
+  res.json({ users: users.map(toSafeUser) });
 });
 
 router.post('/', requireAuth, requireAdmin, async (req, res) => {
@@ -39,53 +36,52 @@ router.post('/', requireAuth, requireAdmin, async (req, res) => {
     return res.status(400).json({ error: 'Rôle invalide.' });
   }
 
-  await initDb();
-
-  const matriculeTaken = db.data.users.some((u) => u.matricule === matricule);
-  if (matriculeTaken) {
-    return res.status(409).json({ error: 'Ce matricule est déjà utilisé.' });
-  }
-
   const defaultPasswordHash = await bcrypt.hash('password', 10);
 
-  const newUser = {
-    id: `u${Date.now()}`,
-    fullName,
-    matricule,
-    passwordHash: defaultPasswordHash,
-    role,
-    ...(filiere && { filiere }),
-    ...(niveau && { niveau }),
-    ...(email && { email }),
-    ...(role === 'student' && { status: 'inscrit' }),
-  };
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        fullName,
+        matricule,
+        passwordHash: defaultPasswordHash,
+        role,
+        ...(filiere && { filiere }),
+        ...(niveau && { niveau }),
+        ...(email && { email }),
+        ...(role === 'student' && { status: 'inscrit' }),
+      },
+    });
 
-  db.data.users.push(newUser);
-  await db.write();
-
-  res.status(201).json({ user: toSafeUser(newUser) });
+    res.status(201).json({ user: toSafeUser(newUser) });
+  } catch (err) {
+    if (err.code === 'P2002') {
+      return res.status(409).json({ error: 'Ce matricule est déjà utilisé.' });
+    }
+    throw err;
+  }
 });
 
 router.put('/:id', requireAuth, requireAdmin, async (req, res) => {
   const { fullName, filiere, niveau, email, status } = req.body;
 
-  await initDb();
+  const existing = await prisma.user.findUnique({ where: { id: req.params.id } });
 
-  const user = db.data.users.find((u) => u.id === req.params.id);
-
-  if (!user) {
+  if (!existing) {
     return res.status(404).json({ error: 'Utilisateur introuvable.' });
   }
 
-  if (fullName !== undefined) user.fullName = fullName;
-  if (filiere !== undefined) user.filiere = filiere;
-  if (niveau !== undefined) user.niveau = niveau;
-  if (email !== undefined) user.email = email;
-  if (status !== undefined) user.status = status;
+  const updatedUser = await prisma.user.update({
+    where: { id: req.params.id },
+    data: {
+      ...(fullName !== undefined && { fullName }),
+      ...(filiere !== undefined && { filiere }),
+      ...(niveau !== undefined && { niveau }),
+      ...(email !== undefined && { email }),
+      ...(status !== undefined && { status }),
+    },
+  });
 
-  await db.write();
-
-  res.json({ user: toSafeUser(user) });
+  res.json({ user: toSafeUser(updatedUser) });
 });
 
 module.exports = router;
