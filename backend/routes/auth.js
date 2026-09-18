@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { db, initDb } = require('../db');
+// const { db, initDb } = require('../db');
 const { prisma } = require('../prisma-client');
 const { requireAuth } = require('../middleware/auth-middleware');
 
