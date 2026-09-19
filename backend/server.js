@@ -32,6 +32,6 @@ app.use('/departments', departmentRoutes);
 app.use('/filieres', filiereRoutes);
 app.use('/users', userRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`FreeBosh API listening on port ${PORT}`);
 });

@@ -11,7 +11,7 @@ export const environment = {
   production: true,
   useMockApi: true,
   // apiUrl: 'https://codely.alwaysdata.net',
-  apiUrl: 'https://freebosh-production.up.railway.app',
+  apiUrl: 'freebosh-production-d00c.up.railway.app',
 
   mockDataUrl: '/api/db.json'
 };
