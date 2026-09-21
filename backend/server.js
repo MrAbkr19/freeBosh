@@ -78,7 +78,7 @@ app.use(cors({
 }));
 
 // Express explicitly handles preflight OPTIONS requests for all routes
-app.options('*', cors());
+app.options('*splat', cors());
 
 // 2. Increase Payload Size Limits (Fixes silent document upload failures)
 app.use(express.json({ limit: '50mb' }));
