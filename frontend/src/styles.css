@@ -243,3 +243,79 @@ label {
   color: var(--color-label);
   letter-spacing: -0.01em;
 }
+
+/* --- BRAND LOGOTYPE (freebosh.) --- */
+.brand-logotype {
+  display: inline-flex;
+  align-items: baseline;
+  text-decoration: none;
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: -0.045em;
+  color: var(--color-academic);
+  line-height: 1;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.brand-logotype:hover {
+  transform: translateY(-1px) scale(1.02);
+  text-decoration: none;
+}
+
+.brand-logotype .brand-text {
+  color: var(--color-academic);
+}
+
+.brand-logotype .brand-dot {
+  color: var(--color-primary-light);
+  font-weight: 900;
+  font-size: 1.6rem;
+  line-height: 0;
+  margin-left: 1px;
+  text-shadow: 0 0 12px rgba(74, 222, 128, 0.45);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+[data-theme="light"] .brand-logotype .brand-dot {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(22, 163, 74, 0.3);
+}
+
+.brand-logotype--lg {
+  font-size: 1.85rem;
+}
+
+.brand-logotype--lg .brand-dot {
+  font-size: 2.1rem;
+}
+
+.brand-logotype--sm {
+  font-size: 1.2rem;
+}
+
+.brand-logotype--sm .brand-dot {
+  font-size: 1.35rem;
+}
+
+/* Floating pill badge for Auth pages (Login, Register) */
+.brand-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.35rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brand-pill-badge:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: var(--color-primary-border-hover);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.18), 0 0 0 1px rgba(22, 163, 74, 0.3);
+}

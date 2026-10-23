@@ -1,0 +1,135 @@
+<div class="register-theme-toggle">
+  <button
+    class="theme-toggle-btn"
+    type="button"
+    (click)="themeService.toggleTheme()"
+    [attr.aria-label]="themeService.isDark() ? 'Activer le mode clair' : 'Activer le mode sombre'"
+    [title]="themeService.isDark() ? 'Passer au mode clair' : 'Passer au mode sombre'"
+  >
+    <span class="material-symbols-outlined">
+      {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+    </span>
+  </button>
+</div>
+
+<header class="register-header">
+  <a routerLink="/" class="brand-pill-badge" title="Retour à l'accueil freebosh.">
+    <span class="brand-logotype brand-logotype--lg">
+      <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+    </span>
+  </a>
+</header>
+
+<main class="register-main">
+  <div class="register-wrapper">
+    <div class="register-card">
+      <div class="register-heading">
+        
+        <h2>Créer un espace campus</h2>
+      </div>
+
+      <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        @if (errorMessage()) {
+          <div class="error-banner">
+            <span class="material-symbols-outlined">error</span>
+            <p>{{ errorMessage() }}</p>
+          </div>
+        }
+
+        <!-- 1. NOM DE L'ÉTABLISSEMENT -->
+        <div class="form-field" [class.field-error]="isFieldInvalid('schoolName')">
+          <label for="schoolName">Nom de l'établissement <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">domain</span>
+            <input
+              id="schoolName"
+              type="text"
+              placeholder="ex: Institut Supérieur de Technologie"
+              formControlName="schoolName"
+            />
+          </div>
+          @if (isFieldInvalid('schoolName')) {
+            <span class="field-error-text">Veuillez renseigner le nom de votre établissement.</span>
+          }
+        </div>
+
+        <!-- 2. NOM COMPLET -->
+        <div class="form-field" [class.field-error]="isFieldInvalid('fullName')">
+          <label for="fullName">Votre nom complet <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">person</span>
+            <input
+              id="fullName"
+              type="text"
+              placeholder="ALI OUSMANE"
+              formControlName="fullName"
+            />
+          </div>
+          @if (isFieldInvalid('fullName')) {
+            <span class="field-error-text">Veuillez renseigner votre nom complet.</span>
+          }
+        </div>
+
+        <!-- 3. ADRESSE EMAIL PROFESSIONNELLE -->
+        <div class="form-field" [class.field-error]="isFieldInvalid('email')">
+          <label for="email">Adresse email professionnelle <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">mail</span>
+            <input
+              id="email"
+              type="email"
+              placeholder="contact@universite.cm"
+              formControlName="email"
+            />
+          </div>
+          @if (isFieldInvalid('email')) {
+            <span class="field-error-text">Veuillez renseigner une adresse email valide.</span>
+          }
+        </div>
+
+        <!-- 4. MOT DE PASSE -->
+        <div class="form-field" [class.field-error]="isFieldInvalid('password')">
+          <label for="password">Mot de passe <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              placeholder="Au moins 6 caractères"
+              formControlName="password"
+            />
+            <button
+              class="visibility-toggle"
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+              [title]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+            >
+              <span class="material-symbols-outlined">
+                {{ showPassword() ? 'visibility' : 'visibility_off' }}
+              </span>
+            </button>
+          </div>
+          @if (isFieldInvalid('password')) {
+            <span class="field-error-text">Le mot de passe doit comporter au moins 6 caractères.</span>
+          }
+        </div>
+
+        <button class="submit-btn" type="submit" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="material-symbols-outlined spin">progress_activity</span>
+            <span>Déploiement du campus...</span>
+          } @else {
+            <span>Créer mon campus</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          }
+        </button>
+      </form>
+    </div>
+
+    <p class="login-redirect-text">
+      Vous avez déjà un compte ?
+      <a routerLink="/login" class="login-link">Se connecter</a>
+    </p>
+  </div>
+</main>

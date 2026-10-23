@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { ThemeService } from '../../services/theme';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -15,6 +15,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   readonly themeService = inject(ThemeService);
 
   readonly showPassword = signal(false);
@@ -42,10 +43,11 @@ export class LoginComponent {
     const { matricule, password } = this.loginForm.getRawValue();
 
     this.authService.login(matricule, password).subscribe({
-  next: ({ user }) => {
-    this.isLoading.set(false);
-    this.router.navigateByUrl(this.authService.redirectPathFor(user.role));
-  },
+      next: ({ user }) => {
+        this.isLoading.set(false);
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+        this.router.navigateByUrl(returnUrl || this.authService.redirectPathFor(user.role));
+      },
       error: () => {
         this.isLoading.set(false);
         this.errorMessage.set('Matricule ou mot de passe incorrect. Veuillez réessayer.');

@@ -1,0 +1,333 @@
+<div class="landing-container">
+  <!-- NAVIGATION BAR -->
+  <header class="landing-header">
+    <div class="nav-content">
+      <a routerLink="/" class="brand-logotype" aria-label="Accueil freebosh.">
+        <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Fonctionnalités</a>
+        <a href="#espaces" class="nav-link">Espaces dédiés</a>
+        <a href="#avantages" class="nav-link">Avantages</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- SÉLECTEUR DE THÈME (PC / Desktop uniquement : Clair, Système, Sombre) -->
+        <div class="theme-segmented-control desktop-only" role="group" aria-label="Choix du thème">
+          <button
+            type="button"
+            class="theme-seg-btn"
+            [class.active]="themeService.mode() === 'light'"
+            (click)="themeService.setMode('light')"
+            title="Mode Clair"
+            aria-label="Activer le mode clair"
+          >
+            <span class="material-symbols-outlined">light_mode</span>
+          </button>
+
+          <button
+            type="button"
+            class="theme-seg-btn"
+            [class.active]="themeService.mode() === 'system'"
+            (click)="themeService.setMode('system')"
+            title="Mode Système (Suit automatiquement les réglages de votre PC)"
+            aria-label="Activer le mode système"
+          >
+            <span class="material-symbols-outlined">desktop_windows</span>
+          </button>
+
+          <button
+            type="button"
+            class="theme-seg-btn"
+            [class.active]="themeService.mode() === 'dark'"
+            (click)="themeService.setMode('dark')"
+            title="Mode Sombre"
+            aria-label="Activer le mode sombre"
+          >
+            <span class="material-symbols-outlined">dark_mode</span>
+          </button>
+        </div>
+
+        @if (authService.isAuthenticated()) {
+          <a [routerLink]="dashboardUrl" class="btn btn-primary btn-glow">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Mon espace</span>
+          </a>
+        } @else {
+          <a routerLink="/login" class="btn btn-ghost">
+            <span>Connexion</span>
+          </a>
+          <a routerLink="/register" class="btn btn-primary">
+            <span>S'inscrire</span>
+            <span class="material-symbols-outlined btn-arrow">arrow_forward</span>
+          </a>
+        }
+      </div>
+    </div>
+  </header>
+
+  <main class="landing-main">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        
+
+        <h1 class="hero-title">
+          Votre campus universitaire connecté en <span class="gradient-text">toute simplicité</span>
+        </h1>
+
+        <p class="hero-description">
+          FreeBosh réunit étudiants, enseignants et administration au sein d'un espace centralisé, 
+          rapide et moderne. Consultez vos cours, partagez vos ressources et suivez les annonces en temps réel.
+        </p>
+
+        <div class="hero-cta-group">
+          @if (authService.isAuthenticated()) {
+            <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
+              <span class="material-symbols-outlined">rocket_launch</span>
+              <span>Accéder à mon tableau de bord</span>
+            </a>
+          } @else {
+            <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
+              <span class="material-symbols-outlined">how_to_reg</span>
+              <span>Rejoindre FreeBosh</span>
+            </a>
+            <a routerLink="/login" class="btn btn-outline btn-lg">
+              <span class="material-symbols-outlined">login</span>
+              <span>Se connecter</span>
+            </a>
+          }
+        </div>
+
+        <!-- STATS / PROOF STRIP -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Profils synchronisés</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Accessible partout</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">PWA</span>
+            <span class="stat-label">Mode hors-ligne disponible</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESPACES DÉDIÉS (Pour qui ?) -->
+    <section class="roles-section" id="espaces">
+      <div class="section-header">
+        <span class="section-subtitle">Sur mesure pour votre établissement</span>
+        <h2 class="section-title">Une expérience conçue pour chaque acteur</h2>
+        <p class="section-description">
+          Chaque profil dispose d'un espace de travail optimisé avec des fonctionnalités adaptées à ses besoins quotidiens.
+        </p>
+      </div>
+
+      <div class="roles-grid">
+        <!-- ÉTUDIANTS -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon-box role-student">
+              <span class="material-symbols-outlined">school</span>
+            </div>
+            <span class="role-tag">Espace Étudiant</span>
+          </div>
+          <h3 class="role-title">Réussissez votre parcours académique</h3>
+          <p class="role-description">
+            Retrouvez tous vos enseignements par semestre, téléchargez vos supports de cours et ne manquez plus aucune annonce importante.
+          </p>
+          <ul class="role-features">
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Accès instantané aux modules et chapitres</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Bibliothèque de documents (PDF, TP, TD)</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Fil d'annonces de vos enseignants</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ENSEIGNANTS -->
+        <div class="role-card role-card-featured">
+          <div class="featured-badge">Essentiel</div>
+          <div class="role-card-header">
+            <div class="role-icon-box role-teacher">
+              <span class="material-symbols-outlined">history_edu</span>
+            </div>
+            <span class="role-tag">Espace Enseignant</span>
+          </div>
+          <h3 class="role-title">Diffusez et gérez vos cours avec fluidité</h3>
+          <p class="role-description">
+            Publiez vos documents en un clic, informez rapidement vos promotions et organisez vos supports d'enseignement.
+          </p>
+          <ul class="role-features">
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Publication simplifiée de documents pédagogiques</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Diffusion d'annonces ciblées par module</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Gestion claire de vos filières et promotions</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon-box role-admin">
+              <span class="material-symbols-outlined">admin_panel_settings</span>
+            </div>
+            <span class="role-tag">Administration</span>
+          </div>
+          <h3 class="role-title">Pilotez votre campus avec sérénité</h3>
+          <p class="role-description">
+            Administrez facilement les départements, les filières, les enseignants et les inscriptions en masse.
+          </p>
+          <ul class="role-features">
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Vue globale des départements et programmes</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Importation massive d'étudiants (CSV)</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined check-icon">check_circle</span>
+              <span>Gestion des accès et paramètres du système</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVANTAGES / FEATURES -->
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <span class="section-subtitle">Excellence technique & UX</span>
+        <h2 class="section-title">Pourquoi choisir FreeBosh ?</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">bolt</span>
+          </div>
+          <h4 class="feature-title">Ultra rapide & réactif</h4>
+          <p class="feature-text">
+            Construit sur les standards modernes du web, l'application offre une fluidité instantanée sans temps de rechargement.
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">wifi_off</span>
+          </div>
+          <h4 class="feature-title">Disponible hors-ligne</h4>
+          <p class="feature-text">
+            Grâce à sa technologie PWA, consultez vos documents et informations même en cas d'instabilité du réseau.
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">lock</span>
+          </div>
+          <h4 class="feature-title">Cloisonné & Sécurisé</h4>
+          <p class="feature-text">
+            Chaque rôle dispose d'un espace étanche protégé par des règles strictes de contrôle d'accès.
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">palette</span>
+          </div>
+          <h4 class="feature-title">Confort visuel adapté</h4>
+          <p class="feature-text">
+            Mode sombre élégant ou mode clair lumineux : basculez d'un clic selon votre environnement de travail.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="cta-banner-section" id="avantages">
+      <div class="cta-banner-card">
+        <div class="cta-glow"></div>
+        <div class="cta-text">
+          <h2 class="cta-title">Prêt à transformer votre quotidien universitaire ?</h2>
+          <p class="cta-desc">
+            Rejoignez la plateforme FreeBosh dès aujourd'hui et profitez d'une expérience académique unifiée.
+          </p>
+        </div>
+        <div class="cta-actions">
+          @if (authService.isAuthenticated()) {
+            <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
+              <span>Aller à mon tableau de bord</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+          } @else {
+            <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
+              <span>Créer mon compte</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+            <a routerLink="/login" class="btn btn-outline btn-lg">
+              <span>Se connecter</span>
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER VITRINE -->
+  <footer class="landing-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a routerLink="/" class="brand-logotype brand-logotype--sm" aria-label="Accueil freebosh.">
+          <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+        </a>
+        <p class="footer-tagline">
+          Plateforme académique collaborative pour l'enseignement supérieur.
+        </p>
+      </div>
+
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <a href="#features">Fonctionnalités</a>
+          <a href="#espaces">Espaces dédiés</a>
+          <a href="#avantages">Avantages</a>
+        </div>
+        <div class="footer-col">
+          <h5>Accès Rapide</h5>
+          <a routerLink="/login">Connexion</a>
+          <a routerLink="/register">Inscription</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 FreeBosh. Tous droits réservés.</p>
+    </div>
+  </footer>
+</div>

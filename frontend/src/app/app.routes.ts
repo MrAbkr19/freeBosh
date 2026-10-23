@@ -28,12 +28,21 @@ import { StudentSettings } from './features/student-settings/student-settings';
 import { StudentSupport } from './features/student-support/student-support';
 import { TeacherSettings } from './features/teacher-settings/teacher-settings';
 import { TeacherSupport } from './features/teacher-support/teacher-support';
+import { Landing } from './features/landing/landing';
+import { Register } from './features/register/register';
+import { Page404 } from './features/page404/page404';
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: Landing },
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
+  { path: 'register', component: Register, canActivate: [guestGuard] },
   {
     path: 'etudiant',
     component: StudentShell,
+    canActivate: [authGuard, roleGuard('student')],
     children: [
       { path: 'accueil', component: StudentHome },
       { path: 'modules', component: ModuleList },
@@ -42,38 +51,40 @@ export const routes: Routes = [
       { path: 'profil', component: StudentProfile },
       { path: 'profil/settings', component: StudentSettings },
       { path: 'profil/support', component: StudentSupport },
-
     ],
   },
   {
-  path: 'enseignant',
-  component: TeacherShell,
-  children: [
-    { path: 'accueil', component: TeacherHome },
-    { path: 'publier', component: PublishDocument },
-    { path: 'annoncer', component: MakeAnnouncement },
-    { path: 'modules', component: TeacherModuleList},
-    { path: 'modules/:id', component: TeacherModuleDetail },
-    { path: 'bibliotheque', component: TeacherLibrary },
-    { path: 'profil', component: TeacherProfile },
-    { path: 'profil/settings', component: TeacherSettings },
-    { path: 'profil/support', component: TeacherSupport },
-
-  ],
-},
-{
-  path: 'admin',
-  component: AdminShell,
-  children: [{ path: 'dashboard', component: AdminDashboard },
-    { path: 'departements', component: AdminDepartments },
-    { path: 'filieres', component: AdminFilieres },
-    { path: 'modules', component: AdminModules },
-    { path: 'enseignants', component: AdminTeachers },
-    { path: 'etudiants', component: AdminStudents },
-    { path: 'import', component: AdminBulkImport },
-    { path: 'settings', component: AdminSettings },
-    { path: 'support', component: AdminSupport },
-  ],
-},
-
+    path: 'enseignant',
+    component: TeacherShell,
+    canActivate: [authGuard, roleGuard('teacher')],
+    children: [
+      { path: 'accueil', component: TeacherHome },
+      { path: 'publier', component: PublishDocument },
+      { path: 'annoncer', component: MakeAnnouncement },
+      { path: 'modules', component: TeacherModuleList },
+      { path: 'modules/:id', component: TeacherModuleDetail },
+      { path: 'bibliotheque', component: TeacherLibrary },
+      { path: 'profil', component: TeacherProfile },
+      { path: 'profil/settings', component: TeacherSettings },
+      { path: 'profil/support', component: TeacherSupport },
+    ],
+  },
+  {
+    path: 'admin',
+    component: AdminShell,
+    canActivate: [authGuard, roleGuard('admin')],
+    children: [
+      { path: 'dashboard', component: AdminDashboard },
+      { path: 'departements', component: AdminDepartments },
+      { path: 'filieres', component: AdminFilieres },
+      { path: 'modules', component: AdminModules },
+      { path: 'enseignants', component: AdminTeachers },
+      { path: 'etudiants', component: AdminStudents },
+      { path: 'import', component: AdminBulkImport },
+      { path: 'settings', component: AdminSettings },
+      { path: 'support', component: AdminSupport },
+    ],
+  },
+  // page404
+  { path: '**', component: Page404 },
 ];

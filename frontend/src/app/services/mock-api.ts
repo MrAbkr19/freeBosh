@@ -56,12 +56,61 @@ export class MockApiService {
     return this.loadDb().pipe(
       delay(SIMULATED_DELAY_MS),
       switchMap((db) => {
-        const match = db.users.find(
-          (u) => u.matricule === matricule.trim() && u.password === password
+        const allUsers = [...db.users, ...this.newUsers];
+        const match = allUsers.find(
+          (u) =>
+            u.matricule.trim().toLowerCase() === matricule.trim().toLowerCase() &&
+            u.password === password
         );
         return match
-          ? of({ user: match, token: 'mock-token' })
+          ? of({ user: match, token: `mock-token-${match.id}` })
           : throwError(() => new Error('Identifiants invalides'));
+      })
+    );
+  }
+
+  // ---- /auth/register (Admin Institution) ----
+  registerAdmin(input: {
+    schoolName: string;
+    fullName: string;
+    email: string;
+    password: string;
+  }): Observable<{ user: User; token: string }> {
+    if (!environment.useMockApi) {
+      return this.http.post<{ user: User; token: string }>(
+        `${environment.apiUrl}/auth/register`,
+        input
+      );
+    }
+
+    return this.loadDb().pipe(
+      delay(SIMULATED_DELAY_MS),
+      switchMap((db) => {
+        const allUsers = [...db.users, ...this.newUsers];
+        const emailTrim = input.email.trim().toLowerCase();
+
+        const exists = allUsers.some(
+          (u) =>
+            u.matricule.trim().toLowerCase() === emailTrim ||
+            (u.email && u.email.trim().toLowerCase() === emailTrim)
+        );
+
+        if (exists) {
+          return throwError(() => new Error('Cette adresse email est déjà associée à un compte.'));
+        }
+
+        const newAdmin: User = {
+          id: `admin-${Date.now()}`,
+          fullName: input.fullName.trim(),
+          matricule: input.email.trim(),
+          email: input.email.trim(),
+          password: input.password,
+          role: 'admin',
+          schoolName: input.schoolName.trim(),
+        };
+
+        this.newUsers.push(newAdmin);
+        return of({ user: newAdmin, token: `mock-token-${newAdmin.id}` });
       })
     );
   }
