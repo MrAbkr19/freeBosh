@@ -84,6 +84,7 @@
 }
 
 @media (max-width: 768px) {
+
   .desktop-only,
   .theme-segmented-control,
   .theme-toggle-btn {
@@ -224,11 +225,37 @@
    -------------------------------------------------------------------------- */
 .hero-section {
   position: relative;
-  padding: 5rem 1.5rem 4rem;
+  padding: 6.5rem 1.5rem 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  overflow: hidden;
+  background-color: #0c0c0e;
+}
+
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  background-image: url('/hero3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  filter: brightness(0.88) contrast(1.1) saturate(1.15);
+  transform: scale(1.02);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(12, 12, 14, 0.4) 0%, rgba(12, 12, 14, 0.75) 65%, #0c0c0e 100%),
+    linear-gradient(180deg, rgba(12, 12, 14, 0.3) 0%, rgba(12, 12, 14, 0.6) 50%, var(--color-background) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero-glow {
@@ -236,21 +263,17 @@
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(22, 163, 74, 0.22) 0%, rgba(22, 163, 74, 0) 70%);
+  width: 650px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(22, 163, 74, 0.28) 0%, rgba(22, 163, 74, 0) 70%);
   filter: blur(60px);
   pointer-events: none;
-  z-index: 0;
-}
-
-:host-context([data-theme="light"]) .hero-glow {
-  background: radial-gradient(circle, rgba(22, 163, 74, 0.15) 0%, rgba(22, 163, 74, 0) 70%);
+  z-index: 2;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   max-width: 860px;
   display: flex;
   flex-direction: column;
@@ -263,43 +286,35 @@
   gap: 0.5rem;
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
-  background-color: var(--color-primary-container-subtle);
-  border: 1px solid var(--color-border-card);
+  background-color: rgba(22, 163, 74, 0.25);
+  border: 1px solid rgba(74, 222, 128, 0.4);
   font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-primary-light);
+  font-weight: 700;
+  color: #4ade80;
   margin-bottom: 1.75rem;
-}
-
-:host-context([data-theme="light"]) .hero-pill {
-  color: var(--color-primary-dark);
+  backdrop-filter: blur(8px);
 }
 
 .pill-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--color-primary);
-  box-shadow: 0 0 10px var(--color-primary);
+  background-color: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
 }
 
 .hero-title {
   font-size: clamp(2.25rem, 5vw, 3.75rem);
   line-height: 1.15;
   margin: 0 0 1.5rem;
-  color: var(--color-academic);
+  color: #ffffff;
   font-weight: 800;
   letter-spacing: -0.035em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--color-primary-light) 0%, #10b981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-:host-context([data-theme="light"]) .gradient-text {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -307,9 +322,10 @@
 .hero-description {
   font-size: clamp(1rem, 2vw, 1.2rem);
   line-height: 1.6;
-  color: var(--color-on-surface-variant);
+  color: #e4e4e7;
   max-width: 680px;
   margin: 0 0 2.5rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 .hero-cta-group {
@@ -321,16 +337,30 @@
   margin-bottom: 3.5rem;
 }
 
+.hero-cta-group .btn-outline {
+  background-color: rgba(18, 18, 22, 0.7);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+.hero-cta-group .btn-outline:hover {
+  background-color: rgba(30, 30, 36, 0.9);
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
 /* Proof / Stats Strip */
 .hero-stats {
   display: inline-flex;
   align-items: center;
   gap: 2rem;
   padding: 1.25rem 2.25rem;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: rgba(18, 18, 22, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
 }
 
 .stat-item {
@@ -343,23 +373,19 @@
 .stat-number {
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--color-primary-light);
-}
-
-:host-context([data-theme="light"]) .stat-number {
-  color: var(--color-primary);
+  color: #4ade80;
 }
 
 .stat-label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-on-surface-muted);
+  color: #a1a1aa;
 }
 
 .stat-divider {
   width: 1px;
   height: 32px;
-  background-color: var(--color-border);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 /* --------------------------------------------------------------------------
@@ -734,7 +760,8 @@
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .nav-links {
-    display: none; /* Hide middle links on smaller screens */
+    display: none;
+    /* Hide middle links on smaller screens */
   }
 
   .cta-banner-card {

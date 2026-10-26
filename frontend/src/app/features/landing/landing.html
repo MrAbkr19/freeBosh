@@ -15,53 +15,36 @@
       <div class="nav-actions">
         <!-- SÉLECTEUR DE THÈME (PC / Desktop uniquement : Clair, Système, Sombre) -->
         <div class="theme-segmented-control desktop-only" role="group" aria-label="Choix du thème">
-          <button
-            type="button"
-            class="theme-seg-btn"
-            [class.active]="themeService.mode() === 'light'"
-            (click)="themeService.setMode('light')"
-            title="Mode Clair"
-            aria-label="Activer le mode clair"
-          >
+          <button type="button" class="theme-seg-btn" [class.active]="themeService.mode() === 'light'"
+            (click)="themeService.setMode('light')" title="Mode Clair" aria-label="Activer le mode clair">
             <span class="material-symbols-outlined">light_mode</span>
           </button>
 
-          <button
-            type="button"
-            class="theme-seg-btn"
-            [class.active]="themeService.mode() === 'system'"
+          <button type="button" class="theme-seg-btn" [class.active]="themeService.mode() === 'system'"
             (click)="themeService.setMode('system')"
-            title="Mode Système (Suit automatiquement les réglages de votre PC)"
-            aria-label="Activer le mode système"
-          >
+            title="Mode Système (Suit automatiquement les réglages de votre PC)" aria-label="Activer le mode système">
             <span class="material-symbols-outlined">desktop_windows</span>
           </button>
 
-          <button
-            type="button"
-            class="theme-seg-btn"
-            [class.active]="themeService.mode() === 'dark'"
-            (click)="themeService.setMode('dark')"
-            title="Mode Sombre"
-            aria-label="Activer le mode sombre"
-          >
+          <button type="button" class="theme-seg-btn" [class.active]="themeService.mode() === 'dark'"
+            (click)="themeService.setMode('dark')" title="Mode Sombre" aria-label="Activer le mode sombre">
             <span class="material-symbols-outlined">dark_mode</span>
           </button>
         </div>
 
         @if (authService.isAuthenticated()) {
-          <a [routerLink]="dashboardUrl" class="btn btn-primary btn-glow">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span>Mon espace</span>
-          </a>
+        <a [routerLink]="dashboardUrl" class="btn btn-primary btn-glow">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Mon espace</span>
+        </a>
         } @else {
-          <a routerLink="/login" class="btn btn-ghost">
-            <span>Connexion</span>
-          </a>
-          <a routerLink="/register" class="btn btn-primary">
-            <span>S'inscrire</span>
-            <span class="material-symbols-outlined btn-arrow">arrow_forward</span>
-          </a>
+        <a routerLink="/login" class="btn btn-ghost">
+          <span>Connexion</span>
+        </a>
+        <a routerLink="/register" class="btn btn-primary">
+          <span>S'inscrire</span>
+          <span class="material-symbols-outlined btn-arrow">arrow_forward</span>
+        </a>
         }
       </div>
     </div>
@@ -70,34 +53,37 @@
   <main class="landing-main">
     <!-- HERO SECTION -->
     <section class="hero-section">
+      <div class="hero-bg-media">
+        <div class="hero-overlay"></div>
+      </div>
       <div class="hero-glow"></div>
       <div class="hero-content">
-        
+
 
         <h1 class="hero-title">
           Votre campus universitaire connecté en <span class="gradient-text">toute simplicité</span>
         </h1>
 
         <p class="hero-description">
-          FreeBosh réunit étudiants, enseignants et administration au sein d'un espace centralisé, 
+          FreeBosh réunit étudiants, enseignants et administration au sein d'un espace centralisé,
           rapide et moderne. Consultez vos cours, partagez vos ressources et suivez les annonces en temps réel.
         </p>
 
         <div class="hero-cta-group">
           @if (authService.isAuthenticated()) {
-            <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
-              <span class="material-symbols-outlined">rocket_launch</span>
-              <span>Accéder à mon tableau de bord</span>
-            </a>
+          <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
+            <span class="material-symbols-outlined">rocket_launch</span>
+            <span>Accéder à mon tableau de bord</span>
+          </a>
           } @else {
-            <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
-              <span class="material-symbols-outlined">how_to_reg</span>
-              <span>Rejoindre FreeBosh</span>
-            </a>
-            <a routerLink="/login" class="btn btn-outline btn-lg">
-              <span class="material-symbols-outlined">login</span>
-              <span>Se connecter</span>
-            </a>
+          <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
+            <span class="material-symbols-outlined">how_to_reg</span>
+            <span>Rejoindre FreeBosh</span>
+          </a>
+          <a routerLink="/login" class="btn btn-outline btn-lg">
+            <span class="material-symbols-outlined">login</span>
+            <span>Se connecter</span>
+          </a>
           }
         </div>
 
@@ -127,7 +113,8 @@
         <span class="section-subtitle">Sur mesure pour votre établissement</span>
         <h2 class="section-title">Une expérience conçue pour chaque acteur</h2>
         <p class="section-description">
-          Chaque profil dispose d'un espace de travail optimisé avec des fonctionnalités adaptées à ses besoins quotidiens.
+          Chaque profil dispose d'un espace de travail optimisé avec des fonctionnalités adaptées à ses besoins
+          quotidiens.
         </p>
       </div>
 
@@ -142,7 +129,8 @@
           </div>
           <h3 class="role-title">Réussissez votre parcours académique</h3>
           <p class="role-description">
-            Retrouvez tous vos enseignements par semestre, téléchargez vos supports de cours et ne manquez plus aucune annonce importante.
+            Retrouvez tous vos enseignements par semestre, téléchargez vos supports de cours et ne manquez plus aucune
+            annonce importante.
           </p>
           <ul class="role-features">
             <li>
@@ -171,7 +159,8 @@
           </div>
           <h3 class="role-title">Diffusez et gérez vos cours avec fluidité</h3>
           <p class="role-description">
-            Publiez vos documents en un clic, informez rapidement vos promotions et organisez vos supports d'enseignement.
+            Publiez vos documents en un clic, informez rapidement vos promotions et organisez vos supports
+            d'enseignement.
           </p>
           <ul class="role-features">
             <li>
@@ -233,7 +222,8 @@
           </div>
           <h4 class="feature-title">Ultra rapide & réactif</h4>
           <p class="feature-text">
-            Construit sur les standards modernes du web, l'application offre une fluidité instantanée sans temps de rechargement.
+            Construit sur les standards modernes du web, l'application offre une fluidité instantanée sans temps de
+            rechargement.
           </p>
         </div>
 
@@ -281,18 +271,18 @@
         </div>
         <div class="cta-actions">
           @if (authService.isAuthenticated()) {
-            <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
-              <span>Aller à mon tableau de bord</span>
-              <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
+          <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow">
+            <span>Aller à mon tableau de bord</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
           } @else {
-            <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
-              <span>Créer mon compte</span>
-              <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
-            <a routerLink="/login" class="btn btn-outline btn-lg">
-              <span>Se connecter</span>
-            </a>
+          <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
+            <span>Créer mon compte</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+          <a routerLink="/login" class="btn btn-outline btn-lg">
+            <span>Se connecter</span>
+          </a>
           }
         </div>
       </div>
