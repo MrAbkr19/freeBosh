@@ -20,6 +20,10 @@ export class Register {
   readonly submittedSchool = signal('');
   readonly submittedEmail = signal('');
 
+  // Gestion des 2 étapes
+  readonly currentStep = signal<1 | 2>(1);
+  readonly step1Fields = ['schoolName', 'schoolType', 'cityCountry', 'studentCount'] as const;
+
   // Lien direct Google Forms alternatif
   readonly googleFormsUrl = signal('https://forms.google.com');
 
@@ -40,7 +44,48 @@ export class Register {
     return !!(control && control.invalid && (control.touched || control.dirty));
   }
 
+  nextStep(): void {
+    let hasError = false;
+    for (const field of this.step1Fields) {
+      const control = this.schoolForm.get(field);
+      if (control && control.invalid) {
+        control.markAsTouched();
+        hasError = true;
+      }
+    }
+    if (!hasError) {
+      this.currentStep.set(2);
+    }
+  }
+
+  prevStep(): void {
+    this.currentStep.set(1);
+  }
+
+  goToStep(step: 1 | 2): void {
+    if (step === 1) {
+      this.prevStep();
+    } else if (step === 2) {
+      this.nextStep();
+    }
+  }
+
   onSubmit(): void {
+    // Si l'étape 1 comporte des erreurs non résolues, revenir à l'étape 1
+    let step1Error = false;
+    for (const field of this.step1Fields) {
+      const control = this.schoolForm.get(field);
+      if (control && control.invalid) {
+        control.markAsTouched();
+        step1Error = true;
+      }
+    }
+
+    if (step1Error) {
+      this.currentStep.set(1);
+      return;
+    }
+
     if (this.schoolForm.invalid) {
       this.schoolForm.markAllAsTouched();
       return;
@@ -76,6 +121,7 @@ export class Register {
       contactRole: 'Directeur / Doyen / Responsable',
       studentCount: '500 à 2 000 étudiants',
     });
+    this.currentStep.set(1);
     this.isSubmitted.set(false);
   }
 }

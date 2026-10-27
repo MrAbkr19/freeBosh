@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { ThemeService } from '../../services/theme';
@@ -13,6 +13,16 @@ import { ThemeService } from '../../services/theme';
 export class Landing {
   readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
+
+  readonly isMobileMenuOpen = signal(false);
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((v) => !v);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
 
   get dashboardUrl(): string {
     const user = this.authService.currentUser();

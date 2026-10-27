@@ -1,30 +1,18 @@
-<div class="login-theme-toggle">
-  <button
-    class="theme-toggle-btn"
-    type="button"
-    (click)="themeService.toggleTheme()"
-    [attr.aria-label]="themeService.isDark() ? 'Activer le mode clair' : 'Activer le mode sombre'"
-    [title]="themeService.isDark() ? 'Passer au mode clair' : 'Passer au mode sombre'"
-  >
-    <span class="material-symbols-outlined">
-      {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
-    </span>
-  </button>
-</div>
+
 
 <header class="login-header">
-  <a routerLink="/" class="brand-pill-badge" title="Retour à l'accueil freebosh.">
-    <span class="brand-logotype brand-logotype--lg">
-      <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
-    </span>
-  </a>
+  
 </header>
 
 <main class="login-main">
   <div class="login-wrapper">
     <div class="login-card">
       <div class="login-heading">
-        <h2>Bienvenue</h2>
+        <a routerLink="/" class="  " title="Retour à l'accueil freebosh.">
+          <span class="brand-logotype brand-logotype--lg logo">
+            <span class="brand-text">freebosh</span><span class="brand-dot ">.</span>
+          </span>
+        </a>
         <p>Accédez à votre espace académique</p>
       </div>
 

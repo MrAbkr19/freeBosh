@@ -40,19 +40,22 @@
   transform: rotate(15deg) scale(1.05);
 }
 
-/* Header with clickable Logo */
-.register-header {
+.logo {
+  margin-bottom: 20px;
+}
+
+/* .register-header {
   position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   text-align: center;
-}
+} */
 
 .register-header .brand-pill-badge {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  /* background: var(--color-surface); */
+  /* border: 1px solid var(--color-border); */
   /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); */
 }
 
@@ -61,25 +64,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 20px 48px;
+  padding: 48px 20px 32px;
   min-height: 100dvh;
   box-sizing: border-box;
 }
 
 .register-wrapper {
   width: 100%;
-  max-width: 760px;
+  max-width: 440px;
 }
 
 .register-card {
   background: var(--color-surface);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-modal);
+  box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border-card);
-  padding: 38px 34px;
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -95,6 +98,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.register-heading a,
+.request-success-box a {
+  text-decoration: none;
+  display: inline-flex;
+  box-shadow: none;
 }
 
 .pilot-badge {
@@ -137,6 +147,127 @@
   margin: 0;
 }
 
+/* Stepper Indicator */
+.stepper-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
+
+.step-badge-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.step-badge-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border);
+  color: var(--color-on-surface-muted);
+  transition: all 0.25s ease;
+}
+
+.step-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-on-surface-muted);
+  transition: color 0.25s ease;
+}
+
+.step-badge-btn.active .step-num {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: 0 0 14px rgba(22, 163, 74, 0.45);
+}
+
+.step-badge-btn.active .step-text {
+  color: var(--color-academic);
+  font-weight: 700;
+}
+
+:host-context([data-theme="light"]) .step-badge-btn.active .step-text {
+  color: var(--color-primary-dark);
+}
+
+.step-badge-btn.completed .step-num {
+  background: var(--color-primary-container);
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
+:host-context([data-theme="light"]) .step-badge-btn.completed .step-num {
+  color: var(--color-primary-dark);
+}
+
+.step-badge-btn.completed .step-text {
+  color: var(--color-on-surface);
+}
+
+.step-check-icon {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.step-connector {
+  width: 44px;
+  height: 2px;
+  background: var(--color-border);
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.step-connector.filled {
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(22, 163, 74, 0.35);
+}
+
+/* Step transition & container */
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.step-fade-in {
+  animation: stepFadeIn 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Form layout */
 .register-form {
   display: flex;
@@ -144,10 +275,11 @@
   gap: 18px;
 }
 
+.form-fields-column,
 .form-grid-2cols {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .form-field {
@@ -191,7 +323,7 @@
 .input-wrapper select {
   width: 100%;
   height: 48px;
-  background: var(--color-surface-container);
+  background: transparent;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 0 14px 0 44px;
@@ -266,6 +398,54 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 10px;
+}
+
+.form-action-stepper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-action-stepper .submit-btn {
+  flex: 1;
+}
+
+.btn-step-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  padding: 0 20px;
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-on-surface);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.btn-step-back:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
+:host-context([data-theme="light"]) .btn-step-back {
+  background: #f4f4f5;
+  border-color: #e4e4e7;
+  color: #18181b;
+}
+
+:host-context([data-theme="light"]) .btn-step-back:hover {
+  background: #e4e4e7;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .submit-btn {
@@ -503,15 +683,123 @@
 .login-link:hover {
   text-decoration: underline;
 }
+.btn-texte {
+  color: var(--color-primary-dark);
+}
 
 @media (max-width: 680px) {
-  .form-grid-2cols {
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .btn-text {
+    display: none;
+  }
+
+  .logo {
+    margin-bottom: 12px;
+  }
+
+  .register-main {
+    padding: 16px 12px;
+    align-items: center;
   }
 
   .register-card {
-    padding: 26px 18px;
+    padding: 18px 14px;
+    gap: 12px;
+    border-radius: var(--radius-xl);
+  }
+
+  .register-heading h2 {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .stepper-indicator {
+    gap: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .step-connector {
+    width: 28px;
+  }
+
+  .step-badge-btn {
+    padding: 3px 6px;
+    gap: 6px;
+  }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .step-content {
+    gap: 10px;
+  }
+
+  .form-fields-column,
+  .form-grid-2cols {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field {
+    gap: 3px;
+  }
+
+  .form-field label {
+    font-size: 12px;
+  }
+
+  .input-wrapper input,
+  .input-wrapper select {
+    height: 40px;
+    font-size: 13.5px;
+    padding-left: 38px;
+  }
+
+  .input-icon {
+    font-size: 18px;
+    left: 11px;
+  }
+
+  .form-field-full {
+    margin-top: 0;
+  }
+
+  .textarea-wrapper textarea {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .form-action-group {
+    margin-top: 4px;
+    gap: 8px;
+  }
+
+  .form-action-stepper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .submit-btn,
+  .btn-step-back {
+    height: 42px;
+    font-size: 13.5px;
+    border-radius: var(--radius-md);
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-step-back {
+    padding: 0;
+  }
+
+  .login-redirect-text {
+    margin: 8px 0 0;
+    font-size: 12.5px;
   }
 
   .google-form-banner {
@@ -526,12 +814,15 @@
   }
 
   .success-buttons {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    gap: 10px;
   }
 
   .success-buttons .btn {
-    width: 100%;
+    flex: 1;
+    width: auto;
     justify-content: center;
+    height: 42px;
   }
 }

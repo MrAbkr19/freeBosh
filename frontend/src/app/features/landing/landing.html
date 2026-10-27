@@ -2,10 +2,11 @@
   <!-- NAVIGATION BAR -->
   <header class="landing-header">
     <div class="nav-content">
-      <a routerLink="/" class="brand-logotype" aria-label="Accueil freebosh.">
+      <a routerLink="/" class="brand-logotype" aria-label="Accueil freebosh." (click)="closeMobileMenu()">
         <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
       </a>
 
+      <!-- Desktop Nav Links -->
       <nav class="nav-links">
         <a href="#features" class="nav-link">Fonctionnalités</a>
         <a href="#espaces" class="nav-link">Espaces dédiés</a>
@@ -33,21 +34,74 @@
         </div>
 
         @if (authService.isAuthenticated()) {
-        <a [routerLink]="dashboardUrl" class="btn btn-primary btn-glow">
+        <a [routerLink]="dashboardUrl" class="btn btn-primary btn-glow desktop-only">
           <span class="material-symbols-outlined">dashboard</span>
           <span>Mon espace</span>
         </a>
         } @else {
-        <a routerLink="/login" class="btn btn-ghost">
+        <a routerLink="/login" class="btn btn-ghost desktop-only">
           <span>Connexion</span>
         </a>
-        <a routerLink="/register" class="btn btn-primary">
+        <a routerLink="/register" class="btn btn-primary desktop-only">
           <span>S'inscrire</span>
           <span class="material-symbols-outlined btn-arrow">arrow_forward</span>
         </a>
         }
+
+        <!-- Bouton Burger Mobile -->
+        <button
+          type="button"
+          class="mobile-burger-btn"
+          (click)="toggleMobileMenu()"
+          [class.active]="isMobileMenuOpen()"
+          [attr.aria-expanded]="isMobileMenuOpen()"
+          aria-label="Menu principal"
+          [title]="isMobileMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+        >
+          <span class="material-symbols-outlined">
+            {{ isMobileMenuOpen() ? 'close' : 'menu' }}
+          </span>
+        </button>
       </div>
     </div>
+
+    <!-- TIROIR / MENU DÉROULANT MOBILE -->
+    @if (isMobileMenuOpen()) {
+      <div class="mobile-menu-backdrop" (click)="closeMobileMenu()"></div>
+      <div class="mobile-menu-drawer animate-slide-down">
+        <nav class="mobile-nav-links">
+          <a href="#features" class="mobile-nav-link" (click)="closeMobileMenu()">
+            <span>Fonctionnalités</span>
+          </a>
+          <a href="#espaces" class="mobile-nav-link" (click)="closeMobileMenu()">
+            <span>Espaces dédiés</span>
+          </a>
+          <a href="#avantages" class="mobile-nav-link" (click)="closeMobileMenu()">
+            <span>Avantages</span>
+          </a>
+        </nav>
+
+        <!-- Thème Mobile -->
+        
+
+        <!-- Actions Mobile -->
+        <div class="mobile-menu-actions">
+          @if (authService.isAuthenticated()) {
+            <a [routerLink]="dashboardUrl" class="btn btn-primary btn-lg btn-glow mobile-action-btn" (click)="closeMobileMenu()">
+              <span>Accéder à mon espace</span>
+            </a>
+          } @else {
+            <a routerLink="/login" class="btn btn-outline btn-lg mobile-action-btn" (click)="closeMobileMenu()">
+              <span class="material-symbols-outlined">login</span>
+              <span>Se connecter</span>
+            </a>
+            <a routerLink="/register" class="btn btn-primary btn-lg btn-glow mobile-action-btn" (click)="closeMobileMenu()">
+              <span> S'inscrire</span>
+            </a>
+          }
+        </div>
+      </div>
+    }
   </header>
 
   <main class="landing-main">
@@ -110,7 +164,6 @@
     <!-- ESPACES DÉDIÉS (Pour qui ?) -->
     <section class="roles-section" id="espaces">
       <div class="section-header">
-        <span class="section-subtitle">Sur mesure pour votre établissement</span>
         <h2 class="section-title">Une expérience conçue pour chaque acteur</h2>
         <p class="section-description">
           Chaque profil dispose d'un espace de travail optimisé avec des fonctionnalités adaptées à ses besoins
@@ -211,7 +264,6 @@
     <!-- AVANTAGES / FEATURES -->
     <section class="features-section" id="features">
       <div class="section-header">
-        <span class="section-subtitle">Excellence technique & UX</span>
         <h2 class="section-title">Pourquoi choisir FreeBosh ?</h2>
       </div>
 
@@ -247,15 +299,7 @@
           </p>
         </div>
 
-        <div class="feature-box">
-          <div class="feature-icon">
-            <span class="material-symbols-outlined">palette</span>
-          </div>
-          <h4 class="feature-title">Confort visuel adapté</h4>
-          <p class="feature-text">
-            Mode sombre élégant ou mode clair lumineux : basculez d'un clic selon votre environnement de travail.
-          </p>
-        </div>
+        
       </div>
     </section>
 
@@ -277,12 +321,9 @@
           </a>
           } @else {
           <a routerLink="/register" class="btn btn-primary btn-lg btn-glow">
-            <span>Créer mon compte</span>
-            <span class="material-symbols-outlined">arrow_forward</span>
+            <span>Rejoindre freebosh</span>
           </a>
-          <a routerLink="/login" class="btn btn-outline btn-lg">
-            <span>Se connecter</span>
-          </a>
+          
           }
         </div>
       </div>
