@@ -1,10 +1,9 @@
 <aside class="sidebar">
   <div class="sidebar-header">
-    <div class="brand-icon">
-      <img src="icons/logo.png" alt="FreeBosh Logo" class="brand-logo-img" />
-    </div>
-    <div>
-      <h1 class="brand-title">FreeBosh</h1>
+    <div class="brand-header-content">
+      <a routerLink="/admin/dashboard" class="brand-logotype brand-logotype--lg" aria-label="Accueil freebosh.">
+        <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+      </a>
       <p class="brand-subtitle">Administrateur</p>
     </div>
   </div>
@@ -57,9 +56,7 @@
   </nav>
 
   <div class="sidebar-footer">
-    <div class="academic-year-card">
-      <span>Année Académique 2024-2025</span>
-    </div>
+    
     <ul class="footer-links">
       <li>
         <a class="footer-nav-link" routerLink="/admin/settings" routerLinkActive="footer-nav-link--active">
@@ -86,10 +83,9 @@
 <div class="main-area">
   <header class="topbar">
     <div class="mobile-brand">
-      <div class="mobile-logo">
-        <img src="icons/Asset 2.png" alt="FreeBosh" class="mobile-logo-img" />
-      </div>
-      <h1 class="mobile-title">FreeBosh</h1>
+      <a routerLink="/admin/dashboard" class="brand-logotype brand-logotype--sm" aria-label="Accueil freebosh.">
+        <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+      </a>
     </div>
     <h2 class="topbar-title">{{ activeTitle() }}</h2>
     <div class="topbar-actions">

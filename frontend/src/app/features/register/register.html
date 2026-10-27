@@ -1,0 +1,275 @@
+  
+<header class="register-header">
+  
+</header>
+
+<main class="register-main">
+  <div class="register-wrapper">
+    <div class="register-card">
+      @if (isSubmitted()) {
+        <div class="request-success-box">
+          <a routerLink="/" title="Retour à l'accueil freebosh.">
+            <span class="brand-logotype brand-logotype--lg logo">
+              <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+            </span>
+          </a>
+          <div class="success-icon-wrap">
+            <span class="material-symbols-outlined">verified</span>
+          </div>
+          <h2 class="success-title">Demande transmise avec succès !</h2>
+          <p class="success-text">
+            Votre demande d'espace campus pour l'établissement
+            <strong>« {{ submittedSchool() }} »</strong> a bien été enregistrée.
+          </p>
+          <div class="success-callout">
+            <span class="material-symbols-outlined">mark_email_read</span>
+            <div>
+              <strong>Phase pilote FreeBosh</strong>
+              <p>L’activation est manuelle. Notre équipe vous répondra par email à <strong>{{ submittedEmail() }}</strong> avec votre lien dédié et les accès de votre établissement.</p>
+            </div>
+          </div>
+          <div class="success-buttons">
+            <a routerLink="/" class="btn btn-primary" title="Retour à l'accueil">
+              <span class="material-symbols-outlined btn-texte">home</span>
+              <span class="btn-texte">Retour à l'accueil</span>
+            </a>
+            <button type="button" class="btn btn-outline" (click)="resetForm()" title="Nouvelle demande">
+              <span class="material-symbols-outlined">refresh</span>
+              <span class="btn-text">Nouvelle demande</span>
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="register-heading">
+          <a routerLink="/" title="Retour à l'accueil freebosh.">
+            <span class="brand-logotype brand-logotype--lg logo">
+              <span class="brand-text">freebosh</span><span class="brand-dot">.</span>
+            </span>
+          </a>
+          <p>Demander un espace pour votre école</p>
+        </div>
+
+        <!-- Stepper Indicator -->
+        <div class="stepper-indicator">
+          <button
+            type="button"
+            class="step-badge-btn"
+            [class.active]="currentStep() === 1"
+            [class.completed]="currentStep() > 1"
+            (click)="goToStep(1)"
+            title="Étape 1 : Informations de l'établissement"
+          >
+            <span class="step-num">
+              @if (currentStep() > 1) {
+                <span class="material-symbols-outlined step-check-icon">check</span>
+              } @else {
+                1
+              }
+            </span>
+          </button>
+
+          <div class="step-connector" [class.filled]="currentStep() > 1"></div>
+
+          <button
+            type="button"
+            class="step-badge-btn"
+            [class.active]="currentStep() === 2"
+            (click)="nextStep()"
+            title="Étape 2 : Responsable & Contact"
+          >
+            <span class="step-num">2</span>
+          </button>
+        </div>
+
+        <form class="register-form" [formGroup]="schoolForm" (ngSubmit)="onSubmit()">
+          <!-- ÉTAPE 1 : ÉTABLISSEMENT -->
+          @if (currentStep() === 1) {
+            <div class="step-content step-fade-in">
+              <div class="form-fields-column">
+                <!-- 1. NOM DE L'ÉTABLISSEMENT -->
+                <div class="form-field" >
+                  <label for="schoolName">Nom de l'établissement <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">domain</span>
+                    <input
+                      id="schoolName"
+                      type="text"
+                      placeholder="ex: Institut Universitaire de Technologie"
+                      formControlName="schoolName"
+                    />
+                  </div>
+                  @if (isFieldInvalid('schoolName')) {
+                    <span class="field-error-text">Le nom de l'établissement est requis (3 car. min).</span>
+                  }
+                </div>
+
+                <!-- 2. TYPE D'ÉTABLISSEMENT -->
+                <div class="form-field" >
+                  <label for="schoolType">Type d'établissement <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">account_balance</span>
+                    <select id="schoolType" formControlName="schoolType">
+                      <option value="Université publique">Université publique</option>
+                      <option value="École d'ingénieurs / Polytechnique">École d'ingénieurs / Polytechnique</option>
+                      <option value="Institut privé / Grande école">Institut privé / Grande école</option>
+                      <option value="Faculté universitaire">Faculté universitaire</option>
+                      <option value="Lycée technique / BTS">Lycée technique / BTS</option>
+                      <option value="Autre structure académique">Autre structure académique</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- 3. VILLE & PAYS -->
+                <div class="form-field" >
+                  <label for="cityCountry">Ville & Pays <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">location_on</span>
+                    <input
+                      id="cityCountry"
+                      type="text"
+                      placeholder="ex: Yaoundé, Cameroun"
+                      formControlName="cityCountry"
+                    />
+                  </div>
+                  @if (isFieldInvalid('cityCountry')) {
+                    <span class="field-error-text">Veuillez renseigner la localisation.</span>
+                  }
+                </div>
+
+                <!-- 4. NOMBRE ESTIMÉ D'ÉTUDIANTS -->
+                <div class="form-field" >
+                  <label for="studentCount">Nombre estimé d'étudiants <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">groups</span>
+                    <select id="studentCount" formControlName="studentCount">
+                      <option value="Moins de 500 étudiants">Moins de 500 étudiants</option>
+                      <option value="500 à 2 000 étudiants">500 à 2 000 étudiants</option>
+                      <option value="2 000 à 5 000 étudiants">2 000 à 5 000 étudiants</option>
+                      <option value="Plus de 5 000 étudiants">Plus de 5 000 étudiants</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOUTON ÉTAPE 1 -->
+              <div class="form-action-group">
+                <button class="submit-btn" type="button" (click)="nextStep()" aria-label="Continuer" title="Continuer">
+                  <span class="btn-text">Continuer</span>
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          }
+
+          <!-- ÉTAPE 2 : CONTACT & PRÉCISIONS -->
+          @if (currentStep() === 2) {
+            <div class="step-content step-fade-in">
+              <div class="form-fields-column">
+                <!-- 5. NOM COMPLET DU DEMANDEUR -->
+                <div class="form-field" >
+                  <label for="contactName">Votre nom complet <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">person</span>
+                    <input
+                      id="contactName"
+                      type="text"
+                      placeholder="Veuillez saisir votre nom et prénom"
+                      formControlName="contactName"
+                    />
+                  </div>
+                  @if (isFieldInvalid('contactName')) {
+                    <span class="field-error-text">Veuillez renseigner votre nom.</span>
+                  }
+                </div>
+
+                <!-- 6. RÔLE / FONCTION -->
+                <div class="form-field" >
+                  <label for="contactRole">Fonction dans l'établissement <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">badge</span>
+                    <select id="contactRole" formControlName="contactRole">
+                      <option value="Directeur / Doyen / Responsable">Directeur / Doyen / Responsable</option>
+                      <option value="Chef de département pédagogique">Chef de département pédagogique</option>
+                      <option value="Enseignant référent">Enseignant référent</option>
+                      <option value="Délégué / Représentant des étudiants">Délégué / Représentant des étudiants</option>
+                      <option value="DSI / Responsable informatique">DSI / Responsable informatique</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- 7. EMAIL DE CONTACT -->
+                <div class="form-field" >
+                  <label for="email">Adresse email de contact <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">mail</span>
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="contact@universite.edu ou nom@gmail.com"
+                      formControlName="email"
+                    />
+                  </div>
+                  @if (isFieldInvalid('email')) {
+                    <span class="field-error-text">Une adresse email valide est requise.</span>
+                  }
+                </div>
+
+                <!-- 8. TÉLÉPHONE / WHATSAPP -->
+                <div class="form-field" >
+                  <label for="phone">Téléphone / WhatsApp <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="material-symbols-outlined input-icon">call</span>
+                    <input
+                      id="phone"
+                      type="tel"
+                      placeholder="ex: +237 600 00 00 00"
+                      formControlName="phone"
+                    />
+                  </div>
+                  @if (isFieldInvalid('phone')) {
+                    <span class="field-error-text">Numéro de contact requis pour le suivi.</span>
+                  }
+                </div>
+              </div>
+
+              <!-- 9. PRÉCISIONS / BESOINS -->
+              <div class="form-field form-field-full">
+                <label for="notes">Besoins spécifiques ou filières prioritaires (optionnel)</label>
+                <div class="input-wrapper textarea-wrapper">
+                  <textarea
+                    id="notes"
+                    rows="2"
+                    placeholder="ex: Département Génie Informatique, 300 étudiants, rentrée en octobre..."
+                    formControlName="notes"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- BOUTONS ÉTAPE 2 -->
+              <div class="form-action-group form-action-stepper">
+                <button type="button" class="btn-step-back" (click)="prevStep()" aria-label="Précédent" title="Précédent">
+                  <span class="material-symbols-outlined">arrow_back</span>
+                  <span class="btn-text">Précédent</span>
+                </button>
+                <button class="submit-btn" type="submit" [disabled]="isSubmitting()" [attr.aria-label]="isSubmitting() ? 'Envoi...' : 'Demander un espace'" [attr.title]="isSubmitting() ? 'Envoi en cours...' : 'Demander un espace'">
+                  @if (isSubmitting()) {
+                    <span class="material-symbols-outlined spin">progress_activity</span>
+                    <span class="btn-text">Envoi...</span>
+                  } @else {
+                    <span class="material-symbols-outlined">domain_add</span>
+                    <span class="btn-text">Demander un espace</span>
+                  }
+                </button>
+              </div>
+            </div>
+          }
+        </form>
+      }
+    </div>
+
+    <p class="login-redirect-text">
+      Votre école est déjà configurée ?
+      <a routerLink="/login" class="login-link">Se connecter avec son matricule</a>
+    </p>
+  </div>
+</main>

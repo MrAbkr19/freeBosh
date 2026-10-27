@@ -4,12 +4,13 @@ FROM node:20-alpine
 # Définition du répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copie des fichiers de dépendances depuis le dossier backend
+# Copie des fichiers de dépendances et du schéma Prisma
 COPY backend/package*.json ./backend/
+COPY backend/prisma ./backend/prisma/
 
 # Installation des dépendances dans le dossier backend
 WORKDIR /app/backend
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Revenir à la racine et copier l'intégralité du code
 WORKDIR /app

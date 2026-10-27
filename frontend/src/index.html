@@ -5,6 +5,38 @@
     <title>FreeBosh</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c0c0e" />
+
+    <!-- Anti-FOUC (Flash of Unstyled Theme) inline script -->
+    <script>
+      (function () {
+        try {
+          var isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          var theme = 'dark';
+
+          if (isMobile) {
+            // Sur mobile : suit STRICTEMENT le système de l'appareil
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+              theme = 'light';
+            } else {
+              theme = 'dark';
+            }
+          } else {
+            // Sur PC : respecte le choix de l'utilisateur ('dark', 'light', ou 'system')
+            var saved = localStorage.getItem('freebosh-theme');
+            if (saved === 'dark' || saved === 'light') {
+              theme = saved;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+              theme = 'light';
+            }
+          }
+
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0c0c0e' : '#f8fafc');
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

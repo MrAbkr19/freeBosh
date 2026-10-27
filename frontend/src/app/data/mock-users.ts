@@ -3,7 +3,7 @@ import { User } from '../models/user';
 export const MOCK_USERS: User[] = [
   {
     id: 'u1',
-    fullName: 'Jean Mbarga',
+    fullName: 'ALI OUSMANE',
     matricule: '2024-001',
     password: 'password',
     role: 'student',
